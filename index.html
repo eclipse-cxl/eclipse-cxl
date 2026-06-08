@@ -3,189 +3,235 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ECLIPSE SHOP</title>
+<title>Eclipse Shop</title>
+
+<!-- GOOGLE FONT -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
 
 <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* BACKGROUND */
 body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #fff;
-  color: #111;
+    background: radial-gradient(circle at top, #0a0a0a, #000);
+    color: white;
+    overflow-x: hidden;
 }
 
-/* LOADING SCREEN */
+/* LOADER */
 #loader {
-  position: fixed;
-  width: 100%;
-  height: 100vh;
-  background: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
-  font-size: 24px;
-  z-index: 9999;
-  animation: fadeOut 1s ease 2.5s forwards;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    font-size: 28px;
+    letter-spacing: 6px;
+    animation: glow 1.5s infinite alternate;
 }
 
-@keyframes fadeOut {
-  to { opacity: 0; visibility: hidden; }
+@keyframes glow {
+    from { text-shadow: 0 0 10px #00f7ff; }
+    to { text-shadow: 0 0 30px #00f7ff, 0 0 60px #00f7ff; }
 }
 
 /* HEADER */
-header {
-  padding: 20px;
-  text-align: center;
-  font-size: 26px;
-  font-weight: bold;
-  letter-spacing: 2px;
+h1 {
+    text-align: center;
+    margin: 40px 0 20px;
+    letter-spacing: 6px;
 }
 
-/* PRODUCTS */
+/* CONTAINER */
 .container {
-  padding: 20px;
+    padding: 10px;
 }
 
-.product {
-  background: #f5f5f5;
-  margin: 15px 0;
-  padding: 20px;
-  border-radius: 15px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+/* CARD */
+.card {
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    margin: 15px;
+    padding: 20px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.4s;
+    border: 1px solid rgba(255,255,255,0.1);
 }
 
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 25px #00f7ff55;
+}
+
+/* TEXT */
 .price {
-  font-weight: bold;
-  font-size: 18px;
+    font-size: 22px;
+    font-weight: 600;
 }
 
-/* BUTTONS */
-.btn {
-  padding: 10px 20px;
-  background: black;
-  color: white;
-  border: none;
-  border-radius: 20px;
-  cursor: pointer;
-  transition: 0.3s;
+/* BUTTON */
+button {
+    background: transparent;
+    border: 1px solid #00f7ff;
+    color: #00f7ff;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
 }
 
-.btn:hover {
-  background: #333;
-  transform: scale(1.05);
+button::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 100%;
+    background: #00f7ff;
+    left: 0;
+    top: 0;
+    transition: 0.3s;
+    z-index: -1;
 }
 
-/* CHECKOUT MODAL */
-#checkout {
-  position: fixed;
-  bottom: -100%;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: white;
-  transition: 0.4s;
-  padding: 20px;
+button:hover::after {
+    width: 100%;
 }
 
-#checkout.active {
-  bottom: 0;
+button:hover {
+    color: black;
 }
 
-.checkout-box {
-  max-width: 400px;
-  margin: auto;
-  text-align: center;
+/* MODAL */
+#modal {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.85);
+    display: none;
+    justify-content: center;
+    align-items: center;
 }
 
-input {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
+.modal-box {
+    background: #111;
+    padding: 30px;
+    border-radius: 20px;
+    text-align: center;
+    border: 1px solid #00f7ff;
+    animation: pop 0.3s ease;
+}
+
+@keyframes pop {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* FLOAT BUTTON */
+.dm-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #00f7ff;
+    color: black;
+    padding: 15px;
+    border-radius: 50%;
+    font-weight: bold;
+    box-shadow: 0 0 20px #00f7ff;
+    cursor: pointer;
 }
 
 /* FOOTER */
-footer {
-  text-align: center;
-  padding: 20px;
-  font-size: 14px;
+.footer {
+    text-align: center;
+    margin: 30px;
+    color: #aaa;
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOADER -->
-<div id="loader">ECLIPSE LOADING...</div>
+<div id="loader">ECLIPSE</div>
 
-<header>ECLIPSE SHOP</header>
+<h1>ECLIPSE SHOP</h1>
 
 <div class="container">
 
-  <!-- PRODUCTS -->
-  <div class="product">
+<div class="card">
     <div>
-      <div>$5 CODE</div>
-      <div class="price">KSH 1599</div>
+        <div>$5 CODE</div>
+        <div class="price">KSH 1599</div>
     </div>
-    <button class="btn" onclick="openCheckout('$5 Code')">Buy</button>
-  </div>
+    <button onclick="buy('5')">Buy</button>
+</div>
 
-  <div class="product">
+<div class="card">
     <div>
-      <div>$10 CODE</div>
-      <div class="price">KSH 2999</div>
+        <div>$10 CODE</div>
+        <div class="price">KSH 2999</div>
     </div>
-    <button class="btn" onclick="openCheckout('$10 Code')">Buy</button>
-  </div>
+    <button onclick="buy('10')">Buy</button>
+</div>
 
-  <div class="product">
+<div class="card">
     <div>
-      <div>$25 CODE</div>
-      <div class="price">KSH 6999</div>
+        <div>$25 CODE</div>
+        <div class="price">KSH 6999</div>
     </div>
-    <button class="btn" onclick="openCheckout('$25 Code')">Buy</button>
-  </div>
+    <button onclick="buy('25')">Buy</button>
+</div>
 
 </div>
 
-<!-- CHECKOUT -->
-<div id="checkout">
-  <div class="checkout-box">
-    <h2 id="itemName">Checkout</h2>
-
-    <input type="text" placeholder="Your Name">
-    <input type="text" placeholder="Phone Number">
-
-    <button class="btn" onclick="fakePay()">Pay Now</button>
-    <br><br>
-    <button class="btn" onclick="closeCheckout()">Cancel</button>
-  </div>
+<div class="footer">
+DM us on Instagram to complete your order
 </div>
 
-<footer>
-  DM us on Instagram to complete your order
-</footer>
+<!-- FLOAT BUTTON -->
+<div class="dm-btn" onclick="goDM()">DM</div>
+
+<!-- MODAL -->
+<div id="modal">
+    <div class="modal-box">
+        <h2>Processing Order...</h2>
+        <p>Connecting to checkout</p>
+    </div>
+</div>
 
 <script>
-function openCheckout(item) {
-  document.getElementById("checkout").classList.add("active");
-  document.getElementById("itemName").innerText = item;
+
+// LOADER
+window.onload = () => {
+    setTimeout(() => {
+        document.getElementById("loader").style.display = "none";
+    }, 1500);
 }
 
-function closeCheckout() {
-  document.getElementById("checkout").classList.remove("active");
+// BUY FUNCTION
+function buy(amount) {
+    document.getElementById("modal").style.display = "flex";
+
+    setTimeout(() => {
+        window.location.href = "https://instagram.com/_.bradle.y";
+    }, 2000);
 }
 
-function fakePay() {
-  alert("Securing payment...");
-  
-  setTimeout(() => {
-    alert("Redirecting to Instagram...");
+// FLOAT BUTTON
+function goDM() {
     window.location.href = "https://instagram.com/_.bradle.y";
-  }, 2000);
 }
+
 </script>
 
 </body>

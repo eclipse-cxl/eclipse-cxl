@@ -7,62 +7,78 @@
 
 <style>
 body {
-  margin: 0;
+  margin:0;
   font-family: Arial;
-  background: #0f0f0f;
-  color: white;
-  text-align: center;
+  background:#0f0f0f;
+  color:white;
 }
 
 header {
-  background: black;
-  padding: 20px;
-  font-size: 24px;
-  font-weight: bold;
+  background:black;
+  padding:15px;
+  text-align:center;
+  font-size:22px;
+  font-weight:bold;
+}
+
+.category {
+  padding:15px;
+  font-size:18px;
+  color:#00ff99;
 }
 
 .products {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
-  gap: 20px;
-  padding: 20px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:15px;
+  padding:15px;
 }
 
 .card {
-  background: #1a1a1a;
-  padding: 20px;
-  border-radius: 10px;
+  background:#1a1a1a;
+  padding:15px;
+  border-radius:10px;
+  text-align:center;
 }
 
 button {
-  padding: 10px;
-  margin-top: 10px;
-  border: none;
-  background: #00ff99;
-  cursor: pointer;
-  border-radius: 5px;
+  padding:8px;
+  margin-top:10px;
+  border:none;
+  background:#00ff99;
+  border-radius:5px;
+  cursor:pointer;
 }
 
+/* checkout */
 #checkout {
-  position: fixed;
+  position:fixed;
   top:0; left:0;
   width:100%; height:100%;
-  background: rgba(0,0,0,0.9);
+  background:rgba(0,0,0,0.9);
   display:none;
   justify-content:center;
   align-items:center;
 }
 
-.checkout-box {
+.box {
   background:#1a1a1a;
   padding:20px;
   border-radius:10px;
+  text-align:center;
 }
 
 input {
   width:90%;
   padding:10px;
-  margin:10px;
+  margin:8px;
+}
+
+/* admin */
+#admin {
+  display:none;
+  padding:10px;
+  background:#111;
 }
 </style>
 </head>
@@ -71,94 +87,152 @@ input {
 
 <header>⚡ Eclipse Store</header>
 
-<h3>🔥 Instant Delivery Codes</h3>
-
-<div class="products">
-
-<div class="card">
-<h4>$10 Roblox</h4>
-<p>KES 1599</p>
-<button onclick="openCheckout('Roblox $10',1599)">Buy</button>
+<div id="admin">
+<h3>Admin Panel</h3>
+<input id="newName" placeholder="Product Name">
+<input id="newPrice" placeholder="Price">
+<button onclick="addProduct()">Add Product</button>
 </div>
 
-<div class="card">
-<h4>1000 V-Bucks</h4>
-<p>KES 1050</p>
-<button onclick="openCheckout('V-Bucks 1000',1050)">Buy</button>
-</div>
+<!-- ROBLOX -->
+<div class="category">🎮 Roblox Codes</div>
+<div class="products" id="roblox"></div>
 
-</div>
+<!-- VBUCKS -->
+<div class="category">🔥 V-Bucks</div>
+<div class="products" id="vbucks"></div>
+
+<!-- GIFT CARDS -->
+<div class="category">🎁 Gift Cards</div>
+<div class="products" id="giftcards"></div>
 
 <!-- CHECKOUT -->
 <div id="checkout">
-  <div class="checkout-box">
-    <h2 id="itemName"></h2>
+<div class="box">
+<h2 id="item"></h2>
 
-    <input id="name" placeholder="Your Name">
-    <input id="phone" placeholder="WhatsApp Number">
+<input id="name" placeholder="Your Name">
+<input id="phone" placeholder="WhatsApp Number">
 
-    <button onclick="payWhatsApp()">📲 WhatsApp</button>
-    <button onclick="payInstagram()">📸 Instagram</button>
-    <button onclick="closeCheckout()">❌ Cancel</button>
-  </div>
+<button onclick="payWA()">📲 WhatsApp</button>
+<button onclick="payIG()">📸 Instagram</button>
+<button onclick="closeC()">❌ Cancel</button>
+</div>
 </div>
 
 <script>
 
-let product = "";
-let price = "";
+// PRODUCTS (EDIT PRICES HERE 🔥)
+let data = {
+  roblox: [
+    {name:"$5 Roblox", price:800},
+    {name:"$10 Roblox", price:1599},
+    {name:"$20 Roblox", price:3000},
+    {name:"$50 Roblox", price:7000}
+  ],
+  vbucks: [
+    {name:"1000 V-Bucks", price:1050},
+    {name:"2800 V-Bucks", price:2500},
+    {name:"5000 V-Bucks", price:4500},
+    {name:"13500 V-Bucks", price:9500}
+  ],
+  giftcards: [
+    {name:"$10 PSN", price:1600},
+    {name:"$25 PSN", price:3500},
+    {name:"$10 Steam", price:1500},
+    {name:"$20 Steam", price:2800},
+    {name:"Netflix 1 Month", price:1200}
+  ]
+};
 
-function openCheckout(p, pr){
-  product = p;
-  price = pr;
+// LOAD PRODUCTS
+function load(){
+  Object.keys(data).forEach(cat=>{
+    let container = document.getElementById(cat);
+    container.innerHTML = "";
 
-  document.getElementById("itemName").innerText = p + " - KES " + pr;
-  document.getElementById("checkout").style.display = "flex";
+    data[cat].forEach(p=>{
+      container.innerHTML += `
+      <div class="card">
+        <h4>${p.name}</h4>
+        <p>KES ${p.price}</p>
+        <button onclick="openC('${p.name}',${p.price})">Buy</button>
+      </div>`;
+    });
+  });
 }
 
-function closeCheckout(){
-  document.getElementById("checkout").style.display = "none";
+load();
+
+// CHECKOUT
+let prod="", price="";
+
+function openC(p,pr){
+  prod=p;
+  price=pr;
+
+  document.getElementById("item").innerText = p+" - KES "+pr;
+  document.getElementById("checkout").style.display="flex";
 }
 
-function payWhatsApp(){
-  let name = document.getElementById("name").value;
-  let phone = document.getElementById("phone").value;
+function closeC(){
+  document.getElementById("checkout").style.display="none";
+}
 
-  let msg = `Hello, I want to buy:
+// WHATSAPP
+function payWA(){
+  let name=document.getElementById("name").value;
+  let phone=document.getElementById("phone").value;
 
-🛒 ${product}
+  let msg=`Hello, I want to buy:
+
+🛒 ${prod}
 💰 KES ${price}
 👤 ${name}
 📞 ${phone}
 
 I will pay via M-Pesa now.`;
 
-  window.location.href =
-  "https://wa.me/254791994148?text=" + encodeURIComponent(msg);
+  window.location.href="https://wa.me/254791994148?text="+encodeURIComponent(msg);
 }
 
-function payInstagram(){
-  let name = document.getElementById("name").value;
-  let phone = document.getElementById("phone").value;
+// INSTAGRAM
+function payIG(){
+  let name=document.getElementById("name").value;
+  let phone=document.getElementById("phone").value;
 
-  let msg = `I want ${product} (KES ${price}) Name:${name} Phone:${phone}`;
+  let msg=`I want ${prod} (KES ${price}) Name:${name} Phone:${phone}`;
 
   navigator.clipboard.writeText(msg);
 
-  alert("Message copied! Paste in Instagram DM.");
+  alert("Message copied! Paste in Instagram DM");
 
-  window.location.href = "https://instagram.com/_.bradle.y";
+  window.location.href="https://instagram.com/_.bradle.y";
 }
 
-// 🔥 FAKE SALES POPUP
-setInterval(()=>{
-  let names = ["Brian","Kevin","Alex","John"];
-  let items = ["Roblox $10","V-Bucks 1000"];
+// ADMIN PANEL
+let pass = prompt("Enter admin password (cancel for users)");
 
-  alert(names[Math.floor(Math.random()*4)] +
-  " just bought " +
-  items[Math.floor(Math.random()*2)] + " 🔥");
-},20000);
+if(pass==="mouse@123"){
+  document.getElementById("admin").style.display="block";
+}
+
+// ADD PRODUCT
+function addProduct(){
+  let name=document.getElementById("newName").value;
+  let price=document.getElementById("newPrice").value;
+
+  data.giftcards.push({name,price});
+  load();
+}
+
+// FAKE SALES
+setInterval(()=>{
+  let names=["Brian","Alex","Kevin","James"];
+  let items=["Roblox $10","V-Bucks","PSN Card"];
+
+  alert(names[Math.floor(Math.random()*4)]+" just bought "+items[Math.floor(Math.random()*3)]+" 🔥");
+},25000);
 
 </script>
 

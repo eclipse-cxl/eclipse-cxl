@@ -34,13 +34,13 @@ color:black;
 100%{background-position:0%}
 }
 
-/* INSTAGRAM */
+/* INSTAGRAM TOP */
 .ig-top{
 text-align:center;
 padding:10px;
 }
 
-/* PREMIUM FILTERS */
+/* FILTERS */
 .filters{
 display:flex;
 gap:10px;
@@ -66,7 +66,7 @@ background:rgba(255,255,255,0.05);
 color:white;
 border:1px solid rgba(255,255,255,0.1);
 appearance:none;
-font-weight:600;
+font-weight:bold;
 }
 
 .filter-box::after{
@@ -97,7 +97,6 @@ backdrop-filter:blur(12px);
 border:1px solid rgba(255,255,255,0.08);
 transition:0.3s;
 position:relative;
-overflow:hidden;
 }
 
 .card:hover{
@@ -118,110 +117,127 @@ border-radius:8px;
 font-weight:bold;
 }
 
-/* TEXT */
-.name{font-size:15px;margin:8px 0;}
-.price{font-size:20px;color:#00ffcc;font-weight:bold;}
+/* BUTTONS */
+.btn-group{
+display:flex;
+gap:8px;
+margin-top:10px;
+}
 
-/* BUTTON */
 .btn{
-width:100%;
-padding:12px;
+flex:1;
+padding:10px;
 border:none;
-border-radius:12px;
+border-radius:10px;
 font-weight:bold;
 cursor:pointer;
-margin-top:10px;
-background:linear-gradient(90deg,#00c853,#00e676);
-color:black;
-transition:0.2s;
 }
-.btn:hover{transform:scale(1.05);}
+
+.wa{
+background:#25D366;
+color:white;
+}
+
+.ig{
+background:linear-gradient(45deg,#fd5949,#d6249f,#285AEB);
+color:white;
+}
 
 /* FOOTER */
 footer{
 text-align:center;
-padding:20px;
-font-size:12px;
-opacity:0.6;
+padding:25px;
+font-size:13px;
+opacity:0.7;
+line-height:1.6;
+border-top:1px solid rgba(255,255,255,0.08);
+margin-top:20px;
 }
 </style>
 </head>
 
 <body>
 
-<header>⚡ Eclipse Store KE</header>
+<header>ECLIPSE STORE KE</header>
 
 <div class="ig-top">
-<a href="https://instagram.com/eclipse.store.ke" target="_blank">
-<button class="btn">Follow us on Instagram</button>
-</a>
+<a href="https://instagram.com/eclipse.store.ke" target="_blank">Follow us on Instagram</a>
 </div>
 
-<!-- PREMIUM FILTERS -->
 <div class="filters">
-
 <div class="filter-box">
 <select id="categoryFilter">
-<option value="All">🎮 All Categories</option>
-<option value="Gaming">🎮 Gaming</option>
-<option value="Streaming">🎬 Streaming</option>
-<option value="Shopping">🛒 Shopping</option>
+<option value="All">All Categories</option>
+<option value="Gaming">Gaming</option>
 </select>
 </div>
 
 <div class="filter-box">
 <select id="regionFilter">
-<option value="All">🌍 All Regions</option>
-<option value="USA">🇺🇸 USA</option>
-<option value="UK">🇬🇧 UK</option>
-<option value="Global">🌐 Global</option>
+<option value="All">All Regions</option>
+<option value="USA">USA</option>
+<option value="UK">UK</option>
+<option value="UAE">UAE</option>
+<option value="EU">EU</option>
+<option value="Canada">Canada</option>
 </select>
 </div>
-
 </div>
 
 <div class="products"></div>
 
-<footer>© 2026 Eclipse Store KE</footer>
+<footer>
+<p>© 2026 Eclipse Store KE</p>
+<p>⚡ Instant Delivery | 🔒 Trusted Seller</p>
+<p>📲 WhatsApp: 0791 994 148</p>
+</footer>
 
 <script>
-const whatsappNumber = "254791994148";
-
-/* PRODUCTS */
 const products = [
 
-/* PSN USA */
+/* USA */
 {name:"PSN $10",price:"KSh 1,599",category:"Gaming",region:"USA"},
 {name:"PSN $25",price:"KSh 3,799",category:"Gaming",region:"USA",badge:"BEST SELLER"},
 {name:"PSN $50",price:"KSh 7,299",category:"Gaming",region:"USA",badge:"BEST SELLER"},
 {name:"PSN $75",price:"KSh 10,799",category:"Gaming",region:"USA"},
 {name:"PSN $100",price:"KSh 14,499",category:"Gaming",region:"USA"},
 
-/* PSN UK */
+/* UK */
 {name:"PSN £10",price:"KSh 1,899",category:"Gaming",region:"UK"},
 {name:"PSN £20",price:"KSh 3,699",category:"Gaming",region:"UK"},
-{name:"PSN £50",price:"KSh 8,999",category:"Gaming",region:"UK"}
+{name:"PSN £50",price:"KSh 8,999",category:"Gaming",region:"UK"},
+
+/* UAE */
+{name:"PSN AED 50",price:"KSh 2,299",category:"Gaming",region:"UAE"},
+{name:"PSN AED 100",price:"KSh 4,399",category:"Gaming",region:"UAE"},
+
+/* EU */
+{name:"PSN €10",price:"KSh 1,799",category:"Gaming",region:"EU"},
+{name:"PSN €25",price:"KSh 3,999",category:"Gaming",region:"EU"},
+
+/* CANADA */
+{name:"PSN CAD 10",price:"KSh 1,699",category:"Gaming",region:"Canada"},
+{name:"PSN CAD 50",price:"KSh 7,099",category:"Gaming",region:"Canada"}
 
 ];
 
-/* RENDER */
 const container = document.querySelector(".products");
 
 function renderProducts(list){
 container.innerHTML = "";
-
 list.forEach(p=>{
 container.innerHTML += `
 <div class="card">
-
 ${p.badge ? `<div class="badge">${p.badge}</div>` : ""}
+<h3>${p.name}</h3>
+<p>${p.price}</p>
 
-<div class="name">${p.name}</div>
-<div class="price">${p.price}</div>
-
-<button class="btn" onclick="buyNow('${p.name}','${p.price}')">
-Buy via WhatsApp
-</button>
+<div class="btn-group">
+<button onclick="buyNow('${p.name}','${p.price}')" class="btn wa">📲 WhatsApp</button>
+<a href="https://instagram.com/eclipse.store.ke" target="_blank">
+<button class="btn ig">📸 Instagram</button>
+</a>
+</div>
 
 </div>
 `;
@@ -230,37 +246,29 @@ Buy via WhatsApp
 
 renderProducts(products);
 
-/* FILTER */
+/* FILTERS */
 const categoryFilter = document.getElementById("categoryFilter");
 const regionFilter = document.getElementById("regionFilter");
+
+categoryFilter.addEventListener("change", filterProducts);
+regionFilter.addEventListener("change", filterProducts);
 
 function filterProducts(){
 let category = categoryFilter.value;
 let region = regionFilter.value;
 
 let filtered = products.filter(p=>{
-return (category === "All" || p.category === category) &&
-       (region === "All" || p.region === region);
+return (category==="All"||p.category===category) &&
+(region==="All"||p.region===region);
 });
 
 renderProducts(filtered);
 }
 
-categoryFilter.addEventListener("change", filterProducts);
-regionFilter.addEventListener("change", filterProducts);
-
 /* WHATSAPP */
-function buyNow(name, price){
-
-let message =
-`🔥 *ECLIPSE STORE KE ORDER* 🔥%0A%0A` +
-`🎮 Product: ${name}%0A` +
-`💰 Price: ${price}%0A%0A` +
-`⚡ Instant delivery%0A` +
-`💳 Pay via M-Pesa%0A%0A` +
-`Thank you 🙌`;
-
-window.open(`https://wa.me/${whatsappNumber}?text=${message}`);
+function buyNow(name,price){
+let message = `🔥 ECLIPSE STORE KE ORDER 🔥%0A%0A🎮 Product: ${name}%0A💰 Price: ${price}%0A%0A⚡ Instant Delivery%0A📲 Pay via M-Pesa`;
+window.open(`https://wa.me/254791994148?text=${message}`,"_blank");
 }
 </script>
 

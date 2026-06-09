@@ -10,21 +10,68 @@ body{
   font-family:Arial;
   background:black;
   color:white;
-  overflow:hidden;
 }
 
+/* HEADER */
 header{
   position:fixed;
   top:0;
   width:100%;
-  padding:12px;
+  padding:10px;
   text-align:center;
   background:#111;
   z-index:10;
 }
 
-/* SCROLL */
+/* TOGGLE */
+.toggle{
+  position:fixed;
+  top:50px;
+  width:100%;
+  text-align:center;
+  z-index:10;
+}
+
+.toggle button{
+  margin:5px;
+  padding:8px 12px;
+  border:none;
+  border-radius:10px;
+  background:#222;
+  color:white;
+}
+
+/* GRID VIEW */
+#grid{
+  margin-top:100px;
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  padding:10px;
+}
+
+.card{
+  background:#111;
+  padding:15px;
+  border-radius:15px;
+  text-align:center;
+  box-shadow:0 0 10px rgba(0,255,150,0.2);
+}
+
+.price{
+  color:#00ff99;
+  font-size:18px;
+  margin:5px 0;
+}
+
+.tag{
+  color:gold;
+  font-size:12px;
+}
+
+/* TIKTOK VIEW */
 #feed{
+  display:none;
   height:100vh;
   overflow-y:scroll;
   scroll-snap-type:y mandatory;
@@ -38,39 +85,18 @@ header{
   scroll-snap-align:start;
 }
 
-.card{
-  background:linear-gradient(145deg,#111,#1a1a1a);
-  padding:25px;
-  border-radius:20px;
-  width:85%;
-  max-width:350px;
-  text-align:center;
-  box-shadow:0 0 20px rgba(0,255,150,0.2);
-}
-
-.price{
-  color:#00ff99;
-  font-size:22px;
-  margin:10px 0;
-}
-
-.tag{
-  color:gold;
-  font-size:12px;
-}
-
 /* BUTTONS */
 .btns{
   display:flex;
-  gap:10px;
-  margin-top:15px;
+  gap:5px;
+  margin-top:10px;
 }
 
 button{
   flex:1;
-  padding:12px;
+  padding:8px;
   border:none;
-  border-radius:10px;
+  border-radius:8px;
   cursor:pointer;
   font-weight:bold;
 }
@@ -78,29 +104,9 @@ button{
 .wa{background:#25D366;color:white;}
 .ig{background:linear-gradient(45deg,#833ab4,#fd1d1d,#fcb045);color:white;}
 
-/* FILTER */
-.filters{
-  position:fixed;
-  bottom:10px;
-  width:100%;
-  display:flex;
-  justify-content:center;
-  gap:8px;
-  z-index:10;
-}
-
-.filters button{
-  padding:8px 10px;
-  border-radius:20px;
-  background:#222;
-  color:white;
-  font-size:12px;
-}
-
 /* ADMIN */
 #adminPanel{
   position:fixed;
-  right:0;
   top:0;
   width:100%;
   height:100%;
@@ -122,163 +128,157 @@ input{
 
 <header>
 ⚡ Eclipse Shop
-<button onclick="openAdmin()">⚙️</button>
+<button onclick="openAdmin()" style="opacity:0.3;">⚙️</button>
 </header>
 
-<div id="feed"></div>
-
-<!-- FILTERS -->
-<div class="filters">
-<button onclick="setFilter('ALL')">All</button>
-<button onclick="setFilter('USA')">USA</button>
-<button onclick="setFilter('UK')">UK</button>
-<button onclick="setFilter('SA')">SA</button>
-<button onclick="setFilter('UAE')">UAE</button>
+<div class="toggle">
+<button onclick="showGrid()">🛒 Shop</button>
+<button onclick="showFeed()">🎬 TikTok Mode</button>
 </div>
+
+<div id="grid"></div>
+<div id="feed"></div>
 
 <!-- ADMIN -->
 <div id="adminPanel">
 <h2>Admin Panel</h2>
-
 <input id="name" placeholder="Product Name">
 <input id="price" placeholder="Price">
-<input id="region" placeholder="Region (USA/UK/SA/UAE)">
+<input id="region" placeholder="Region">
 <input id="tag" placeholder="Tag (BEST / HOT)">
-
 <button onclick="addProduct()">Add Product</button>
 <button onclick="closeAdmin()">Close</button>
 </div>
 
 <script>
 
-let WA = "https://wa.me/254791994148";
-let IG = "https://instagram.com/eclipse.sh0p";
-
-let filter = "ALL";
+let WA="https://wa.me/254791994148";
+let IG="https://instagram.com/eclipse.sh0p";
 
 /* PRODUCTS */
 let products = JSON.parse(localStorage.getItem("products")) || [
 
-{name:"PSN $10 USA", price:1599, region:"USA", tag:"🔥 BEST"},
-{name:"PSN $20 USA", price:2999, region:"USA"},
-{name:"PSN $50 USA", price:6999, region:"USA", tag:"💰 VALUE"},
-{name:"PSN $100 USA", price:13499, region:"USA"},
+{name:"PSN $10 USA",price:1599,tag:"🔥 BEST"},
+{name:"PSN $20 USA",price:2999},
+{name:"PSN $50 USA",price:6999,tag:"💰 VALUE"},
+{name:"PSN $100 USA",price:13499},
 
-{name:"PSN £10 UK", price:1999, region:"UK"},
-{name:"PSN £20 UK", price:3799, region:"UK"},
-{name:"PSN £25 UK", price:4699, region:"UK", tag:"🔥 HOT"},
-{name:"PSN £50 UK", price:8999, region:"UK"},
+{name:"PSN £10 UK",price:1999},
+{name:"PSN £25 UK",price:4699,tag:"🔥 HOT"},
+{name:"PSN £50 UK",price:8999},
 
-{name:"PSN R100 SA", price:1099, region:"SA"},
-{name:"PSN R200 SA", price:1999, region:"SA"},
-{name:"PSN R500 SA", price:4799, region:"SA"},
+{name:"PSN R200 SA",price:1999},
+{name:"PSN R500 SA",price:4799},
 
-{name:"PSN AED 25 UAE", price:1099, region:"UAE"},
-{name:"PSN AED 50 UAE", price:2299, region:"UAE"},
-{name:"PSN AED 100 UAE", price:4499, region:"UAE", tag:"💰 HIGH MARGIN"},
+{name:"Amazon $10",price:1599},
+{name:"Amazon $25",price:3999,tag:"🔥 BEST"},
+{name:"Amazon $50",price:7299},
 
-{name:"Amazon $10 USA", price:1599, region:"USA"},
-{name:"Amazon $25 USA", price:3999, region:"USA", tag:"🔥 BEST"},
-{name:"Amazon $50 USA", price:7299, region:"USA"},
-{name:"Amazon $100 USA", price:13999, region:"USA"},
+{name:"Fortnite 1000 V-Bucks",price:1499},
+{name:"Fortnite 2800 V-Bucks",price:3999,tag:"🔥 HOT"},
+{name:"Fortnite 5000 V-Bucks",price:6999},
 
-{name:"Fortnite 1000 V-Bucks", price:1499, region:"USA"},
-{name:"Fortnite 2800 V-Bucks", price:3999, region:"USA", tag:"🔥 HOT"},
-{name:"Fortnite 5000 V-Bucks", price:6999, region:"USA"},
-{name:"Fortnite 13500 V-Bucks", price:15999, region:"USA"},
+{name:"Roblox 400 Robux",price:899},
+{name:"Roblox 800 Robux",price:1499,tag:"🔥 BEST"},
+{name:"Roblox 1700 Robux",price:2799},
 
-{name:"Roblox 400 Robux", price:899, region:"USA"},
-{name:"Roblox 800 Robux", price:1499, region:"USA", tag:"🔥 BEST"},
-{name:"Roblox 1700 Robux", price:2799, region:"USA"},
-{name:"Roblox 4500 Robux", price:6999, region:"USA"},
+{name:"Steam $10",price:1599},
+{name:"Steam $50",price:6999},
 
-{name:"Steam $10", price:1599, region:"USA"},
-{name:"Steam $20", price:2999, region:"USA"},
-{name:"Steam $50", price:6999, region:"USA"},
+{name:"iTunes $10",price:1599},
+{name:"iTunes $50",price:7299},
 
-{name:"iTunes $10", price:1599, region:"USA"},
-{name:"iTunes $25", price:3999, region:"USA"},
-{name:"iTunes $50", price:7299, region:"USA"},
+{name:"Spotify 1 Month",price:499},
+{name:"Spotify 3 Months",price:1299},
 
-{name:"Spotify 1 Month", price:499, region:"GLOBAL"},
-{name:"Spotify 3 Months", price:1299, region:"GLOBAL"},
-{name:"Spotify 6 Months", price:2499, region:"GLOBAL"},
-
-{name:"Netflix 1 Month", price:799, region:"GLOBAL"},
-{name:"Netflix 3 Months", price:1999, region:"GLOBAL"}
+{name:"Netflix 1 Month",price:799}
 
 ];
 
 /* RENDER */
 function render(){
-  let feed = document.getElementById("feed");
-  feed.innerHTML = "";
 
-  products.forEach(p=>{
-    if(filter==="ALL" || p.region===filter){
+let grid=document.getElementById("grid");
+let feed=document.getElementById("feed");
 
-      feed.innerHTML += `
-      <div class="slide">
-        <div class="card">
+grid.innerHTML="";
+feed.innerHTML="";
 
-          <h2>${p.name}</h2>
+products.forEach(p=>{
 
-          ${p.tag ? `<div class="tag">${p.tag}</div>` : ""}
+grid.innerHTML+=`
+<div class="card">
+<h3>${p.name}</h3>
+${p.tag ? `<div class="tag">${p.tag}</div>` : ""}
+<div class="price">KES ${p.price}</div>
+<div class="btns">
+<button class="wa" onclick="buyWA('${p.name}')">WA</button>
+<button class="ig" onclick="buyIG()">IG</button>
+</div>
+</div>
+`;
 
-          <div class="price">KES ${p.price}</div>
+feed.innerHTML+=`
+<div class="slide">
+<div class="card">
+<h2>${p.name}</h2>
+${p.tag ? `<div class="tag">${p.tag}</div>` : ""}
+<div class="price">KES ${p.price}</div>
+<div class="btns">
+<button class="wa" onclick="buyWA('${p.name}')">WhatsApp</button>
+<button class="ig" onclick="buyIG()">Instagram</button>
+</div>
+</div>
+</div>
+`;
 
-          <div class="btns">
-            <button class="ig" onclick="buyIG('${p.name}')">Instagram</button>
-            <button class="wa" onclick="buyWA('${p.name}')">WhatsApp</button>
-          </div>
-
-        </div>
-      </div>
-      `;
-    }
-  });
+});
 }
 
-/* FILTER */
-function setFilter(f){
-  filter = f;
-  render();
+/* VIEW SWITCH */
+function showGrid(){
+document.getElementById("grid").style.display="grid";
+document.getElementById("feed").style.display="none";
+}
+
+function showFeed(){
+document.getElementById("grid").style.display="none";
+document.getElementById("feed").style.display="block";
 }
 
 /* BUY */
 function buyWA(name){
-  window.location.href = WA + "?text=I want " + encodeURIComponent(name);
+window.location.href=WA+"?text=I want "+encodeURIComponent(name);
 }
 
-function buyIG(name){
-  window.location.href = IG;
+function buyIG(){
+window.location.href=IG;
 }
 
-/* ADMIN */
+/* ADMIN (PASSWORD = 8363) */
 function openAdmin(){
-  let pass = prompt("Enter admin code:");
-  if(pass === "1234"){
-    document.getElementById("adminPanel").style.display = "block";
-  }else{
-    alert("Wrong code");
-  }
+let pass=prompt("Enter admin code:");
+if(pass && pass.trim()==="8363"){
+document.getElementById("adminPanel").style.display="block";
+}else{
+alert("Wrong code");
+}
 }
 
 function closeAdmin(){
-  document.getElementById("adminPanel").style.display = "none";
+document.getElementById("adminPanel").style.display="none";
 }
 
 function addProduct(){
-  let name = document.getElementById("name").value;
-  let price = document.getElementById("price").value;
-  let region = document.getElementById("region").value;
-  let tag = document.getElementById("tag").value;
+let name=document.getElementById("name").value;
+let price=document.getElementById("price").value;
+let tag=document.getElementById("tag").value;
 
-  products.push({name, price, region, tag});
-  localStorage.setItem("products", JSON.stringify(products));
+products.push({name,price,tag});
+localStorage.setItem("products",JSON.stringify(products));
 
-  render();
-  alert("Added!");
+render();
+alert("Added!");
 }
 
 render();

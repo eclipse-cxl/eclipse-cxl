@@ -6,97 +6,88 @@
 <title>Eclipse Store KE</title>
 
 <style>
-body {
-    margin:0;
-    font-family:Arial;
-    background:#050505;
-    color:white;
+body{
+margin:0;
+font-family:Arial;
+background:#050505;
+color:white;
 }
 
 /* HEADER */
-header {
-    padding:18px;
-    text-align:center;
-    font-size:22px;
-    background:#0d0d0d;
-    color:#00e5ff;
-    text-shadow:0 0 12px #00e5ff;
+header{
+text-align:center;
+padding:20px;
+font-size:24px;
+color:#00e5ff;
+text-shadow:0 0 15px #00e5ff;
 }
 
 /* SELECTORS */
-.selectors {
-    display:flex;
-    gap:10px;
-    padding:15px;
+.selectors{
+display:flex;
+gap:10px;
+padding:15px;
 }
 
-select {
-    flex:1;
-    padding:12px;
-    border-radius:10px;
-    border:none;
-    background:#111;
-    color:white;
-    box-shadow:0 0 10px #00e5ff33;
+select{
+flex:1;
+padding:12px;
+border-radius:12px;
+border:none;
+background:#111;
+color:white;
+box-shadow:0 0 12px #00e5ff33;
 }
 
 /* GRID */
-.products {
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
-    gap:15px;
-    padding:15px;
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+gap:15px;
+padding:15px;
 }
 
 /* CARD */
-.card {
-    background:#0f0f0f;
-    padding:15px;
-    border-radius:15px;
-    text-align:center;
-    transition:0.3s;
-    border:1px solid #1f1f1f;
+.card{
+background:#0f0f0f;
+padding:15px;
+border-radius:16px;
+text-align:center;
+transition:0.3s;
+border:1px solid #1a1a1a;
 }
 
-.card:hover {
-    transform:translateY(-6px) scale(1.03);
-    box-shadow:0 0 25px #00e5ff88;
+.card:hover{
+transform:translateY(-6px);
+box-shadow:0 0 25px #00e5ff88;
 }
 
-/* TEXT */
-.tag {
-    font-size:12px;
-    color:#00e5ff;
+.tag{
+font-size:12px;
+color:#00e5ff;
+margin-bottom:5px;
 }
 
-.price {
-    margin:10px 0;
-    font-size:18px;
-    color:#00ffcc;
+.price{
+font-size:18px;
+color:#00ffcc;
+margin:10px 0;
+}
+
+button{
+width:100%;
+padding:10px;
+border:none;
+border-radius:10px;
+margin-top:5px;
+color:white;
+cursor:pointer;
 }
 
 /* BUTTONS */
-button {
-    margin-top:6px;
-    padding:10px;
-    width:100%;
-    border:none;
-    border-radius:10px;
-    color:white;
-    cursor:pointer;
-}
+.wa{background:#00c853;box-shadow:0 0 10px #00c853;}
+.ig{background:#E1306C;box-shadow:0 0 10px #E1306C;}
 
-/* WhatsApp */
-.wa {
-    background:#00c853;
-    box-shadow:0 0 10px #00c853;
-}
-
-/* Instagram */
-.ig {
-    background:#E1306C;
-    box-shadow:0 0 10px #E1306C;
-}
 </style>
 </head>
 
@@ -105,98 +96,87 @@ button {
 <header>ECLIPSE STORE KE</header>
 
 <div class="selectors">
-
 <select id="category" onchange="renderProducts()">
-<option value="psn">PlayStation (PSN)</option>
+<option value="psn">PSN</option>
 <option value="xbox">Xbox</option>
 <option value="steam">Steam</option>
 <option value="itunes">iTunes</option>
 <option value="google">Google Play</option>
 <option value="amazon">Amazon</option>
+<option value="netflix">Netflix</option>
+<option value="spotify">Spotify</option>
+<option value="binance">Binance</option>
+<option value="razer">Razer Gold</option>
 </select>
 
 <select id="region" onchange="renderProducts()">
 <option value="USA">🇺🇸 USA</option>
 <option value="UK">🇬🇧 UK</option>
-<option value="UAE">🇦🇪 UAE</option>
 <option value="EU">🇪🇺 EUROPE</option>
-<option value="JAPAN">🇯🇵 JAPAN</option>
-<option value="SINGAPORE">🇸🇬 SINGAPORE</option>
-<option value="HONG KONG">🇭🇰 HONG KONG</option>
-<option value="CANADA">🇨🇦 CANADA</option>
-<option value="AUSTRALIA">🇦🇺 AUSTRALIA</option>
-<option value="SA">🇿🇦 SOUTH AFRICA</option>
-<option value="KENYA">🇰🇪 KENYA</option>
+<option value="UAE">🇦🇪 UAE</option>
+<option value="JP">🇯🇵 JAPAN</option>
+<option value="ZA">🇿🇦 SOUTH AFRICA</option>
+<option value="GLOBAL">🌍 GLOBAL</option>
 </select>
-
 </div>
 
 <div id="products" class="products"></div>
 
 <script>
 
-// FLAGS
-const flags = {
-USA:"🇺🇸",
-UK:"🇬🇧",
-UAE:"🇦🇪",
-EU:"🇪🇺",
-JAPAN:"🇯🇵",
-SINGAPORE:"🇸🇬",
-"HONG KONG":"🇭🇰",
-CANADA:"🇨🇦",
-AUSTRALIA:"🇦🇺",
-SA:"🇿🇦",
-KENYA:"🇰🇪"
+const flags={
+USA:"🇺🇸",UK:"🇬🇧",EU:"🇪🇺",UAE:"🇦🇪",JP:"🇯🇵",ZA:"🇿🇦",GLOBAL:"🌍"
 };
 
-const products = [];
+const products=[];
 
 // ===== PSN =====
 [
-["PSN $10","USA",1599,"⭐ Best Seller"],
-["PSN $50","USA",7999,"🔥 Popular"],
-["PSN £10","UK",1799,""],
-["PSN £50","UK",8399,""],
-["PSN 50 AED","UAE",1700,""],
-["PSN €20","EU",3700,""],
-["PSN ¥3000","JAPAN",4200,""],
-["PSN $20","SINGAPORE",3300,""],
-["PSN $100","HONG KONG",2000,""],
-["PSN $25","CANADA",4000,""],
-["PSN $20","AUSTRALIA",3400,""],
-["PSN R200","SA",1600,""]
+["$5",799],["$10",1599],["$25",3999],["$50",7999],["$75",11999],["$100",15999]
 ].forEach(p=>{
-products.push({name:p[0],region:p[1],price:p[2],category:"psn",tag:p[3]});
+products.push({cat:"psn",region:"USA",name:"PSN "+p[0],price:p[1]});
 });
+
+[
+["£10",1899],["£20",3599],["£50",8999]
+].forEach(p=>{
+products.push({cat:"psn",region:"UK",name:"PSN "+p[0],price:p[1]});
+});
+
+[
+["€10",1999],["€20",3799],["€50",8999]
+].forEach(p=>{
+products.push({cat:"psn",region:"EU",name:"PSN "+p[0],price:p[1]});
+});
+
+products.push({cat:"psn",region:"ZA",name:"PSN R200",price:1899});
+products.push({cat:"psn",region:"JP",name:"PSN ¥3000",price:3999});
 
 // ===== XBOX =====
-[
-["Xbox $10","USA",1549,"⭐ Best Seller"],
-["Xbox $25","USA",3899,""],
-["Xbox $50","USA",7799,"🔥 Popular"]
-].forEach(p=>{
-products.push({name:p[0],region:p[1],price:p[2],category:"xbox",tag:p[3]});
+[5,10,15,20,25,50,100].forEach(v=>{
+products.push({cat:"xbox",region:"USA",name:`Xbox $${v}`,price:v*155});
 });
 
-// AUTO PRODUCTS
-function addSeries(name, values, rate, category, region){
-values.forEach(v=>{
+// ===== GENERIC SERIES FUNCTION =====
+function addSeries(cat,name,vals,rate,region="USA"){
+vals.forEach(v=>{
 products.push({
-name:`${name} $${v}`,
-price:Math.round(v*rate),
-category,
-region,
-tag:""
+cat,region,name:`${name} $${v}`,price:Math.round(v*rate)
 });
 });
 }
 
 // OTHER CARDS
-addSeries("Steam",[10,20,50],155,"steam","USA");
-addSeries("iTunes",[10,25,50],155,"itunes","USA");
-addSeries("Google Play",[10,25,50],150,"google","USA");
-addSeries("Amazon",[10,25,50],160,"amazon","USA");
+addSeries("steam","Steam",[10,20,50],155);
+addSeries("itunes","iTunes",[10,25,50],155);
+addSeries("google","Google Play",[10,25,50],150);
+addSeries("amazon","Amazon",[10,25,50],160);
+
+// GLOBAL CARDS
+addSeries("netflix","Netflix",[10,25,50],150,"GLOBAL");
+addSeries("spotify","Spotify",[10,30,60],140,"GLOBAL");
+addSeries("binance","USDT",[10,50,100],150,"GLOBAL");
+addSeries("razer","Razer Gold",[10,25,50],155,"GLOBAL");
 
 // RENDER
 function renderProducts(){
@@ -207,13 +187,13 @@ let container=document.getElementById("products");
 container.innerHTML="";
 
 products.forEach(p=>{
-if(p.category===cat && p.region===region){
+if(p.cat===cat && p.region===region){
 
 container.innerHTML+=`
 <div class="card">
-<div class="tag">${p.tag}</div>
+<div class="tag">${p.tag||""}</div>
 <h3>${p.name}</h3>
-<div>${flags[p.region] || ""} ${p.region}</div>
+<div>${flags[p.region]} ${p.region}</div>
 <div class="price">KSh ${p.price}</div>
 
 <button class="wa" onclick="buy('${p.name} ${p.region}')">WhatsApp</button>

@@ -6,107 +6,22 @@
 <title>Eclipse Store KE</title>
 
 <style>
-body{
-margin:0;
-font-family:'Segoe UI',sans-serif;
-background:#030303;
-color:white;
-}
-
-/* HEADER */
-header{
-position:sticky;
-top:0;
-background:linear-gradient(90deg,#00e5ff,#00ffcc);
-padding:15px;
-text-align:center;
-font-size:22px;
-font-weight:bold;
-color:black;
-z-index:1000;
-}
-
-/* SEARCH */
+body{margin:0;font-family:'Segoe UI',sans-serif;background:#030303;color:white;}
+header{position:sticky;top:0;background:linear-gradient(90deg,#00e5ff,#00ffcc);padding:15px;text-align:center;font-size:22px;font-weight:bold;color:black;}
 .search{padding:10px;}
-.search input{
-width:100%;
-padding:12px;
-border-radius:12px;
-border:none;
-background:#111;
-color:white;
-}
-
-/* SELECTORS */
-.selectors{
-display:flex;
-gap:10px;
-padding:10px;
-}
-select{
-flex:1;
-padding:10px;
-border-radius:10px;
-background:#111;
-color:white;
-border:none;
-}
-
-/* GRID */
-.products{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-gap:15px;
-padding:10px;
-}
-
-/* CARD */
-.card{
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(10px);
-border-radius:16px;
-padding:15px;
-text-align:center;
-transition:0.3s;
-border:1px solid rgba(255,255,255,0.1);
-}
-.card:hover{
-transform:translateY(-5px) scale(1.02);
-box-shadow:0 0 20px #00e5ff66;
-}
-
-/* TAGS */
+.search input{width:100%;padding:12px;border-radius:12px;border:none;background:#111;color:white;}
+.selectors{display:flex;gap:10px;padding:10px;}
+select{flex:1;padding:10px;border-radius:10px;background:#111;color:white;border:none;}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:15px;padding:10px;}
+.card{background:rgba(255,255,255,0.05);border-radius:16px;padding:15px;text-align:center;transition:0.3s;}
+.card:hover{transform:translateY(-5px);box-shadow:0 0 20px #00e5ff66;}
 .tag{font-size:11px;margin-bottom:5px;}
 .hot{color:#ff5252;}
 .pop{color:#ffd740;}
 .instant{color:#00e5ff;}
-
-/* PRICE */
-.price{
-font-size:18px;
-margin:10px 0;
-color:#00ffcc;
-}
-
-/* BUTTON */
-button{
-width:100%;
-padding:10px;
-border:none;
-border-radius:10px;
-background:linear-gradient(90deg,#00c853,#00e676);
-color:black;
-font-weight:bold;
-cursor:pointer;
-}
-
-/* FOOTER */
-footer{
-text-align:center;
-padding:15px;
-font-size:12px;
-opacity:0.6;
-}
+.price{font-size:18px;margin:10px 0;color:#00ffcc;}
+button{width:100%;padding:10px;border:none;border-radius:10px;background:linear-gradient(90deg,#00c853,#00e676);color:black;font-weight:bold;cursor:pointer;margin-top:5px;}
+footer{text-align:center;padding:15px;font-size:12px;opacity:0.6;}
 </style>
 </head>
 
@@ -139,94 +54,102 @@ opacity:0.6;
 <footer>© Eclipse Store KE • Instant Delivery</footer>
 
 <script>
-const whatsappNumber="2547XXXXXXXX"; // PUT YOUR NUMBER
+const whatsappNumber="254791994148";
+const igLink="https://instagram.com/eclipse.store.ke";
 
 const products=[
 
-// PSN
+// 🎮 PSN USA
 {name:"PSN $5",price:"KSh 799",cat:"Gaming",region:"USA",tag:"instant"},
 {name:"PSN $10",price:"KSh 1599",cat:"Gaming",region:"USA",tag:"pop"},
 {name:"PSN $25",price:"KSh 3999",cat:"Gaming",region:"USA",tag:"hot"},
 {name:"PSN $50",price:"KSh 7999",cat:"Gaming",region:"USA",tag:""},
 {name:"PSN $100",price:"KSh 15999",cat:"Gaming",region:"USA",tag:""},
 
+// 🎮 PSN UK
 {name:"PSN £10",price:"KSh 1899",cat:"Gaming",region:"UK",tag:""},
 {name:"PSN £20",price:"KSh 3599",cat:"Gaming",region:"UK",tag:"pop"},
 {name:"PSN £50",price:"KSh 8999",cat:"Gaming",region:"UK",tag:""},
 
-// Xbox
+// 🎮 PSN EU
+{name:"PSN €10",price:"KSh 1999",cat:"Gaming",region:"GLOBAL",tag:""},
+{name:"PSN €20",price:"KSh 3799",cat:"Gaming",region:"GLOBAL",tag:""},
+{name:"PSN €50",price:"KSh 8999",cat:"Gaming",region:"GLOBAL",tag:""},
+
+// 🎮 XBOX
 {name:"Xbox $10",price:"KSh 1500",cat:"Gaming",region:"USA",tag:""},
 {name:"Xbox $25",price:"KSh 3700",cat:"Gaming",region:"USA",tag:""},
 {name:"Xbox $50",price:"KSh 7500",cat:"Gaming",region:"USA",tag:"pop"},
+{name:"Xbox $100",price:"KSh 15000",cat:"Gaming",region:"USA",tag:""},
 
-// Steam
+// 🎮 STEAM
 {name:"Steam $10",price:"KSh 1500",cat:"Gaming",region:"GLOBAL",tag:""},
 {name:"Steam $20",price:"KSh 3000",cat:"Gaming",region:"GLOBAL",tag:"pop"},
 {name:"Steam $50",price:"KSh 7500",cat:"Gaming",region:"GLOBAL",tag:""},
 
-// Apple
-{name:"Apple $10",price:"KSh 1600",cat:"Shopping",region:"USA",tag:""},
-{name:"Apple $25",price:"KSh 4000",cat:"Shopping",region:"USA",tag:""},
-{name:"Apple $50",price:"KSh 8000",cat:"Shopping",region:"USA",tag:"pop"},
-
-// Google Play
+// 📱 GOOGLE PLAY
 {name:"Google Play $10",price:"KSh 1400",cat:"Gaming",region:"USA",tag:""},
 {name:"Google Play $25",price:"KSh 3500",cat:"Gaming",region:"USA",tag:""},
 {name:"Google Play $50",price:"KSh 7000",cat:"Gaming",region:"USA",tag:""},
 
-// Amazon
+// 🍎 APPLE
+{name:"Apple $10",price:"KSh 1600",cat:"Shopping",region:"USA",tag:""},
+{name:"Apple $25",price:"KSh 4000",cat:"Shopping",region:"USA",tag:""},
+{name:"Apple $50",price:"KSh 8000",cat:"Shopping",region:"USA",tag:"pop"},
+
+// 🛒 AMAZON
 {name:"Amazon $10",price:"KSh 1500",cat:"Shopping",region:"USA",tag:""},
 {name:"Amazon $25",price:"KSh 3600",cat:"Shopping",region:"USA",tag:""},
 {name:"Amazon $50",price:"KSh 7200",cat:"Shopping",region:"USA",tag:""},
 
-// Netflix
+// 🎬 NETFLIX
 {name:"Netflix 1 Month",price:"KSh 1200",cat:"Streaming",region:"GLOBAL",tag:"pop"},
 {name:"Netflix 3 Months",price:"KSh 3200",cat:"Streaming",region:"GLOBAL",tag:""},
 
-// Spotify
-{name:"Spotify 1 Month",price:"KSh 400",cat:"Streaming",region:"GLOBAL",tag:""},
-{name:"Spotify 3 Months",price:"KSh 900",cat:"Streaming",region:"GLOBAL",tag:"pop"}
+// 🎵 SPOTIFY
+{name:"Spotify 1 Month",price:"KSh 350",cat:"Streaming",region:"GLOBAL",tag:""},
+{name:"Spotify 3 Months",price:"KSh 900",cat:"Streaming",region:"GLOBAL",tag:"pop"},
+{name:"Spotify 6 Months",price:"KSh 1700",cat:"Streaming",region:"GLOBAL",tag:""}
 
 ];
 
-// RENDER
-function render(){
+function renderProducts(){
 const container=document.getElementById("products");
+container.innerHTML="";
+
 const search=document.getElementById("search").value.toLowerCase();
 const cat=document.getElementById("category").value;
 const region=document.getElementById("region").value;
 
-container.innerHTML="";
+products.forEach(p=>{
+if((cat==="All"||p.cat===cat)&&(region==="All"||p.region===region)&&p.name.toLowerCase().includes(search)){
 
-products
-.filter(p=>
-(p.name.toLowerCase().includes(search)) &&
-(cat==="All"||p.cat===cat) &&
-(region==="All"||p.region===region)
-)
-.forEach(p=>{
+let tagClass="",tagText="";
+if(p.tag==="hot"){tagClass="hot";tagText="🔥 Hot";}
+if(p.tag==="pop"){tagClass="pop";tagText="⭐ Popular";}
+if(p.tag==="instant"){tagClass="instant";tagText="⚡ Instant";}
+
+const msg=`Hello, I want to buy ${p.name} for ${p.price}`;
+const wa=`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(msg)}`;
+
 container.innerHTML+=`
 <div class="card">
-<div class="tag ${p.tag}">${p.tag.toUpperCase()}</div>
-<h3>${p.name}</h3>
+<div class="tag ${tagClass}">${tagText}</div>
+<h4>${p.name}</h4>
 <div class="price">${p.price}</div>
-<button onclick="buy('${p.name}')">Buy Now</button>
-</div>
-`;
+
+<button onclick="window.open('${wa}')">💬 WhatsApp</button>
+<button style="background:#E1306C;" onclick="window.open('${igLink}')">📸 Instagram</button>
+</div>`;
+}
 });
 }
 
-// BUY BUTTON
-function buy(product){
-window.open(`https://wa.me/${whatsappNumber}?text=I want to buy ${product}`);
-}
+renderProducts();
+document.getElementById("search").addEventListener("input",renderProducts);
+document.getElementById("category").addEventListener("change",renderProducts);
+document.getElementById("region").addEventListener("change",renderProducts);
 
-// EVENTS
-document.getElementById("search").addEventListener("input",render);
-document.getElementById("category").addEventListener("change",render);
-document.getElementById("region").addEventListener("change",render);
-
-render();
 </script>
 
 </body>

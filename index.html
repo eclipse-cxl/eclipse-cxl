@@ -8,44 +8,39 @@
 <style>
 body {
     margin:0;
-    font-family: Arial;
-    background:#0b0b0b;
+    font-family:Arial;
+    background:#050505;
     color:white;
 }
 
+/* HEADER */
 header {
     padding:18px;
     text-align:center;
     font-size:22px;
-    font-weight:bold;
+    background:#0d0d0d;
+    color:#00e5ff;
+    text-shadow:0 0 12px #00e5ff;
+}
+
+/* SELECTORS */
+.selectors {
+    display:flex;
+    gap:10px;
+    padding:15px;
+}
+
+select {
+    flex:1;
+    padding:12px;
+    border-radius:10px;
+    border:none;
     background:#111;
-}
-
-.search {
-    width:90%;
-    margin:15px auto;
-    padding:14px;
-    border-radius:12px;
-    border:none;
-    background:#1a1a1a;
     color:white;
+    box-shadow:0 0 10px #00e5ff33;
 }
 
-.filters {
-    text-align:center;
-    margin-bottom:10px;
-}
-
-.filters button {
-    margin:5px;
-    padding:10px 14px;
-    border:none;
-    border-radius:20px;
-    background:#222;
-    color:white;
-    cursor:pointer;
-}
-
+/* GRID */
 .products {
     display:grid;
     grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
@@ -53,29 +48,34 @@ header {
     padding:15px;
 }
 
+/* CARD */
 .card {
-    background:#141414;
+    background:#0f0f0f;
     padding:15px;
     border-radius:15px;
     text-align:center;
-    transition:0.2s;
+    transition:0.3s;
+    border:1px solid #1f1f1f;
 }
 
 .card:hover {
-    transform:scale(1.05);
+    transform:translateY(-6px) scale(1.03);
+    box-shadow:0 0 25px #00e5ff88;
 }
 
-.price {
-    font-size:18px;
-    margin:8px 0;
-}
-
+/* TEXT */
 .tag {
     font-size:12px;
-    margin-bottom:6px;
     color:#00e5ff;
 }
 
+.price {
+    margin:10px 0;
+    font-size:18px;
+    color:#00ffcc;
+}
+
+/* BUTTONS */
 button {
     margin-top:6px;
     padding:10px;
@@ -86,9 +86,17 @@ button {
     cursor:pointer;
 }
 
-.wa { background:#00c853; }
-.ig { background:#E1306C; }
+/* WhatsApp */
+.wa {
+    background:#00c853;
+    box-shadow:0 0 10px #00c853;
+}
 
+/* Instagram */
+.ig {
+    background:#E1306C;
+    box-shadow:0 0 10px #E1306C;
+}
 </style>
 </head>
 
@@ -96,113 +104,135 @@ button {
 
 <header>ECLIPSE STORE KE</header>
 
-<input id="search" class="search" placeholder="Search cards..." onkeyup="renderProducts()">
+<div class="selectors">
 
-<div class="filters">
-<button onclick="setFilter('all')">All</button>
-<button onclick="setFilter('psn')">PSN</button>
-<button onclick="setFilter('xbox')">Xbox</button>
-<button onclick="setFilter('steam')">Steam</button>
-<button onclick="setFilter('itunes')">iTunes</button>
-<button onclick="setFilter('google')">Google Play</button>
-<button onclick="setFilter('amazon')">Amazon</button>
+<select id="category" onchange="renderProducts()">
+<option value="psn">PlayStation (PSN)</option>
+<option value="xbox">Xbox</option>
+<option value="steam">Steam</option>
+<option value="itunes">iTunes</option>
+<option value="google">Google Play</option>
+<option value="amazon">Amazon</option>
+</select>
+
+<select id="region" onchange="renderProducts()">
+<option value="USA">🇺🇸 USA</option>
+<option value="UK">🇬🇧 UK</option>
+<option value="UAE">🇦🇪 UAE</option>
+<option value="EU">🇪🇺 EUROPE</option>
+<option value="JAPAN">🇯🇵 JAPAN</option>
+<option value="SINGAPORE">🇸🇬 SINGAPORE</option>
+<option value="HONG KONG">🇭🇰 HONG KONG</option>
+<option value="CANADA">🇨🇦 CANADA</option>
+<option value="AUSTRALIA">🇦🇺 AUSTRALIA</option>
+<option value="SA">🇿🇦 SOUTH AFRICA</option>
+<option value="KENYA">🇰🇪 KENYA</option>
+</select>
+
 </div>
 
 <div id="products" class="products"></div>
 
 <script>
 
-// ================= PRODUCT SYSTEM =================
+// FLAGS
+const flags = {
+USA:"🇺🇸",
+UK:"🇬🇧",
+UAE:"🇦🇪",
+EU:"🇪🇺",
+JAPAN:"🇯🇵",
+SINGAPORE:"🇸🇬",
+"HONG KONG":"🇭🇰",
+CANADA:"🇨🇦",
+AUSTRALIA:"🇦🇺",
+SA:"🇿🇦",
+KENYA:"🇰🇪"
+};
+
 const products = [];
 
-// ===== PSN (YOUR PRICES) =====
+// ===== PSN =====
 [
-["PSN $5","kenya",849,""],
-["PSN $10","kenya",1599,"⭐ Best Seller"],
-["PSN $25","kenya",3999,""],
-["PSN $50","kenya",7999,"🔥 Popular"],
-["PSN $75","kenya",11999,""],
-["PSN $100","kenya",15499,"💎 Value"]
+["PSN $10","USA",1599,"⭐ Best Seller"],
+["PSN $50","USA",7999,"🔥 Popular"],
+["PSN £10","UK",1799,""],
+["PSN £50","UK",8399,""],
+["PSN 50 AED","UAE",1700,""],
+["PSN €20","EU",3700,""],
+["PSN ¥3000","JAPAN",4200,""],
+["PSN $20","SINGAPORE",3300,""],
+["PSN $100","HONG KONG",2000,""],
+["PSN $25","CANADA",4000,""],
+["PSN $20","AUSTRALIA",3400,""],
+["PSN R200","SA",1600,""]
 ].forEach(p=>{
-products.push({name:p[0],price:p[2],category:"psn",region:p[1],tag:p[3]});
+products.push({name:p[0],region:p[1],price:p[2],category:"psn",tag:p[3]});
 });
 
-// ===== XBOX (FULL OPTIONS) =====
+// ===== XBOX =====
 [
-["Xbox $5","usa",829,""],
-["Xbox $10","usa",1549,"⭐ Best Seller"],
-["Xbox $15","usa",2299,"🔥 Smart Choice"],
-["Xbox $20","usa",3049,""],
-["Xbox $25","usa",3899,""],
-["Xbox $50","usa",7799,"💎 Popular"],
-["Xbox $100","usa",15299,""]
+["Xbox $10","USA",1549,"⭐ Best Seller"],
+["Xbox $25","USA",3899,""],
+["Xbox $50","USA",7799,"🔥 Popular"]
 ].forEach(p=>{
-products.push({name:p[0],price:p[2],category:"xbox",region:p[1],tag:p[3]});
+products.push({name:p[0],region:p[1],price:p[2],category:"xbox",tag:p[3]});
 });
 
-// ===== AUTO PRODUCTS =====
-function addSeries(name, values, rate, category){
-    values.forEach(v=>{
-        products.push({
-            name:`${name} $${v}`,
-            price:Math.round(v*rate),
-            category:category,
-            region:"usa",
-            tag:""
-        });
-    });
+// AUTO PRODUCTS
+function addSeries(name, values, rate, category, region){
+values.forEach(v=>{
+products.push({
+name:`${name} $${v}`,
+price:Math.round(v*rate),
+category,
+region,
+tag:""
+});
+});
 }
 
 // OTHER CARDS
-addSeries("Steam",[5,10,20,50],155,"steam");
-addSeries("iTunes",[10,25,50],155,"itunes");
-addSeries("Google Play",[10,25,50],150,"google");
-addSeries("Amazon",[10,25,50],160,"amazon");
+addSeries("Steam",[10,20,50],155,"steam","USA");
+addSeries("iTunes",[10,25,50],155,"itunes","USA");
+addSeries("Google Play",[10,25,50],150,"google","USA");
+addSeries("Amazon",[10,25,50],160,"amazon","USA");
 
-// ================= FILTER =================
-let activeFilter = "all";
-
-function setFilter(f){
-    activeFilter = f;
-    renderProducts();
-}
-
-// ================= RENDER =================
+// RENDER
 function renderProducts(){
-    let container = document.getElementById("products");
-    let search = document.getElementById("search").value.toLowerCase();
+let cat=document.getElementById("category").value;
+let region=document.getElementById("region").value;
 
-    container.innerHTML = "";
+let container=document.getElementById("products");
+container.innerHTML="";
 
-    products.forEach(p=>{
-        let text = (p.name + p.category).toLowerCase();
+products.forEach(p=>{
+if(p.category===cat && p.region===region){
 
-        if((activeFilter==="all" || p.category===activeFilter) && text.includes(search)){
+container.innerHTML+=`
+<div class="card">
+<div class="tag">${p.tag}</div>
+<h3>${p.name}</h3>
+<div>${flags[p.region] || ""} ${p.region}</div>
+<div class="price">KSh ${p.price}</div>
 
-            container.innerHTML += `
-            <div class="card">
-                <div class="tag">${p.tag}</div>
-                <h3>${p.name}</h3>
-                <div class="price">KSh ${p.price}</div>
-
-                <button class="wa" onclick="buy('${p.name}')">WhatsApp</button>
-                <button class="ig" onclick="instagram('${p.name}')">Instagram</button>
-            </div>
-            `;
-        }
-    });
+<button class="wa" onclick="buy('${p.name} ${p.region}')">WhatsApp</button>
+<button class="ig" onclick="ig()">Instagram</button>
+</div>
+`;
+}
+});
 }
 
-// ================= CHECKOUT =================
+// CHECKOUT
 function buy(product){
-    window.open(`https://wa.me/254791994148?text=${encodeURIComponent("Hi, I want "+product)}`);
+window.open("https://wa.me/254791994148?text="+encodeURIComponent("Hi, I want "+product));
 }
 
-function instagram(product){
-    window.open(`https://instagram.com/eclipse.store.ke`);
+function ig(){
+window.open("https://instagram.com/eclipse.store.ke");
 }
 
-// INIT
 renderProducts();
 
 </script>

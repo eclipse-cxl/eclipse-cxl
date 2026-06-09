@@ -3,234 +3,162 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Eclipse Shop</title>
-
-<!-- GOOGLE FONT -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<title>Eclipse Store</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
-
-/* BACKGROUND */
 body {
-    background: radial-gradient(circle at top, #0a0a0a, #000);
-    color: white;
-    overflow-x: hidden;
+  margin: 0;
+  font-family: Arial;
+  background: #0f0f0f;
+  color: white;
+  text-align: center;
 }
 
-/* LOADER */
-#loader {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    font-size: 28px;
-    letter-spacing: 6px;
-    animation: glow 1.5s infinite alternate;
+header {
+  background: black;
+  padding: 20px;
+  font-size: 24px;
+  font-weight: bold;
 }
 
-@keyframes glow {
-    from { text-shadow: 0 0 10px #00f7ff; }
-    to { text-shadow: 0 0 30px #00f7ff, 0 0 60px #00f7ff; }
+.products {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+  gap: 20px;
+  padding: 20px;
 }
 
-/* HEADER */
-h1 {
-    text-align: center;
-    margin: 40px 0 20px;
-    letter-spacing: 6px;
-}
-
-/* CONTAINER */
-.container {
-    padding: 10px;
-}
-
-/* CARD */
 .card {
-    background: rgba(255,255,255,0.05);
-    backdrop-filter: blur(10px);
-    margin: 15px;
-    padding: 20px;
-    border-radius: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: 0.4s;
-    border: 1px solid rgba(255,255,255,0.1);
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 10px;
 }
 
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0 25px #00f7ff55;
-}
-
-/* TEXT */
-.price {
-    font-size: 22px;
-    font-weight: 600;
-}
-
-/* BUTTON */
 button {
-    background: transparent;
-    border: 1px solid #00f7ff;
-    color: #00f7ff;
-    padding: 10px 20px;
-    border-radius: 30px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
+  padding: 10px;
+  margin-top: 10px;
+  border: none;
+  background: #00ff99;
+  cursor: pointer;
+  border-radius: 5px;
 }
 
-button::after {
-    content: "";
-    position: absolute;
-    width: 0;
-    height: 100%;
-    background: #00f7ff;
-    left: 0;
-    top: 0;
-    transition: 0.3s;
-    z-index: -1;
+#checkout {
+  position: fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: rgba(0,0,0,0.9);
+  display:none;
+  justify-content:center;
+  align-items:center;
 }
 
-button:hover::after {
-    width: 100%;
+.checkout-box {
+  background:#1a1a1a;
+  padding:20px;
+  border-radius:10px;
 }
 
-button:hover {
-    color: black;
-}
-
-/* MODAL */
-#modal {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.85);
-    display: none;
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-box {
-    background: #111;
-    padding: 30px;
-    border-radius: 20px;
-    text-align: center;
-    border: 1px solid #00f7ff;
-    animation: pop 0.3s ease;
-}
-
-@keyframes pop {
-    from { transform: scale(0.8); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-}
-
-/* FLOAT BUTTON */
-.dm-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background: #00f7ff;
-    color: black;
-    padding: 15px;
-    border-radius: 50%;
-    font-weight: bold;
-    box-shadow: 0 0 20px #00f7ff;
-    cursor: pointer;
-}
-
-/* FOOTER */
-.footer {
-    text-align: center;
-    margin: 30px;
-    color: #aaa;
+input {
+  width:90%;
+  padding:10px;
+  margin:10px;
 }
 </style>
 </head>
 
 <body>
 
-<div id="loader">ECLIPSE</div>
+<header>⚡ Eclipse Store</header>
 
-<h1>ECLIPSE SHOP</h1>
+<h3>🔥 Instant Delivery Codes</h3>
 
-<div class="container">
+<div class="products">
 
 <div class="card">
-    <div>
-        <div>$5 CODE</div>
-        <div class="price">KSH 1599</div>
-    </div>
-    <button onclick="buy('5')">Buy</button>
+<h4>$10 Roblox</h4>
+<p>KES 1599</p>
+<button onclick="openCheckout('Roblox $10',1599)">Buy</button>
 </div>
 
 <div class="card">
-    <div>
-        <div>$10 CODE</div>
-        <div class="price">KSH 2999</div>
-    </div>
-    <button onclick="buy('10')">Buy</button>
-</div>
-
-<div class="card">
-    <div>
-        <div>$25 CODE</div>
-        <div class="price">KSH 6999</div>
-    </div>
-    <button onclick="buy('25')">Buy</button>
+<h4>1000 V-Bucks</h4>
+<p>KES 1050</p>
+<button onclick="openCheckout('V-Bucks 1000',1050)">Buy</button>
 </div>
 
 </div>
 
-<div class="footer">
-DM us on Instagram to complete your order
-</div>
+<!-- CHECKOUT -->
+<div id="checkout">
+  <div class="checkout-box">
+    <h2 id="itemName"></h2>
 
-<!-- FLOAT BUTTON -->
-<div class="dm-btn" onclick="goDM()">DM</div>
+    <input id="name" placeholder="Your Name">
+    <input id="phone" placeholder="WhatsApp Number">
 
-<!-- MODAL -->
-<div id="modal">
-    <div class="modal-box">
-        <h2>Processing Order...</h2>
-        <p>Connecting to checkout</p>
-    </div>
+    <button onclick="payWhatsApp()">📲 WhatsApp</button>
+    <button onclick="payInstagram()">📸 Instagram</button>
+    <button onclick="closeCheckout()">❌ Cancel</button>
+  </div>
 </div>
 
 <script>
 
-// LOADER
-window.onload = () => {
-    setTimeout(() => {
-        document.getElementById("loader").style.display = "none";
-    }, 1500);
+let product = "";
+let price = "";
+
+function openCheckout(p, pr){
+  product = p;
+  price = pr;
+
+  document.getElementById("itemName").innerText = p + " - KES " + pr;
+  document.getElementById("checkout").style.display = "flex";
 }
 
-// BUY FUNCTION
-function buy(amount) {
-    document.getElementById("modal").style.display = "flex";
-
-    setTimeout(() => {
-        window.location.href = "https://instagram.com/_.bradle.y";
-    }, 2000);
+function closeCheckout(){
+  document.getElementById("checkout").style.display = "none";
 }
 
-// FLOAT BUTTON
-function goDM() {
-    window.location.href = "https://instagram.com/_.bradle.y";
+function payWhatsApp(){
+  let name = document.getElementById("name").value;
+  let phone = document.getElementById("phone").value;
+
+  let msg = `Hello, I want to buy:
+
+🛒 ${product}
+💰 KES ${price}
+👤 ${name}
+📞 ${phone}
+
+I will pay via M-Pesa now.`;
+
+  window.location.href =
+  "https://wa.me/254791994148?text=" + encodeURIComponent(msg);
 }
+
+function payInstagram(){
+  let name = document.getElementById("name").value;
+  let phone = document.getElementById("phone").value;
+
+  let msg = `I want ${product} (KES ${price}) Name:${name} Phone:${phone}`;
+
+  navigator.clipboard.writeText(msg);
+
+  alert("Message copied! Paste in Instagram DM.");
+
+  window.location.href = "https://instagram.com/_.bradle.y";
+}
+
+// 🔥 FAKE SALES POPUP
+setInterval(()=>{
+  let names = ["Brian","Kevin","Alex","John"];
+  let items = ["Roblox $10","V-Bucks 1000"];
+
+  alert(names[Math.floor(Math.random()*4)] +
+  " just bought " +
+  items[Math.floor(Math.random()*2)] + " 🔥");
+},20000);
 
 </script>
 

@@ -34,12 +34,6 @@ color:black;
 100%{background-position:0%}
 }
 
-/* INSTAGRAM TOP */
-.ig-top{
-text-align:center;
-padding:10px;
-}
-
 /* FILTERS */
 .filters{
 display:flex;
@@ -50,13 +44,9 @@ top:70px;
 z-index:99;
 background:rgba(5,5,5,0.9);
 backdrop-filter:blur(12px);
-border-bottom:1px solid rgba(255,255,255,0.05);
 }
 
-.filter-box{
-flex:1;
-position:relative;
-}
+.filter-box{flex:1;}
 
 .filter-box select{
 width:100%;
@@ -65,18 +55,6 @@ border-radius:14px;
 background:rgba(255,255,255,0.05);
 color:white;
 border:1px solid rgba(255,255,255,0.1);
-appearance:none;
-font-weight:bold;
-}
-
-.filter-box::after{
-content:"▼";
-position:absolute;
-right:15px;
-top:50%;
-transform:translateY(-50%);
-font-size:10px;
-opacity:0.6;
 }
 
 /* GRID */
@@ -93,35 +71,29 @@ background:rgba(255,255,255,0.05);
 border-radius:18px;
 padding:18px;
 text-align:center;
-backdrop-filter:blur(12px);
-border:1px solid rgba(255,255,255,0.08);
-transition:0.3s;
+backdrop-filter:blur(10px);
+border:1px solid rgba(255,255,255,0.05);
 position:relative;
 }
 
-.card:hover{
-transform:translateY(-6px) scale(1.02);
-box-shadow:0 0 25px rgba(0,229,255,0.4);
-}
-
-/* BADGE */
+/* BEST SELLER */
 .badge{
 position:absolute;
 top:10px;
 left:10px;
-background:#ffd700;
+background:#00ffcc;
 color:black;
 font-size:10px;
-padding:4px 8px;
+padding:5px 8px;
 border-radius:8px;
 font-weight:bold;
 }
 
-/* BUTTONS */
+/* BUTTON GROUP */
 .btn-group{
 display:flex;
-gap:8px;
-margin-top:10px;
+gap:10px;
+margin-top:12px;
 }
 
 .btn{
@@ -133,26 +105,18 @@ font-weight:bold;
 cursor:pointer;
 }
 
-.wa{
-background:#25D366;
-color:white;
-}
+.wa{background:#25D366;color:white;}
+.ig{background:linear-gradient(45deg,#fd5949,#d6249f,#285AEB);color:white;}
 
-.ig{
-background:linear-gradient(45deg,#fd5949,#d6249f,#285AEB);
-color:white;
-}
-
-/* FOOTER */
 footer{
 text-align:center;
-padding:25px;
-font-size:13px;
-opacity:0.7;
-line-height:1.6;
-border-top:1px solid rgba(255,255,255,0.08);
-margin-top:20px;
+padding:20px;
+opacity:0.6;
 }
+
+/* TITLES */
+h3{margin-bottom:5px;}
+p{opacity:0.7;}
 </style>
 </head>
 
@@ -160,82 +124,87 @@ margin-top:20px;
 
 <header>ECLIPSE STORE KE</header>
 
-<div class="ig-top">
-<a href="https://instagram.com/eclipse.store.ke" target="_blank">Follow us on Instagram</a>
-</div>
-
+<!-- FILTERS -->
 <div class="filters">
 <div class="filter-box">
-<select id="categoryFilter">
-<option value="All">All Categories</option>
-<option value="Gaming">Gaming</option>
+<select id="categoryFilter" onchange="filterProducts()">
+<option value="all">All Categories</option>
+<option value="PSN">PSN</option>
+<option value="Amazon">Amazon</option>
+<option value="Roblox">Roblox</option>
+<option value="Steam">Steam</option>
+<option value="Apple">Apple</option>
+<option value="Google">Google Play</option>
 </select>
 </div>
 
 <div class="filter-box">
-<select id="regionFilter">
-<option value="All">All Regions</option>
+<select id="regionFilter" onchange="filterProducts()">
+<option value="all">All Regions</option>
 <option value="USA">USA</option>
 <option value="UK">UK</option>
 <option value="UAE">UAE</option>
 <option value="EU">EU</option>
-<option value="Canada">Canada</option>
 </select>
 </div>
 </div>
 
-<div class="products"></div>
+<!-- PRODUCTS -->
+<div class="products" id="products"></div>
 
-<footer>
-<p>© 2026 Eclipse Store KE</p>
-<p>⚡ Instant Delivery | 🔒 Trusted Seller</p>
-<p>📲 WhatsApp: 0791 994 148</p>
-</footer>
+<footer>© Eclipse Store KE</footer>
 
 <script>
 const products = [
 
-/* USA */
-{name:"PSN $10",price:"KSh 1,599",category:"Gaming",region:"USA"},
-{name:"PSN $25",price:"KSh 3,799",category:"Gaming",region:"USA",badge:"BEST SELLER"},
-{name:"PSN $50",price:"KSh 7,299",category:"Gaming",region:"USA",badge:"BEST SELLER"},
-{name:"PSN $75",price:"KSh 10,799",category:"Gaming",region:"USA"},
-{name:"PSN $100",price:"KSh 14,499",category:"Gaming",region:"USA"},
+/* 🔥 PSN FULL SET */
+{name:"PSN $5",price:"800 KES",category:"PSN",region:"USA"},
+{name:"PSN $10",price:"1500 KES",category:"PSN",region:"USA"},
+{name:"PSN $25",price:"3500 KES",category:"PSN",region:"USA",badge:true},
+{name:"PSN $50",price:"6800 KES",category:"PSN",region:"USA",badge:true},
+{name:"PSN $100",price:"13500 KES",category:"PSN",region:"USA"},
 
-/* UK */
-{name:"PSN £10",price:"KSh 1,899",category:"Gaming",region:"UK"},
-{name:"PSN £20",price:"KSh 3,699",category:"Gaming",region:"UK"},
-{name:"PSN £50",price:"KSh 8,999",category:"Gaming",region:"UK"},
+{name:"PSN £10",price:"1900 KES",category:"PSN",region:"UK"},
+{name:"PSN £25",price:"4200 KES",category:"PSN",region:"UK"},
+{name:"PSN £50",price:"7800 KES",category:"PSN",region:"UK"},
 
-/* UAE */
-{name:"PSN AED 50",price:"KSh 2,299",category:"Gaming",region:"UAE"},
-{name:"PSN AED 100",price:"KSh 4,399",category:"Gaming",region:"UAE"},
+{name:"PSN AED 50",price:"2100 KES",category:"PSN",region:"UAE"},
+{name:"PSN AED 100",price:"4000 KES",category:"PSN",region:"UAE"},
 
-/* EU */
-{name:"PSN €10",price:"KSh 1,799",category:"Gaming",region:"EU"},
-{name:"PSN €25",price:"KSh 3,999",category:"Gaming",region:"EU"},
+/* OTHER CARDS */
+{name:"Amazon $10",price:"1600 KES",category:"Amazon",region:"USA"},
+{name:"Amazon $25",price:"3600 KES",category:"Amazon",region:"USA"},
+{name:"Amazon $50",price:"7000 KES",category:"Amazon",region:"USA"},
 
-/* CANADA */
-{name:"PSN CAD 10",price:"KSh 1,699",category:"Gaming",region:"Canada"},
-{name:"PSN CAD 50",price:"KSh 7,099",category:"Gaming",region:"Canada"}
+{name:"Roblox $10",price:"1500 KES",category:"Roblox",region:"USA"},
+{name:"Roblox $25",price:"3400 KES",category:"Roblox",region:"USA"},
+
+{name:"Steam $20",price:"3000 KES",category:"Steam",region:"USA"},
+{name:"Steam $50",price:"7000 KES",category:"Steam",region:"USA"},
+
+{name:"Apple $10",price:"1500 KES",category:"Apple",region:"USA"},
+{name:"Apple $25",price:"3600 KES",category:"Apple",region:"USA"},
+
+{name:"Google Play $10",price:"1500 KES",category:"Google",region:"USA"},
+{name:"Google Play $25",price:"3500 KES",category:"Google",region:"USA"}
 
 ];
 
-const container = document.querySelector(".products");
+function displayProducts(list){
+const container=document.getElementById("products");
+container.innerHTML="";
 
-function renderProducts(list){
-container.innerHTML = "";
 list.forEach(p=>{
-container.innerHTML += `
+container.innerHTML+=`
 <div class="card">
-${p.badge ? `<div class="badge">${p.badge}</div>` : ""}
+${p.badge ? '<div class="badge">BEST SELLER</div>' : ''}
 <h3>${p.name}</h3>
 <p>${p.price}</p>
 
 <div class="btn-group">
-<button onclick="buyNow('${p.name}','${p.price}')" class="btn wa">📲 WhatsApp</button>
+<button class="btn wa" onclick="buyNow('${p.name}','${p.price}')">WhatsApp</button>
 <a href="https://instagram.com/eclipse.store.ke" target="_blank">
-<button class="btn ig">📸 Instagram</button>
+<button class="btn ig">Instagram</button>
 </a>
 </div>
 
@@ -244,32 +213,24 @@ ${p.badge ? `<div class="badge">${p.badge}</div>` : ""}
 });
 }
 
-renderProducts(products);
-
-/* FILTERS */
-const categoryFilter = document.getElementById("categoryFilter");
-const regionFilter = document.getElementById("regionFilter");
-
-categoryFilter.addEventListener("change", filterProducts);
-regionFilter.addEventListener("change", filterProducts);
-
 function filterProducts(){
-let category = categoryFilter.value;
-let region = regionFilter.value;
+const cat=document.getElementById("categoryFilter").value;
+const reg=document.getElementById("regionFilter").value;
 
-let filtered = products.filter(p=>{
-return (category==="All"||p.category===category) &&
-(region==="All"||p.region===region);
+const filtered=products.filter(p=>{
+return (cat==="all"||p.category===cat) &&
+(reg==="all"||p.region===reg);
 });
 
-renderProducts(filtered);
+displayProducts(filtered);
 }
 
-/* WHATSAPP */
 function buyNow(name,price){
-let message = `🔥 ECLIPSE STORE KE ORDER 🔥%0A%0A🎮 Product: ${name}%0A💰 Price: ${price}%0A%0A⚡ Instant Delivery%0A📲 Pay via M-Pesa`;
-window.open(`https://wa.me/254791994148?text=${message}`,"_blank");
+const msg=`Hello, I want ${name} for ${price}`;
+window.open(`https://wa.me/0791994148?text=${encodeURIComponent(msg)}`);
 }
+
+displayProducts(products);
 </script>
 
 </body>

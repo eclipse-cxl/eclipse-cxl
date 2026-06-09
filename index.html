@@ -3,352 +3,136 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Eclipse Store</title>
+<title>Eclipse Store KE</title>
 
 <style>
-body {
-  margin:0;
-  font-family: Arial;
-  background:#0a0a0a;
-  color:white;
-}
-
-header {
-  text-align:center;
-  padding:15px;
-  font-size:22px;
-  font-weight:bold;
-  background:black;
-}
-
-.toggle {
-  text-align:center;
-  margin:10px;
-}
-
-button {
-  padding:10px;
-  margin:5px;
-  border:none;
-  background:#00ffcc;
-  border-radius:6px;
-  cursor:pointer;
-}
-
-.grid {
-  display:grid;
-  grid-template-columns: repeat(2,1fr);
-  gap:10px;
-  padding:10px;
-}
-
-.card {
-  background:#111;
-  padding:10px;
-  border-radius:10px;
-  text-align:center;
-}
-
-.swipe {
-  display:none;
-}
-
-.swipe-item {
-  height:100vh;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-}
-
-h2 { margin:10px; color:#00ffcc; }
-h3 { margin-left:10px; color:#aaa; }
-
-.admin {
-  display:none;
-  padding:10px;
-}
-
-input {
-  padding:10px;
-  margin:5px;
-}
+body {margin:0;font-family:Arial;background:#0b0b0b;color:white;}
+header {padding:20px;text-align:center;font-size:24px;font-weight:bold;background:#111;}
+.search {width:90%;margin:15px auto;padding:14px;border-radius:12px;border:none;background:#1a1a1a;color:white;}
+.filters {text-align:center;}
+.filters button {margin:5px;padding:10px;border:none;border-radius:20px;background:#222;color:white;cursor:pointer;}
+.products {display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:15px;padding:15px;}
+.card {background:#141414;padding:15px;border-radius:15px;text-align:center;transition:.3s;}
+.card:hover {transform:scale(1.05);}
+button {margin-top:8px;padding:10px;width:100%;border:none;border-radius:10px;color:white;cursor:pointer;}
+.wa {background:#00c853;}
+.ig {background:#E1306C;}
 </style>
 </head>
 
 <body>
 
-<header>ECLIPSE STORE 💎</header>
+<header>ECLIPSE STORE KE</header>
 
-<div class="toggle">
-  <button onclick="showGrid()">Grid</button>
-  <button onclick="showSwipe()">Swipe</button>
-  <button onclick="openAdmin()">Admin</button>
+<input id="search" class="search" placeholder="Search products..." onkeyup="renderProducts()">
+
+<div class="filters">
+<button onclick="setFilter('all')">All</button>
+<button onclick="setFilter('psn')">PSN</button>
+<button onclick="setFilter('xbox')">Xbox</button>
+<button onclick="setFilter('steam')">Steam</button>
+<button onclick="setFilter('itunes')">iTunes</button>
+<button onclick="setFilter('google')">Google</button>
+<button onclick="setFilter('amazon')">Amazon</button>
+<button onclick="setFilter('roblox')">Roblox</button>
+<button onclick="setFilter('kenya')">Kenya</button>
+<button onclick="setFilter('usa')">USA</button>
+<button onclick="setFilter('uk')">UK</button>
+<button onclick="setFilter('sa')">South Africa</button>
 </div>
 
-<div id="grid" class="grid"></div>
-<div id="swipe" class="swipe"></div>
-
-<div id="admin" class="admin">
-  <h3>Admin Panel</h3>
-  <input id="name" placeholder="Name">
-  <input id="price" placeholder="Price">
-  <button onclick="addProduct()">Add</button>
-</div>
+<div id="products" class="products"></div>
 
 <script>
-const password = "8363";
 
-let products = JSON.parse(localStorage.getItem("products")) || [
+// 🔥 PRODUCT DATABASE (EDIT HERE ONLY)
+const products = [];
 
-{
-category:"PlayStation",
-items:[
-{
-region:"USA 🇺🇸",
-products:[
-{name:"PSN $5 (USA)",price:899},
-{name:"PSN $10 (USA)",price:1599},
-{name:"PSN $15 (USA)",price:2199},
-{name:"PSN $20 (USA)",price:2999},
-{name:"PSN $25 (USA)",price:3499},
-{name:"PSN $30 (USA)",price:4199},
-{name:"PSN $50 (USA)",price:6999},
-{name:"PSN $75 (USA)",price:9999},
-{name:"PSN $100 (USA)",price:13499}
-]
-},
-{
-region:"UK 🇬🇧",
-products:[
-{name:"PSN £5 (UK)",price:999},
-{name:"PSN £10 (UK)",price:1799},
-{name:"PSN £20 (UK)",price:3199},
-{name:"PSN £25 (UK)",price:3999},
-{name:"PSN £50 (UK)",price:7499}
-]
-},
-{
-region:"UAE 🇦🇪",
-products:[
-{name:"PSN $10 (UAE)",price:1699},
-{name:"PSN $20 (UAE)",price:3099},
-{name:"PSN $50 (UAE)",price:7099}
-]
-},
-{
-region:"Canada 🇨🇦",
-products:[
-{name:"PSN $10 (CA)",price:1699},
-{name:"PSN $20 (CA)",price:3099},
-{name:"PSN $50 (CA)",price:7099}
-]
-},
-{
-region:"South Africa 🇿🇦",
-products:[
-{name:"PSN R100 (ZA)",price:899},
-{name:"PSN R200 (ZA)",price:1699},
-{name:"PSN R400 (ZA)",price:3199},
-{name:"PSN R600 (ZA)",price:4599},
-{name:"PSN R1000 (ZA)",price:7499}
-]
-}
-]
-},
-
-{
-category:"Xbox",
-items:[
-{
-region:"Global 🌍",
-products:[
-{name:"Xbox $10",price:1599},
-{name:"Xbox $25",price:3499},
-{name:"Xbox $50",price:6999}
-]
-}
-]
-},
-
-{
-category:"V-Bucks",
-items:[
-{
-region:"Global 🌍",
-products:[
-{name:"1000 V-Bucks",price:1599},
-{name:"2800 V-Bucks",price:3999},
-{name:"5000 V-Bucks",price:6999}
-]
-}
-]
-},
-
-{
-category:"Roblox",
-items:[
-{
-region:"Global 🌍",
-products:[
-{name:"800 Robux",price:1599},
-{name:"1700 Robux",price:2999},
-{name:"4500 Robux",price:6999}
-]
-}
-]
-},
-
-{
-category:"Apple / iTunes",
-items:[
-{
-region:"USA 🇺🇸",
-products:[
-{name:"iTunes $10",price:1599},
-{name:"iTunes $25",price:3499},
-{name:"iTunes $50",price:6999}
-]
-}
-]
-},
-
-{
-category:"Google Play",
-items:[
-{
-region:"USA 🇺🇸",
-products:[
-{name:"Google Play $10",price:1599},
-{name:"Google Play $25",price:3499}
-]
-}
-]
-},
-
-{
-category:"Steam",
-items:[
-{
-region:"Global 🌍",
-products:[
-{name:"Steam $10",price:1599},
-{name:"Steam $20",price:2999},
-{name:"Steam $50",price:6999}
-]
-}
-]
-},
-
-{
-category:"Nintendo",
-items:[
-{
-region:"USA 🇺🇸",
-products:[
-{name:"Nintendo $10",price:1599},
-{name:"Nintendo $20",price:2999}
-]
-}
-]
-},
-
-{
-category:"Amazon",
-items:[
-{
-region:"USA 🇺🇸",
-products:[
-{name:"Amazon $10",price:1599},
-{name:"Amazon $25",price:3499},
-{name:"Amazon $50",price:6999}
-]
-}
-]
+// generator function
+function addSeries(name, values, rate, category, region, currency) {
+  values.forEach(v => {
+    products.push({
+      name: `${name} ${currency}${v} (${region})`,
+      price: Math.round(v * rate),
+      category,
+      region
+    });
+  });
 }
 
-];
+// 💰 GENERATE MANY PRODUCTS
 
-function save(){
-localStorage.setItem("products",JSON.stringify(products));
+// PSN
+addSeries("PSN", [5,10,20,25,50,100], 160, "psn", "usa", "$");
+addSeries("PSN", [10,20,50], 180, "psn", "uk", "£");
+addSeries("PSN", [100,200,500], 7.5, "psn", "sa", "R");
+addSeries("PSN", [5,10,20,50], 160, "psn", "kenya", "$");
+
+// XBOX
+addSeries("Xbox", [5,10,25,50,100], 160, "xbox", "usa", "$");
+addSeries("Xbox", [10,25,50], 175, "xbox", "uk", "£");
+
+// STEAM
+addSeries("Steam", [5,10,20,50,100], 155, "steam", "usa", "$");
+
+// ITUNES
+addSeries("iTunes", [10,25,50,100], 155, "itunes", "usa", "$");
+
+// GOOGLE
+addSeries("Google Play", [10,25,50], 150, "google", "usa", "$");
+
+// AMAZON
+addSeries("Amazon", [10,25,50,100], 160, "amazon", "usa", "$");
+
+// ROBLOX
+addSeries("Roblox", [10,25,50], 160, "roblox", "global", "$");
+
+// 🔎 FILTER SYSTEM
+let activeFilter = "all";
+
+function setFilter(f) {
+  activeFilter = f;
+  renderProducts();
 }
 
-function render(){
-let grid=document.getElementById("grid");
-let swipe=document.getElementById("swipe");
+// 🎯 RENDER PRODUCTS
+function renderProducts() {
+  const container = document.getElementById("products");
+  const search = document.getElementById("search").value.toLowerCase();
 
-grid.innerHTML="";
-swipe.innerHTML="";
+  container.innerHTML = "";
 
-products.forEach(cat=>{
-grid.innerHTML+=`<h2>${cat.category}</h2>`;
+  products.forEach(p => {
+    const text = `${p.name} ${p.category} ${p.region}`.toLowerCase();
 
-cat.items.forEach(region=>{
-grid.innerHTML+=`<h3>${region.region}</h3>`;
-
-region.products.forEach(p=>{
-
-grid.innerHTML+=`
-<div class="card">
-<h4>${p.name}</h4>
-<p>KES ${p.price}</p>
-<button onclick="buy('${p.name}',${p.price})">Buy</button>
-</div>
-`;
-
-swipe.innerHTML+=`
-<div class="swipe-item">
-<h2>${p.name}</h2>
-<p>${cat.category} - ${region.region}</p>
-<p>KES ${p.price}</p>
-<button onclick="buy('${p.name}',${p.price})">Buy Now</button>
-</div>
-`;
-
-});
-});
-});
+    if (
+      (activeFilter === "all" || p.category === activeFilter || p.region === activeFilter) &&
+      text.includes(search)
+    ) {
+      container.innerHTML += `
+        <div class="card">
+          <h3>${p.name}</h3>
+          <p>KSh ${p.price}</p>
+          <button class="wa" onclick="buy('${p.name}')">WhatsApp</button>
+          <button class="ig" onclick="ig()">Instagram</button>
+        </div>
+      `;
+    }
+  });
 }
 
-function buy(name,price){
-let msg=`Hello, I want ${name} for KES ${price}`;
-window.open(`https://wa.me/254791994148?text=${encodeURIComponent(msg)}`);
+// 💬 BUY ACTIONS
+function buy(product) {
+  window.open("https://wa.me/254791994148?text=" + encodeURIComponent("Hi, I want to buy " + product));
 }
 
-function showGrid(){
-document.getElementById("grid").style.display="grid";
-document.getElementById("swipe").style.display="none";
+function ig() {
+  window.open("https://instagram.com/eclipse.store.ke");
 }
 
-function showSwipe(){
-document.getElementById("grid").style.display="none";
-document.getElementById("swipe").style.display="block";
-}
+// LOAD
+renderProducts();
 
-function openAdmin(){
-let pass=prompt("Password?");
-if(pass===password){
-document.getElementById("admin").style.display="block";
-}else{
-alert("Wrong password");
-}
-}
-
-function addProduct(){
-let name=document.getElementById("name").value;
-let price=document.getElementById("price").value;
-
-products.push({
-category:"Custom",
-items:[{region:"General",products:[{name:name,price:price}]}]
-});
-
-save();
-render();
-}
-
-render();
-showGrid();
 </script>
 
 </body>

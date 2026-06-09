@@ -1,48 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Eclipse Shop</title>
 
 <style>
 body{
   margin:0;
-  font-family: Arial;
-  background:#000;
+  font-family:Arial;
+  background:black;
   color:white;
   overflow:hidden;
 }
 
-/* TOP BAR */
 header{
   position:fixed;
   top:0;
   width:100%;
-  padding:15px;
+  padding:12px;
   text-align:center;
   background:#111;
   z-index:10;
 }
 
-/* SCROLL CONTAINER */
+/* SCROLL */
 #feed{
   height:100vh;
   overflow-y:scroll;
   scroll-snap-type:y mandatory;
 }
 
-/* PRODUCT SLIDES */
 .slide{
   height:100vh;
   display:flex;
-  flex-direction:column;
   justify-content:center;
   align-items:center;
-  text-align:center;
   scroll-snap-align:start;
-  padding:20px;
-  box-sizing:border-box;
 }
 
 .card{
@@ -51,6 +44,7 @@ header{
   border-radius:20px;
   width:85%;
   max-width:350px;
+  text-align:center;
   box-shadow:0 0 20px rgba(0,255,150,0.2);
 }
 
@@ -60,11 +54,9 @@ header{
   margin:10px 0;
 }
 
-/* TAGS */
 .tag{
   color:gold;
   font-size:12px;
-  margin-bottom:10px;
 }
 
 /* BUTTONS */
@@ -79,21 +71,14 @@ button{
   padding:12px;
   border:none;
   border-radius:10px;
-  font-weight:bold;
   cursor:pointer;
+  font-weight:bold;
 }
 
-.ig{
-  background:linear-gradient(45deg,#833ab4,#fd1d1d,#fcb045);
-  color:white;
-}
+.wa{background:#25D366;color:white;}
+.ig{background:linear-gradient(45deg,#833ab4,#fd1d1d,#fcb045);color:white;}
 
-.wa{
-  background:#25D366;
-  color:white;
-}
-
-/* FILTER BAR */
+/* FILTER */
 .filters{
   position:fixed;
   bottom:10px;
@@ -107,17 +92,38 @@ button{
 .filters button{
   padding:8px 10px;
   border-radius:20px;
-  border:none;
   background:#222;
   color:white;
   font-size:12px;
+}
+
+/* ADMIN */
+#adminPanel{
+  position:fixed;
+  right:0;
+  top:0;
+  width:100%;
+  height:100%;
+  background:black;
+  display:none;
+  z-index:20;
+  padding:20px;
+}
+
+input{
+  width:100%;
+  margin:5px 0;
+  padding:10px;
 }
 </style>
 </head>
 
 <body>
 
-<header>⚡ Eclipse Shop</header>
+<header>
+⚡ Eclipse Shop
+<button onclick="openAdmin()">⚙️</button>
+</header>
 
 <div id="feed"></div>
 
@@ -130,38 +136,89 @@ button{
 <button onclick="setFilter('UAE')">UAE</button>
 </div>
 
+<!-- ADMIN -->
+<div id="adminPanel">
+<h2>Admin Panel</h2>
+
+<input id="name" placeholder="Product Name">
+<input id="price" placeholder="Price">
+<input id="region" placeholder="Region (USA/UK/SA/UAE)">
+<input id="tag" placeholder="Tag (BEST / HOT)">
+
+<button onclick="addProduct()">Add Product</button>
+<button onclick="closeAdmin()">Close</button>
+</div>
+
 <script>
 
-let IG = "https://instagram.com/eclipse.sh0p";
 let WA = "https://wa.me/254791994148";
+let IG = "https://instagram.com/eclipse.sh0p";
 
 let filter = "ALL";
 
-let products = [
+/* PRODUCTS */
+let products = JSON.parse(localStorage.getItem("products")) || [
 
 {name:"PSN $10 USA", price:1599, region:"USA", tag:"🔥 BEST"},
+{name:"PSN $20 USA", price:2999, region:"USA"},
 {name:"PSN $50 USA", price:6999, region:"USA", tag:"💰 VALUE"},
+{name:"PSN $100 USA", price:13499, region:"USA"},
 
-{name:"Amazon $25", price:4000, region:"USA"},
-{name:"Fortnite 2800 V-Bucks", price:4000, region:"USA", tag:"🔥 HOT"},
-{name:"Roblox 800 Robux", price:1500, region:"USA", tag:"🔥 BEST"},
+{name:"PSN £10 UK", price:1999, region:"UK"},
+{name:"PSN £20 UK", price:3799, region:"UK"},
+{name:"PSN £25 UK", price:4699, region:"UK", tag:"🔥 HOT"},
+{name:"PSN £50 UK", price:8999, region:"UK"},
 
-{name:"PSN £25 UK", price:5200, region:"UK"},
-{name:"PSN R200 SA", price:2000, region:"SA"},
-{name:"PSN AED 50 UAE", price:2300, region:"UAE"}
+{name:"PSN R100 SA", price:1099, region:"SA"},
+{name:"PSN R200 SA", price:1999, region:"SA"},
+{name:"PSN R500 SA", price:4799, region:"SA"},
+
+{name:"PSN AED 25 UAE", price:1099, region:"UAE"},
+{name:"PSN AED 50 UAE", price:2299, region:"UAE"},
+{name:"PSN AED 100 UAE", price:4499, region:"UAE", tag:"💰 HIGH MARGIN"},
+
+{name:"Amazon $10 USA", price:1599, region:"USA"},
+{name:"Amazon $25 USA", price:3999, region:"USA", tag:"🔥 BEST"},
+{name:"Amazon $50 USA", price:7299, region:"USA"},
+{name:"Amazon $100 USA", price:13999, region:"USA"},
+
+{name:"Fortnite 1000 V-Bucks", price:1499, region:"USA"},
+{name:"Fortnite 2800 V-Bucks", price:3999, region:"USA", tag:"🔥 HOT"},
+{name:"Fortnite 5000 V-Bucks", price:6999, region:"USA"},
+{name:"Fortnite 13500 V-Bucks", price:15999, region:"USA"},
+
+{name:"Roblox 400 Robux", price:899, region:"USA"},
+{name:"Roblox 800 Robux", price:1499, region:"USA", tag:"🔥 BEST"},
+{name:"Roblox 1700 Robux", price:2799, region:"USA"},
+{name:"Roblox 4500 Robux", price:6999, region:"USA"},
+
+{name:"Steam $10", price:1599, region:"USA"},
+{name:"Steam $20", price:2999, region:"USA"},
+{name:"Steam $50", price:6999, region:"USA"},
+
+{name:"iTunes $10", price:1599, region:"USA"},
+{name:"iTunes $25", price:3999, region:"USA"},
+{name:"iTunes $50", price:7299, region:"USA"},
+
+{name:"Spotify 1 Month", price:499, region:"GLOBAL"},
+{name:"Spotify 3 Months", price:1299, region:"GLOBAL"},
+{name:"Spotify 6 Months", price:2499, region:"GLOBAL"},
+
+{name:"Netflix 1 Month", price:799, region:"GLOBAL"},
+{name:"Netflix 3 Months", price:1999, region:"GLOBAL"}
 
 ];
 
+/* RENDER */
 function render(){
   let feed = document.getElementById("feed");
   feed.innerHTML = "";
 
-  products.forEach((p,i)=>{
+  products.forEach(p=>{
     if(filter==="ALL" || p.region===filter){
 
       feed.innerHTML += `
       <div class="slide">
-
         <div class="card">
 
           <h2>${p.name}</h2>
@@ -171,32 +228,57 @@ function render(){
           <div class="price">KES ${p.price}</div>
 
           <div class="btns">
-
             <button class="ig" onclick="buyIG('${p.name}')">Instagram</button>
-
             <button class="wa" onclick="buyWA('${p.name}')">WhatsApp</button>
-
           </div>
 
         </div>
-
       </div>
       `;
     }
   });
 }
 
+/* FILTER */
 function setFilter(f){
   filter = f;
   render();
 }
 
-function buyIG(name){
-  window.location.href = IG + "?text=I want " + encodeURIComponent(name);
-}
-
+/* BUY */
 function buyWA(name){
   window.location.href = WA + "?text=I want " + encodeURIComponent(name);
+}
+
+function buyIG(name){
+  window.location.href = IG;
+}
+
+/* ADMIN */
+function openAdmin(){
+  let pass = prompt("Enter admin code:");
+  if(pass === "1234"){
+    document.getElementById("adminPanel").style.display = "block";
+  }else{
+    alert("Wrong code");
+  }
+}
+
+function closeAdmin(){
+  document.getElementById("adminPanel").style.display = "none";
+}
+
+function addProduct(){
+  let name = document.getElementById("name").value;
+  let price = document.getElementById("price").value;
+  let region = document.getElementById("region").value;
+  let tag = document.getElementById("tag").value;
+
+  products.push({name, price, region, tag});
+  localStorage.setItem("products", JSON.stringify(products));
+
+  render();
+  alert("Added!");
 }
 
 render();

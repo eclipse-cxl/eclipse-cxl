@@ -6,17 +6,89 @@
 <title>Eclipse Store KE</title>
 
 <style>
-body {margin:0;font-family:Arial;background:#0b0b0b;color:white;}
-header {padding:20px;text-align:center;font-size:24px;font-weight:bold;background:#111;}
-.search {width:90%;margin:15px auto;padding:14px;border-radius:12px;border:none;background:#1a1a1a;color:white;}
-.filters {text-align:center;}
-.filters button {margin:5px;padding:10px;border:none;border-radius:20px;background:#222;color:white;cursor:pointer;}
-.products {display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:15px;padding:15px;}
-.card {background:#141414;padding:15px;border-radius:15px;text-align:center;transition:.3s;}
-.card:hover {transform:scale(1.05);}
-button {margin-top:8px;padding:10px;width:100%;border:none;border-radius:10px;color:white;cursor:pointer;}
-.wa {background:#00c853;}
-.ig {background:#E1306C;}
+body {
+    margin:0;
+    font-family: Arial;
+    background:#0b0b0b;
+    color:white;
+}
+
+header {
+    padding:18px;
+    text-align:center;
+    font-size:22px;
+    font-weight:bold;
+    background:#111;
+}
+
+.search {
+    width:90%;
+    margin:15px auto;
+    padding:14px;
+    border-radius:12px;
+    border:none;
+    background:#1a1a1a;
+    color:white;
+}
+
+.filters {
+    text-align:center;
+    margin-bottom:10px;
+}
+
+.filters button {
+    margin:5px;
+    padding:10px 14px;
+    border:none;
+    border-radius:20px;
+    background:#222;
+    color:white;
+    cursor:pointer;
+}
+
+.products {
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+    gap:15px;
+    padding:15px;
+}
+
+.card {
+    background:#141414;
+    padding:15px;
+    border-radius:15px;
+    text-align:center;
+    transition:0.2s;
+}
+
+.card:hover {
+    transform:scale(1.05);
+}
+
+.price {
+    font-size:18px;
+    margin:8px 0;
+}
+
+.tag {
+    font-size:12px;
+    margin-bottom:6px;
+    color:#00e5ff;
+}
+
+button {
+    margin-top:6px;
+    padding:10px;
+    width:100%;
+    border:none;
+    border-radius:10px;
+    color:white;
+    cursor:pointer;
+}
+
+.wa { background:#00c853; }
+.ig { background:#E1306C; }
+
 </style>
 </head>
 
@@ -24,7 +96,7 @@ button {margin-top:8px;padding:10px;width:100%;border:none;border-radius:10px;co
 
 <header>ECLIPSE STORE KE</header>
 
-<input id="search" class="search" placeholder="Search products..." onkeyup="renderProducts()">
+<input id="search" class="search" placeholder="Search cards..." onkeyup="renderProducts()">
 
 <div class="filters">
 <button onclick="setFilter('all')">All</button>
@@ -32,105 +104,105 @@ button {margin-top:8px;padding:10px;width:100%;border:none;border-radius:10px;co
 <button onclick="setFilter('xbox')">Xbox</button>
 <button onclick="setFilter('steam')">Steam</button>
 <button onclick="setFilter('itunes')">iTunes</button>
-<button onclick="setFilter('google')">Google</button>
+<button onclick="setFilter('google')">Google Play</button>
 <button onclick="setFilter('amazon')">Amazon</button>
-<button onclick="setFilter('roblox')">Roblox</button>
-<button onclick="setFilter('kenya')">Kenya</button>
-<button onclick="setFilter('usa')">USA</button>
-<button onclick="setFilter('uk')">UK</button>
-<button onclick="setFilter('sa')">South Africa</button>
 </div>
 
 <div id="products" class="products"></div>
 
 <script>
 
-// 🔥 PRODUCT DATABASE (EDIT HERE ONLY)
+// ================= PRODUCT SYSTEM =================
 const products = [];
 
-// generator function
-function addSeries(name, values, rate, category, region, currency) {
-  values.forEach(v => {
-    products.push({
-      name: `${name} ${currency}${v} (${region})`,
-      price: Math.round(v * rate),
-      category,
-      region
+// ===== PSN (YOUR PRICES) =====
+[
+["PSN $5","kenya",849,""],
+["PSN $10","kenya",1599,"⭐ Best Seller"],
+["PSN $25","kenya",3999,""],
+["PSN $50","kenya",7999,"🔥 Popular"],
+["PSN $75","kenya",11999,""],
+["PSN $100","kenya",15499,"💎 Value"]
+].forEach(p=>{
+products.push({name:p[0],price:p[2],category:"psn",region:p[1],tag:p[3]});
+});
+
+// ===== XBOX (FULL OPTIONS) =====
+[
+["Xbox $5","usa",829,""],
+["Xbox $10","usa",1549,"⭐ Best Seller"],
+["Xbox $15","usa",2299,"🔥 Smart Choice"],
+["Xbox $20","usa",3049,""],
+["Xbox $25","usa",3899,""],
+["Xbox $50","usa",7799,"💎 Popular"],
+["Xbox $100","usa",15299,""]
+].forEach(p=>{
+products.push({name:p[0],price:p[2],category:"xbox",region:p[1],tag:p[3]});
+});
+
+// ===== AUTO PRODUCTS =====
+function addSeries(name, values, rate, category){
+    values.forEach(v=>{
+        products.push({
+            name:`${name} $${v}`,
+            price:Math.round(v*rate),
+            category:category,
+            region:"usa",
+            tag:""
+        });
     });
-  });
 }
 
-// 💰 GENERATE MANY PRODUCTS
+// OTHER CARDS
+addSeries("Steam",[5,10,20,50],155,"steam");
+addSeries("iTunes",[10,25,50],155,"itunes");
+addSeries("Google Play",[10,25,50],150,"google");
+addSeries("Amazon",[10,25,50],160,"amazon");
 
-// PSN
-addSeries("PSN", [5,10,20,25,50,100], 160, "psn", "usa", "$");
-addSeries("PSN", [10,20,50], 180, "psn", "uk", "£");
-addSeries("PSN", [100,200,500], 7.5, "psn", "sa", "R");
-addSeries("PSN", [5,10,20,50], 160, "psn", "kenya", "$");
-
-// XBOX
-addSeries("Xbox", [5,10,25,50,100], 160, "xbox", "usa", "$");
-addSeries("Xbox", [10,25,50], 175, "xbox", "uk", "£");
-
-// STEAM
-addSeries("Steam", [5,10,20,50,100], 155, "steam", "usa", "$");
-
-// ITUNES
-addSeries("iTunes", [10,25,50,100], 155, "itunes", "usa", "$");
-
-// GOOGLE
-addSeries("Google Play", [10,25,50], 150, "google", "usa", "$");
-
-// AMAZON
-addSeries("Amazon", [10,25,50,100], 160, "amazon", "usa", "$");
-
-// ROBLOX
-addSeries("Roblox", [10,25,50], 160, "roblox", "global", "$");
-
-// 🔎 FILTER SYSTEM
+// ================= FILTER =================
 let activeFilter = "all";
 
-function setFilter(f) {
-  activeFilter = f;
-  renderProducts();
+function setFilter(f){
+    activeFilter = f;
+    renderProducts();
 }
 
-// 🎯 RENDER PRODUCTS
-function renderProducts() {
-  const container = document.getElementById("products");
-  const search = document.getElementById("search").value.toLowerCase();
+// ================= RENDER =================
+function renderProducts(){
+    let container = document.getElementById("products");
+    let search = document.getElementById("search").value.toLowerCase();
 
-  container.innerHTML = "";
+    container.innerHTML = "";
 
-  products.forEach(p => {
-    const text = `${p.name} ${p.category} ${p.region}`.toLowerCase();
+    products.forEach(p=>{
+        let text = (p.name + p.category).toLowerCase();
 
-    if (
-      (activeFilter === "all" || p.category === activeFilter || p.region === activeFilter) &&
-      text.includes(search)
-    ) {
-      container.innerHTML += `
-        <div class="card">
-          <h3>${p.name}</h3>
-          <p>KSh ${p.price}</p>
-          <button class="wa" onclick="buy('${p.name}')">WhatsApp</button>
-          <button class="ig" onclick="ig()">Instagram</button>
-        </div>
-      `;
-    }
-  });
+        if((activeFilter==="all" || p.category===activeFilter) && text.includes(search)){
+
+            container.innerHTML += `
+            <div class="card">
+                <div class="tag">${p.tag}</div>
+                <h3>${p.name}</h3>
+                <div class="price">KSh ${p.price}</div>
+
+                <button class="wa" onclick="buy('${p.name}')">WhatsApp</button>
+                <button class="ig" onclick="instagram('${p.name}')">Instagram</button>
+            </div>
+            `;
+        }
+    });
 }
 
-// 💬 BUY ACTIONS
-function buy(product) {
-  window.open("https://wa.me/254791994148?text=" + encodeURIComponent("Hi, I want to buy " + product));
+// ================= CHECKOUT =================
+function buy(product){
+    window.open(`https://wa.me/254791994148?text=${encodeURIComponent("Hi, I want "+product)}`);
 }
 
-function ig() {
-  window.open("https://instagram.com/eclipse.store.ke");
+function instagram(product){
+    window.open(`https://instagram.com/eclipse.store.ke`);
 }
 
-// LOAD
+// INIT
 renderProducts();
 
 </script>

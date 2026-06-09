@@ -3,268 +3,176 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gift Card Store</title>
+<title>Eclipse Shop</title>
 
 <style>
-body { margin:0; font-family:Arial; background:#0f0f0f; color:white; }
-
-.header {
-  padding:15px;
-  text-align:center;
-  font-size:22px;
-  font-weight:bold;
-  background:#151515;
-  cursor:pointer;
+body{
+    font-family: Arial;
+    margin:0;
+    background:#f5f5f5;
 }
-
-.categories {
-  display:flex;
-  overflow-x:auto;
-  gap:10px;
-  padding:10px;
+header{
+    background:#000;
+    color:#fff;
+    padding:15px;
+    text-align:center;
 }
-
-.categories button {
-  background:#222;
-  border:none;
-  color:white;
-  padding:10px 15px;
-  border-radius:20px;
+.container{
+    padding:15px;
 }
-
-.products {
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-  padding:10px;
+.filters{
+    display:flex;
+    gap:10px;
+    margin-bottom:15px;
 }
-
-.card {
-  background:#1c1c1c;
-  padding:15px;
-  border-radius:10px;
-  position:relative;
+.filters button{
+    padding:8px 12px;
+    border:none;
+    background:#ddd;
+    cursor:pointer;
 }
-
-.price { color:#00c853; font-weight:bold; }
-
-.badge {
-  position:absolute;
-  top:10px;
-  right:10px;
-  background:red;
-  padding:3px 6px;
-  font-size:10px;
-  border-radius:5px;
+.product{
+    background:#fff;
+    padding:15px;
+    margin-bottom:10px;
+    border-radius:10px;
 }
-
-button.buy {
-  width:100%;
-  margin-top:10px;
-  padding:10px;
-  background:#00c853;
-  border:none;
-  border-radius:8px;
-  color:white;
+.price{
+    font-weight:bold;
 }
-
-.checkout {
-  position:fixed;
-  bottom:0;
-  width:100%;
-  background:#151515;
-  padding:20px;
-  display:none;
+.tag{
+    color:red;
+    font-size:12px;
 }
-
-.admin {
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background:#0f0f0f;
-  display:none;
-  overflow:auto;
+button.buy{
+    margin-top:10px;
+    padding:8px;
+    background:black;
+    color:white;
+    border:none;
+    width:100%;
 }
-
-.admin input {
-  display:block;
-  margin:10px;
-  padding:10px;
-  width:90%;
+.admin{
+    position:fixed;
+    top:10px;
+    right:10px;
+    cursor:pointer;
 }
 </style>
 </head>
 
 <body>
 
-<div class="header" onclick="tapLogo()">🔥ECLIPSE SHOP</div>
+<header>
+<h2>⚡ Eclipse Shop</h2>
+</header>
 
-<div class="categories">
-  <button onclick="filter('all')">All</button>
-  <button onclick="filter('gaming')">Gaming</button>
-  <button onclick="filter('shopping')">Shopping</button>
-  <button onclick="filter('streaming')">Streaming</button>
+<div class="container">
+
+<div class="filters">
+<button onclick="filterRegion('ALL')">All</button>
+<button onclick="filterRegion('USA')">USA</button>
+<button onclick="filterRegion('UK')">UK</button>
+<button onclick="filterRegion('SA')">SA</button>
+<button onclick="filterRegion('UAE')">UAE</button>
 </div>
 
-<div class="products" id="products"></div>
+<div id="products"></div>
 
-<div class="checkout" id="checkout">
-  <h3 id="cName"></h3>
-  <p id="cPrice"></p>
-  <button onclick="orderNow()">Continue to WhatsApp</button>
 </div>
 
-<!-- ADMIN -->
-<div class="admin" id="adminPanel">
-  <h2 style="padding:10px;">Admin Panel</h2>
-
-  <input id="name" placeholder="Product name">
-  <input id="price" placeholder="Price">
-  <input id="cat" placeholder="Category">
-  <button onclick="addProduct()">Add Product</button>
-
-  <div id="adminList"></div>
-  <button onclick="closeAdmin()">Close</button>
-</div>
+<div class="admin" onclick="openAdmin()">⚙️</div>
 
 <script>
 
-let taps=0;
-function tapLogo(){
-  taps++;
-  if(taps===5){
-    let pass=prompt("Password:");
-    if(pass==="mouse@123") openAdmin();
-    taps=0;
-  }
+let IG_LINK = "https://instagram.com/_.bradle.y";
+
+// SMART PRICING SYSTEM
+function priceKES(usd){
+    return Math.round(usd * 160 + 200); // markup profit
 }
 
-let products = JSON.parse(localStorage.getItem("products")) || [
+// PRODUCTS
+let products = [
 
-  // GAMING
-  {name:"Roblox $5", price:799, cat:"gaming", badge:true},
-  {name:"Roblox $10", price:1599, cat:"gaming"},
-  {name:"Roblox $20", price:2999, cat:"gaming"},
-  {name:"Fortnite 1000 V-Bucks", price:1299, cat:"gaming", badge:true},
-  {name:"Fortnite 2800 V-Bucks", price:3499, cat:"gaming"},
-  {name:"Fortnite 5000 V-Bucks", price:5999, cat:"gaming"},
-  {name:"PlayStation $10", price:1799, cat:"gaming"},
-  {name:"PlayStation $25", price:3999, cat:"gaming"},
-  {name:"PlayStation $50", price:7499, cat:"gaming"},
-  {name:"Xbox $10", price:1799, cat:"gaming"},
-  {name:"Xbox $25", price:3999, cat:"gaming"},
-  {name:"Xbox $50", price:7499, cat:"gaming"},
-  {name:"Steam $10", price:1699, cat:"gaming"},
-  {name:"Steam $20", price:3199, cat:"gaming"},
-  {name:"Steam $50", price:7699, cat:"gaming"},
+{ name:"PSN $10 USA", price:priceKES(10), region:"USA", best:true },
+{ name:"PSN $20 USA", price:priceKES(20), region:"USA" },
+{ name:"PSN $50 USA", price:priceKES(50), region:"USA", best:true },
 
-  // SHOPPING
-  {name:"Amazon $5", price:899, cat:"shopping", badge:true},
-  {name:"Amazon $10", price:1799, cat:"shopping"},
-  {name:"Amazon $25", price:3999, cat:"shopping"},
-  {name:"Amazon $50", price:7499, cat:"shopping"},
-  {name:"eBay $10", price:1799, cat:"shopping"},
-  {name:"eBay $25", price:3999, cat:"shopping"},
-  {name:"Walmart $25", price:3999, cat:"shopping"},
-  {name:"Walmart $50", price:7499, cat:"shopping"},
-  {name:"Google Play $10", price:1699, cat:"shopping"},
-  {name:"Google Play $25", price:3899, cat:"shopping"},
-  {name:"Google Play $50", price:7399, cat:"shopping"},
-  {name:"Apple $10", price:1899, cat:"shopping"},
-  {name:"Apple $25", price:4199, cat:"shopping"},
-  {name:"Apple $50", price:7799, cat:"shopping"},
+{ name:"PSN £10 UK", price:priceKES(13), region:"UK" },
+{ name:"PSN £25 UK", price:priceKES(30), region:"UK", best:true },
 
-  // STREAMING
-  {name:"Netflix $10", price:1599, cat:"streaming"},
-  {name:"Netflix $25", price:3799, cat:"streaming"},
-  {name:"Spotify $10", price:1499, cat:"streaming"},
-  {name:"Spotify $30", price:4199, cat:"streaming"},
-  {name:"Disney+ $25", price:3899, cat:"streaming"},
-  {name:"Showmax Voucher", price:1200, cat:"streaming"}
+{ name:"PSN R200 SA", price:priceKES(12), region:"SA" },
+
+{ name:"PSN 50 AED UAE", price:priceKES(14), region:"UAE" },
+
+{ name:"Amazon $10", price:priceKES(10), region:"USA", best:true },
+{ name:"Amazon $25", price:priceKES(25), region:"USA" },
+
+{ name:"Fortnite 1000 V-Bucks", price:1800, region:"USA", best:true },
+{ name:"Fortnite 2800 V-Bucks", price:4000, region:"USA" },
+
+{ name:"Roblox 800 Robux", price:1500, region:"USA", best:true }
 
 ];
 
-function save(){
-  localStorage.setItem("products", JSON.stringify(products));
+let currentFilter = "ALL";
+
+function displayProducts(){
+    let container = document.getElementById("products");
+    container.innerHTML="";
+
+    products.forEach((p,i)=>{
+        if(currentFilter==="ALL" || p.region===currentFilter){
+
+            container.innerHTML += `
+            <div class="product">
+                <div>${p.name}</div>
+                <div class="price">KES ${p.price}</div>
+                ${p.best ? '<div class="tag">🔥 BEST SELLER</div>' : ''}
+                <button class="buy" onclick="buy(${i})">Buy</button>
+            </div>
+            `;
+        }
+    });
 }
 
-function render(list){
-  let c=document.getElementById("products");
-  c.innerHTML="";
-  list.forEach((p,i)=>{
-    c.innerHTML+=`
-    <div class="card">
-      ${p.badge?'<span class="badge">BEST</span>':''}
-      <h3>${p.name}</h3>
-      <p class="price">KSH ${p.price}</p>
-      <p style="font-size:12px;color:#aaa;">Instant Delivery ⚡</p>
-      <button class="buy" onclick="openCheckout('${p.name}',${p.price})">Buy Now</button>
-    </div>`;
-  });
+function filterRegion(r){
+    currentFilter = r;
+    displayProducts();
 }
 
-function filter(cat){
-  if(cat==="all") return render(products);
-  render(products.filter(p=>p.cat===cat));
+// AUTO UPSELL
+function upsell(index){
+    let p = products[index];
+    let upsellItem = products.find(x => x.price > p.price && x.region === p.region);
+    if(upsellItem){
+        alert(`🔥 Upgrade to ${upsellItem.name} for better value!`);
+    }
 }
 
-let selectedProduct=null;
-
-function openCheckout(name,price){
-  selectedProduct={name,price};
-  document.getElementById("checkout").style.display="block";
-  document.getElementById("cName").innerText=name;
-  document.getElementById("cPrice").innerText="KSH "+price;
+// BUY BUTTON → DM
+function buy(index){
+    upsell(index);
+    let product = products[index].name;
+    window.location.href = IG_LINK + "?text=I want " + encodeURIComponent(product);
 }
 
-function orderNow(){
-  let number="254791994148";
-  let msg=`Hello, I want to buy ${selectedProduct.name} for KSH ${selectedProduct.price}`;
-  window.open(`https://wa.me/${number}?text=${encodeURIComponent(msg)}`);
-}
-
-// ADMIN
+// ADMIN PANEL
 function openAdmin(){
-  document.getElementById("adminPanel").style.display="block";
-  renderAdmin();
+    let pass = prompt("Enter password");
+    if(pass==="mouse@123"){
+        let newPrice = prompt("Enter product index + new price (e.g 0,2500)");
+        if(newPrice){
+            let parts = newPrice.split(",");
+            products[parts[0]].price = parts[1];
+            displayProducts();
+            alert("Updated!");
+        }
+    }
 }
 
-function closeAdmin(){
-  document.getElementById("adminPanel").style.display="none";
-}
-
-function addProduct(){
-  let name=document.getElementById("name").value;
-  let price=document.getElementById("price").value;
-  let cat=document.getElementById("cat").value;
-  products.push({name,price,cat});
-  save();
-  render(products);
-  renderAdmin();
-}
-
-function renderAdmin(){
-  let list=document.getElementById("adminList");
-  list.innerHTML="";
-  products.forEach((p,i)=>{
-    list.innerHTML+=`
-    <div style="padding:10px;border-bottom:1px solid #333;">
-      ${p.name} - KSH ${p.price}
-      <button onclick="deleteProduct(${i})">Delete</button>
-    </div>`;
-  });
-}
-
-function deleteProduct(i){
-  products.splice(i,1);
-  save();
-  render(products);
-  renderAdmin();
-}
-
-render(products);
+displayProducts();
 
 </script>
 

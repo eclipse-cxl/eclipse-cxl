@@ -370,7 +370,7 @@
                 </div>
             </div>
 
-            <!-- Roblox (Formula Driven) -->
+            <!-- Roblox (Updated to Manual Rate Sheet) -->
             <div class="product-card" data-category="roblox">
                 <div class="product-image-container">
                     <div class="product-image-fallback">Roblox Corporation</div>
@@ -378,13 +378,14 @@
                 </div>
                 <div class="product-details">
                     <div class="product-title">Roblox Robux Gift Card</div>
-                    <select class="select-variant" id="select-roblox" onchange="updateFormulaCard('roblox', 'Roblox Gift Card', 'Global')">
-                        <option value="10 USD">10 USD</option>
-                        <option value="25 USD" selected>25 USD</option>
-                        <option value="50 USD">50 USD</option>
+                    <select class="select-variant" id="select-roblox" onchange="updateManualCard('roblox', 'Roblox Robux Gift Card', 'Global')">
+                        <option value="800 Robux">800 Robux</option>
+                        <option value="2000 Robux" selected>2000 Robux</option>
+                        <option value="4500 Robux">4500 Robux</option>
+                        <option value="10000 Robux">10000 Robux</option>
                     </select>
                     <div class="product-price" id="price-roblox">KES --</div>
-                    <button class="filter-btn" style="width:100%;" onclick="selectFormulaCardForCheckout('roblox', 'Roblox Gift Card', 'Global')">Select Card</button>
+                    <button class="filter-btn" style="width:100%;" onclick="selectManualCardForCheckout('roblox', 'Roblox Robux Gift Card', 'Global')">Select Card</button>
                 </div>
             </div>
 
@@ -473,6 +474,12 @@
                 "400 ZAR": 3549,
                 "500 ZAR": 4449,
                 "1000 ZAR": 8849
+            },
+            "roblox": {
+                "800 Robux": 1499,
+                "2000 Robux": 3599,
+                "4500 Robux": 6599,
+                "10000 Robux": 13500
             }
         };
 
@@ -507,7 +514,6 @@
                 }
             });
 
-            processFormulaElement('roblox');
             processFormulaElement('amazon');
 
             renderSummaryUI();
@@ -515,6 +521,7 @@
 
         function processFormulaElement(id) {
             const selectElement = document.getElementById(`select-${id}`);
+            if (!selectElement) return;
             const options = selectElement.options;
             
             for(let i = 0; i < options.length; i++) {

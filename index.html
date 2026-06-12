@@ -1,248 +1,613 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Eclipse Store KE</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Gift Card Store</title>
+    <style>
+        :root {
+            --bg-primary: #0a0e17;
+            --bg-secondary: #161f30;
+            --accent-blue: #0070d1;
+            --accent-green: #1ebd57;
+            --accent-pink: #e1306c;
+            --text-main: #ffffff;
+            --text-muted: #8f9cae;
+            --border-color: #24324d;
+        }
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
 
-body{
-background:#07080c;
-color:white;
-}
+        header {
+            background-color: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 20px;
+            text-align: center;
+        }
 
-/* HERO */
-.hero{
-position:relative;
-height:340px;
-overflow:hidden;
-}
+        header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
 
-.hero img{
-width:100%;
-height:100%;
-object-fit:cover;
-opacity:0.65;
-}
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
-.hero-content{
-position:absolute;
-top:0;
-left:0;
-right:0;
-bottom:0;
-display:flex;
-flex-direction:column;
-justify-content:center;
-padding:20px;
-}
+        /* Filter Controls */
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
 
-.logo{
-font-size:22px;
-font-weight:bold;
-color:#00ffe1;
-}
+        .filter-btn {
+            background-color: var(--bg-secondary);
+            color: var(--text-muted);
+            border: 1px solid var(--border-color);
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s ease;
+        }
 
-.hero h1{
-font-size:30px;
-margin-top:10px;
-}
+        .filter-btn:hover, .filter-btn.active {
+            color: var(--text-main);
+            border-color: var(--accent-blue);
+            background-color: var(--accent-blue);
+        }
 
-.hero p{
-opacity:0.8;
-margin-top:5px;
-}
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
 
-/* FILTERS */
-.filters{
-display:flex;
-gap:10px;
-padding:15px;
-}
+        .product-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease;
+        }
 
-select{
-flex:1;
-padding:12px;
-border-radius:10px;
-background:#111;
-color:white;
-border:none;
-}
+        .product-card:hover {
+            transform: translateY(-4px);
+        }
 
-/* GRID */
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-gap:15px;
-padding:15px;
-}
+        .product-image-container {
+            width: 100%;
+            height: 160px;
+            background-color: #0d1521;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
 
-/* CARD */
-.card{
-background:rgba(255,255,255,0.05);
-padding:15px;
-border-radius:14px;
-backdrop-filter:blur(10px);
-position:relative;
-}
+        .product-image-fallback {
+            font-size: 14px;
+            font-weight: bold;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+            padding: 0 10px;
+        }
 
-.badge{
-position:absolute;
-top:10px;
-right:10px;
-background:#00ffe1;
-color:black;
-padding:3px 8px;
-font-size:10px;
-border-radius:8px;
-}
+        .region-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: var(--text-main);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 700;
+            border: 1px solid var(--border-color);
+        }
 
-.card h3{font-size:14px;}
-.price{margin:8px 0;font-weight:bold;}
+        .product-details {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
 
-/* BUTTONS */
-.btn-group{
-display:flex;
-gap:8px;
-}
+        .product-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            min-height: 48px;
+        }
 
-.btn{
-flex:1;
-padding:10px;
-border:none;
-border-radius:10px;
-cursor:pointer;
-font-size:12px;
-}
+        .product-price {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 15px;
+        }
 
-.wa{background:#25D366;color:white;}
-.ig{background:#E1306C;color:white;}
+        .select-variant {
+            width: 100%;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-bottom: 15px;
+            outline: none;
+        }
 
-/* FOOTER */
-footer{
-text-align:center;
-padding:20px;
-opacity:0.6;
-font-size:12px;
-}
-</style>
+        /* Checkout Summary Card */
+        .checkout-summary {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 25px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .checkout-summary h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .order-item-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: var(--text-muted);
+            font-size: 15px;
+        }
+
+        .order-total-line {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .checkout-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .btn-checkout {
+            width: 100%;
+            padding: 14px;
+            border-radius: 4px;
+            border: none;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .btn-checkout:hover {
+            opacity: 0.9;
+        }
+
+        .btn-whatsapp {
+            background-color: var(--accent-green);
+            color: #ffffff;
+        }
+
+        .btn-instagram {
+            background-color: var(--accent-pink);
+            color: #ffffff;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-muted);
+            font-size: 13px;
+            border-top: 1px solid var(--border-color);
+            margin-top: 50px;
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="hero">
-<img src="https://images.unsplash.com/photo-1605902711622-cfb43c44367f">
-<div class="hero-content">
-<div class="logo">Eclipse Store KE</div>
-<h1>Digital Gift Cards</h1>
-<p>Fast • Trusted • Instant Delivery</p>
-</div>
-</div>
+    <header>
+        <h1>Digital Gift Card Store</h1>
+    </header>
 
-<div class="filters">
-<select id="category" onchange="render()">
-<option value="">All Categories</option>
-<option value="PSN">PSN</option>
-<option value="Xbox">Xbox</option>
-<option value="Roblox">Roblox</option>
-<option value="Amazon">Amazon</option>
-<option value="Steam">Steam</option>
-<option value="Apple">Apple</option>
-<option value="Google">Google Play</option>
-</select>
+    <div class="container">
+        <div class="filter-container">
+            <button class="filter-btn active" onclick="filterCategory('all', this)">All Cards</button>
+            <button class="filter-btn" onclick="filterCategory('playstation', this)">PlayStation</button>
+            <button class="filter-btn" onclick="filterCategory('xbox', this)">Xbox</button>
+            <button class="filter-btn" onclick="filterCategory('roblox', this)">Roblox</button>
+            <button class="filter-btn" onclick="filterCategory('amazon', this)">Amazon</button>
+        </div>
 
-<select id="region" onchange="render()">
-<option value="">All Regions</option>
-<option>USA</option>
-<option>UK</option>
-<option>UAE</option>
-<option>EU</option>
-<option>Canada</option>
-<option>South Africa</option>
-</select>
-</div>
+        <div class="products-grid" id="productsGrid">
 
-<div class="grid" id="grid"></div>
+            <div class="product-card" data-category="playstation">
+                <div class="product-image-container">
+                    <div class="product-image-fallback">PlayStation & Xbox</div>
+                    <span class="region-badge">USA Region</span>
+                </div>
+                <div class="product-details">
+                    <div class="product-title">PlayStation / Xbox Card (USA)</div>
+                    <select class="select-variant" id="select-usa" onchange="updateManualCard('usa', 'PlayStation / Xbox Card (USA)', 'USA')">
+                        <option value="10 USD">10 USD</option>
+                        <option value="20 USD">20 USD</option>
+                        <option value="25 USD">25 USD</option>
+                        <option value="50 USD" selected>50 USD</option>
+                        <option value="75 USD">75 USD</option>
+                        <option value="100 USD">100 USD</option>
+                    </select>
+                    <div class="product-price" id="price-usa">KES --</div>
+                    <button class="filter-btn" style="width:100%;" onclick="selectManualCardForCheckout('usa', 'PlayStation / Xbox Card (USA)', 'USA')">Select Card</button>
+                </div>
+            </div>
 
-<footer>© Eclipse Store KE</footer>
+            <div class="product-card" data-category="playstation">
+                <div class="product-image-container">
+                    <div class="product-image-fallback">PlayStation & Xbox</div>
+                    <span class="region-badge">UK Region</span>
+                </div>
+                <div class="product-details">
+                    <div class="product-title">PlayStation / Xbox Card (United Kingdom)</div>
+                    <select class="select-variant" id="select-uk" onchange="updateManualCard('uk', 'PlayStation / Xbox Card (UK)', 'UK')">
+                        <option value="10 GBP">10 GBP</option>
+                        <option value="20 GBP" selected>20 GBP</option>
+                        <option value="30 GBP">30 GBP</option>
+                        <option value="50 GBP">50 GBP</option>
+                        <option value="70 GBP">70 GBP</option>
+                        <option value="100 GBP">100 GBP</option>
+                    </select>
+                    <div class="product-price" id="price-uk">KES --</div>
+                    <button class="filter-btn" style="width:100%;" onclick="selectManualCardForCheckout('uk', 'PlayStation / Xbox Card (UK)', 'UK')">Select Card</button>
+                </div>
+            </div>
 
-<script>
+            <div class="product-card" data-category="playstation">
+                <div class="product-image-container">
+                    <div class="product-image-fallback">PlayStation & Xbox</div>
+                    <span class="region-badge">UAE Region</span>
+                </div>
+                <div class="product-details">
+                    <div class="product-title">PlayStation / Xbox Card (UAE)</div>
+                    <select class="select-variant" id="select-uae" onchange="updateManualCard('uae', 'PlayStation / Xbox Card (UAE)', 'UAE')">
+                        <option value="10 USD">10 USD</option>
+                        <option value="20 USD" selected>20 USD</option>
+                        <option value="30 USD">30 USD</option>
+                        <option value="50 USD">50 USD</option>
+                        <option value="70 USD">70 USD</option>
+                        <option value="100 USD">100 USD</option>
+                    </select>
+                    <div class="product-price" id="price-uae">KES --</div>
+                    <button class="filter-btn" style="width:100%;" onclick="selectManualCardForCheckout('uae', 'PlayStation / Xbox Card (UAE)', 'UAE')">Select Card</button>
+                </div>
+            </div>
 
-/* PRODUCTS */
-const products = [
+            <div class="product-card" data-category="playstation">
+                <div class="product-image-container">
+                    <div class="product-image-fallback">PlayStation & Xbox</div>
+                    <span class="region-badge">ZA Region</span>
+                </div>
+                <div class="product-details">
+                    <div class="product-title">PlayStation / Xbox Card (South Africa)</div>
+                    <select class="select-variant" id="select-za" onchange="updateManualCard('za', 'PlayStation / Xbox Card (ZA)', 'ZA')">
+                        <option value="150 ZAR">150 ZAR</option>
+                        <option value="250 ZAR" selected>250 ZAR</option>
+                        <option value="300 ZAR">300 ZAR</option>
+                        <option value="400 ZAR">400 ZAR</option>
+                        <option value="500 ZAR">500 ZAR</option>
+                        <option value="1000 ZAR">1000 ZAR</option>
+                    </select>
+                    <div class="product-price" id="price-za">KES --</div>
+                    <button class="filter-btn" style="width:100%;" onclick="selectManualCardForCheckout('za', 'PlayStation / Xbox Card (ZA)', 'ZA')">Select Card</button>
+                </div>
+            </div>
 
-/* PSN USA */
-{name:"PSN $5 (USA)",price:"KSh 800",category:"PSN",region:"USA"},
-{name:"PSN $10 (USA)",price:"KSh 1500",category:"PSN",region:"USA"},
-{name:"PSN $25 (USA)",price:"KSh 3700",category:"PSN",region:"USA",badge:"BEST SELLER"},
-{name:"PSN $50 (USA)",price:"KSh 7200",category:"PSN",region:"USA",badge:"BEST SELLER"},
-{name:"PSN $100 (USA)",price:"KSh 14200",category:"PSN",region:"USA"},
+            <div class="product-card" data-category="roblox">
+                <div class="product-image-container">
+                    <div class="product-image-fallback">Roblox Corporation</div>
+                    <span class="region-badge">Global</span>
+                </div>
+                <div class="product-details">
+                    <div class="product-title">Roblox Robux Gift Card</div>
+                    <select class="select-variant" id="select-roblox" onchange="updateFormulaCard('roblox', 'Roblox Gift Card', 'Global')">
+                        <option value="10 USD">10 USD</option>
+                        <option value="25 USD" selected>25 USD</option>
+                        <option value="50 USD">50 USD</option>
+                    </select>
+                    <div class="product-price" id="price-roblox">KES --</div>
+                    <button class="filter-btn" style="width:100%;" onclick="selectFormulaCardForCheckout('roblox', 'Roblox Gift Card', 'Global')">Select Card</button>
+                </div>
+            </div>
 
-/* PSN SOUTH AFRICA */
-{name:"PSN R100 (SA)",price:"KSh 900",category:"PSN",region:"South Africa"},
-{name:"PSN R250 (SA)",price:"KSh 2100",category:"PSN",region:"South Africa"},
-{name:"PSN R500 (SA)",price:"KSh 4200",category:"PSN",region:"South Africa"},
+            <div class="product-card" data-category="amazon">
+                <div class="product-image-container">
+                    <div class="product-image-fallback">Amazon Balance</div>
+                    <span class="region-badge">US Region</span>
+                </div>
+                <div class="product-details">
+                    <div class="product-title">Amazon Balance Gift Card (US)</div>
+                    <select class="select-variant" id="select-amazon" onchange="updateFormulaCard('amazon', 'Amazon Gift Card (US)', 'US')">
+                        <option value="10 USD">10 USD</option>
+                        <option value="25 USD">25 USD</option>
+                        <option value="50 USD" selected>50 USD</option>
+                        <option value="100 USD">100 USD</option>
+                    </select>
+                    <div class="product-price" id="price-amazon">KES --</div>
+                    <button class="filter-btn" style="width:100%;" onclick="selectFormulaCardForCheckout('amazon', 'Amazon Gift Card (US)', 'US')">Select Card</button>
+                </div>
+            </div>
 
-/* XBOX */
-{name:"Xbox $10",price:"KSh 1500",category:"Xbox",region:"USA"},
-{name:"Xbox $25",price:"KSh 3700",category:"Xbox",region:"USA",badge:"BEST SELLER"},
-{name:"Xbox $50",price:"KSh 7200",category:"Xbox",region:"USA",badge:"BEST SELLER"},
+        </div>
 
-/* ROBLOX */
-{name:"Roblox $10",price:"KSh 1500",category:"Roblox",region:"Global"},
-{name:"Roblox $25",price:"KSh 3700",category:"Roblox",region:"Global"},
+        <div class="checkout-summary" id="checkoutSection">
+            <h2>Order Checkout</h2>
+            <div class="order-item-line">
+                <span>Selected Card:</span>
+                <span id="summaryTitle">PlayStation / Xbox Card (USA)</span>
+            </div>
+            <div class="order-item-line">
+                <span>Region/Type:</span>
+                <span id="summaryRegion">USA</span>
+            </div>
+            <div class="order-item-line">
+                <span>Value Amount:</span>
+                <span id="summaryValue">50 USD</span>
+            </div>
+            <div class="order-total-line">
+                <span>Total Cost:</span>
+                <span id="summaryPrice">KES 7,349</span>
+            </div>
 
-/* OTHERS */
-{name:"Amazon $25",price:"KSh 3700",category:"Amazon",region:"USA"},
-{name:"Steam $20",price:"KSh 3000",category:"Steam",region:"Global"},
-{name:"Apple $25",price:"KSh 3700",category:"Apple",region:"USA"},
-{name:"Google Play $10",price:"KSh 1500",category:"Google",region:"USA"}
+            <div class="checkout-actions">
+                <button class="btn-checkout btn-whatsapp" onclick="triggerWhatsAppCheckout()">Order via WhatsApp</button>
+                <button class="btn-checkout btn-instagram" onclick="triggerInstagramCheckout()">Order via Instagram DM</button>
+            </div>
+        </div>
+    </div>
 
-];
+    <footer>
+        <p>&copy; 2026 Digital Gift Card Store. All Rights Reserved.</p>
+    </footer>
 
-function render(){
-const grid=document.getElementById("grid");
-grid.innerHTML="";
+    <script>
+        // HARDCODED MAP DIRECT FROM YOUR RATE SHEET IMAGE
+        const manualRateSheet = {
+            "usa": {
+                "10 USD": 1499,
+                "20 USD": 2999,
+                "25 USD": 3699,
+                "50 USD": 7349,
+                "75 USD": 10949,
+                "100 USD": 14559
+            },
+            "uk": {
+                "10 GBP": 1999,
+                "20 GBP": 3949,
+                "30 GBP": 5949,
+                "50 GBP": 9699,
+                "70 GBP": 13449,
+                "100 GBP": 18999
+            },
+            "uae": {
+                "10 USD": 1549,
+                "20 USD": 3099,
+                "30 USD": 4649,
+                "50 USD": 7699,
+                "70 USD": 10699,
+                "100 USD": 15249
+            },
+            "za": {
+                "150 ZAR": 1349,
+                "250 ZAR": 2249,
+                "300 ZAR": 2699,
+                "400 ZAR": 3549,
+                "500 ZAR": 4449,
+                "1000 ZAR": 8849
+            }
+        };
 
-const cat=document.getElementById("category").value;
-const reg=document.getElementById("region").value;
+        // Automatic Formula Settings for Amazon & Roblox
+        const formulaSettings = {
+            usdToKesRate: 132,
+            profitMargin: 150
+        };
 
-products.filter(p=>(!cat||p.category===cat)&&(!reg||p.region===reg))
-.forEach(p=>{
-grid.innerHTML+=`
-<div class="card">
-${p.badge?`<div class="badge">${p.badge}</div>`:""}
-<h3>${p.name}</h3>
-<div class="price">${p.price}</div>
+        const storeConfig = {
+            whatsappNumber: "254700000000", 
+            instagramUsername: "your_store_handle", 
+            currentSelected: {
+                title: "PlayStation / Xbox Card (USA)",
+                region: "USA",
+                value: "50 USD",
+                price: "KES 7,349"
+            }
+        };
 
-<div class="btn-group">
-<button class="btn wa" onclick="wa('${p.name}','${p.price}')">WhatsApp</button>
-<a href="https://ig.me/m/eclipse.store.ke" target="_blank" class="btn ig" onclick="ig('${p.name}','${p.price}')">Instagram</a>
-</div>
+        window.onload = function() {
+            initializeStorefrontPrices();
+        };
 
-</div>
-`;
-});
-}
+        function initializeStorefrontPrices() {
+            // Load and display initial prices for rate sheet items
+            Object.keys(manualRateSheet).forEach(region => {
+                const selectElement = document.getElementById(`select-${region}`);
+                if (selectElement) {
+                    const activeValue = selectElement.value;
+                    const priceKES = manualRateSheet[region][activeValue];
+                    document.getElementById(`price-${region}`).innerText = `KES ${priceKES.toLocaleString()}`;
+                }
+            });
 
-function wa(name,price){
-const msg=`Order: ${name} - ${price}`;
-window.open(`https://wa.me/254791994148?text=${encodeURIComponent(msg)}`);
-}
+            // Calculate active automated values
+            processFormulaElement('roblox');
+            processFormulaElement('amazon');
 
-function ig(name,price){
-const msg=`Order: ${name} - ${price}`;
-navigator.clipboard.writeText(msg);
-alert("Message copied. Paste it in Instagram DM.");
-}
+            // Set dynamic initial checkout sync state
+            renderSummaryUI();
+        }
 
-render();
+        function processFormulaElement(id) {
+            const selectElement = document.getElementById(`select-${id}`);
+            const options = selectElement.options;
+            
+            for(let i = 0; i < options.length; i++) {
+                const faceValue = parseInt(options[i].value);
+                let rawCalculatedPrice = (faceValue * formulaSettings.usdToKesRate) + formulaSettings.profitMargin;
+                let cleanRoundedPrice = Math.round(rawCalculatedPrice / 50) * 50;
 
-</script>
+                options[i].setAttribute('data-price', cleanRoundedPrice);
+            }
 
+            const dynamicPrice = options[selectElement.selectedIndex].getAttribute('data-price');
+            document.getElementById(`price-${id}`).innerText = `KES ${Number(dynamicPrice).toLocaleString()}`;
+        }
+
+        function updateManualCard(selectId, cardTitle, regionCode) {
+            const selectElement = document.getElementById(`select-${selectId}`);
+            const selectedValue = selectElement.value;
+            const priceKES = manualRateSheet[selectId][selectedValue];
+            
+            document.getElementById(`price-${selectId}`).innerText = `KES ${priceKES.toLocaleString()}`;
+            
+            if (storeConfig.currentSelected.title === cardTitle) {
+                storeConfig.currentSelected.value = selectedValue;
+                storeConfig.currentSelected.price = `KES ${priceKES.toLocaleString()}`;
+                renderSummaryUI();
+            }
+        }
+
+        function selectManualCardForCheckout(selectId, cardTitle, regionCode) {
+            const selectElement = document.getElementById(`select-${selectId}`);
+            const selectedValue = selectElement.value;
+            const priceKES = manualRateSheet[selectId][selectedValue];
+
+            storeConfig.currentSelected.title = cardTitle;
+            storeConfig.currentSelected.region = regionCode;
+            storeConfig.currentSelected.value = selectedValue;
+            storeConfig.currentSelected.price = `KES ${priceKES.toLocaleString()}`;
+            
+            renderSummaryUI();
+            document.getElementById('checkoutSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function updateFormulaCard(selectId, cardTitle, regionCode) {
+            const selectElement = document.getElementById(`select-${selectId}`);
+            const selectedOption = selectElement.options[selectElement.selectedIndex];
+            const priceValue = selectedOption.getAttribute('data-price');
+            
+            document.getElementById(`price-${selectId}`).innerText = `KES ${Number(priceValue).toLocaleString()}`;
+            
+            if (storeConfig.currentSelected.title === cardTitle) {
+                storeConfig.currentSelected.value = selectedOption.value;
+                storeConfig.currentSelected.price = `KES ${Number(priceValue).toLocaleString()}`;
+                renderSummaryUI();
+            }
+        }
+
+        function selectFormulaCardForCheckout(selectId, cardTitle, regionCode) {
+            const selectElement = document.getElementById(`select-${selectId}`);
+            const selectedOption = selectElement.options[selectElement.selectedIndex];
+            const priceValue = selectedOption.getAttribute('data-price');
+
+            storeConfig.currentSelected.title = cardTitle;
+            storeConfig.currentSelected.region = regionCode;
+            storeConfig.currentSelected.value = selectedOption.value;
+            storeConfig.currentSelected.price = `KES ${Number(priceValue).toLocaleString()}`;
+            
+            renderSummaryUI();
+            document.getElementById('checkoutSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function filterCategory(category, buttonElement) {
+            document.querySelectorAll('.filter-container .filter-btn').forEach(btn => btn.classList.remove('active'));
+            buttonElement.classList.add('active');
+
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category || 
+                   (category === 'playstation' && card.getAttribute('data-category') === 'playstation') ||
+                   (category === 'xbox' && card.getAttribute('data-category') === 'playstation')) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        function renderSummaryUI() {
+            document.getElementById('summaryTitle').innerText = storeConfig.currentSelected.title;
+            document.getElementById('summaryRegion').innerText = storeConfig.currentSelected.region;
+            document.getElementById('summaryValue').innerText = storeConfig.currentSelected.value;
+            document.getElementById('summaryPrice').innerText = storeConfig.currentSelected.price;
+        }
+
+        function generateOrderMessage() {
+            return `New Order Request\n` +
+                   `Card: ${storeConfig.currentSelected.title}\n` +
+                   `Region: ${storeConfig.currentSelected.region}\n` +
+                   `Value: ${storeConfig.currentSelected.value}\n` +
+                   `Total Price: ${storeConfig.currentSelected.price}\n` +
+                   `Please provide payment details to complete my purchase.`;
+        }
+
+        function triggerWhatsAppCheckout() {
+            const encryptedMessage = encodeURIComponent(generateOrderMessage());
+            window.open(`https://wa.me/${storeConfig.whatsappNumber}?text=${encryptedMessage}`, '_blank');
+        }
+
+        function triggerInstagramCheckout() {
+            const encodedMessage = encodeURIComponent(generateOrderMessage());
+            const nativeInstagramUrl = `instagram://sharesheet?text=${encodedMessage}`;
+            const universalWebFallback = `https://www.instagram.com/${storeConfig.instagramUsername}/`;
+            const activeTimestamp = Date.now();
+            
+            window.location.href = nativeInstagramUrl;
+
+            setTimeout(() => {
+                if (Date.now() - activeTimestamp < 1500) {
+                    window.open(universalWebFallback, '_blank');
+                }
+            }, 1000);
+        }
+    </script>
 </body>
 </html>

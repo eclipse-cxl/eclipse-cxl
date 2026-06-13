@@ -3,17 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ECLIPSE.SHOP - Play More. Pay Less.</title>
+    <title>ECLIPSE.SHOP | Premium Digital Gift Cards</title>
     <style>
         :root {
-            --bg-primary: #05070c;
-            --bg-secondary: #0c0f17;
-            --accent-purple: #9d4edd; /* Matched to the logo glow */
-            --accent-green: #1ebd57;
-            --accent-pink: #e1306c;
-            --text-main: #ffffff;
-            --text-muted: #8f9cae;
-            --border-color: #1b2030;
+            --bg-main: #0a0b10;
+            --bg-card: rgba(18, 20, 32, 0.65);
+            --bg-card-hover: rgba(24, 28, 46, 0.85);
+            --accent-purple: #b55fe6;
+            --accent-cyan: #00f5d4;
+            --accent-glow-purple: rgba(181, 95, 230, 0.35);
+            --accent-glow-cyan: rgba(0, 245, 212, 0.25);
+            --text-white: #ffffff;
+            --text-muted: #8a99ad;
+            --border-color: rgba(255, 255, 255, 0.06);
+            --border-hover: rgba(181, 95, 230, 0.4);
         }
 
         * {
@@ -21,632 +24,728 @@
             margin: 0;
             padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
         body {
-            background-color: var(--bg-primary);
-            color: var(--text-main);
-            line-height: 1.6;
-            padding-bottom: 60px;
-        }
-
-        header {
-            background-color: var(--bg-secondary);
-            border-bottom: 1px solid var(--border-color);
-            padding: 30px 20px;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(157, 78, 221, 0.15); /* Subtly mimics the logo eclipse glow */
-        }
-
-        header h1 {
-            font-size: 28px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        header h1 span {
-            color: var(--accent-purple);
-        }
-
-        .tagline {
-            font-size: 12px;
-            color: var(--text-muted);
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            margin-top: 5px;
-            font-weight: 600;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        /* Filter Controls */
-        .filter-container {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            background-color: var(--bg-secondary);
-            color: var(--text-muted);
-            border: 1px solid var(--border-color);
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.2s ease;
-        }
-
-        .filter-btn:hover, .filter-btn.active {
-            color: var(--text-main);
-            border-color: var(--accent-purple);
-            background-color: var(--accent-purple);
-            box-shadow: 0 0 10px rgba(157, 78, 221, 0.4);
-        }
-
-        /* Products Grid */
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
-        .product-card {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            overflow: hidden;
+            background-color: var(--bg-main);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(181, 95, 230, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 245, 212, 0.05) 0%, transparent 40%);
+            color: var(--text-white);
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
-            transition: transform 0.2s ease, border-color 0.2s ease;
+            letter-spacing: -0.01em;
         }
 
-        .product-card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(157, 78, 221, 0.4);
-        }
-
-        .product-image-container {
-            width: 100%;
-            height: 160px;
-            background-color: #03050a;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-bottom: 1px solid var(--border-color);
+        /* HEADER DESIGN */
+        header {
+            padding: 60px 20px 30px 20px;
+            text-align: center;
             position: relative;
         }
 
-        .product-image-fallback {
-            font-size: 14px;
-            font-weight: bold;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            text-align: center;
-            padding: 0 10px;
-        }
-
-        .region-badge {
+        header::before {
+            content: '';
             position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: rgba(5, 7, 12, 0.9);
-            color: var(--text-main);
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 700;
-            border: 1px solid var(--border-color);
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 400px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(181, 95, 230, 0.15) 0%, transparent 70%);
+            z-index: -1;
+            pointer-events: none;
         }
 
-        .product-details {
-            padding: 20px;
+        .brand-name {
+            font-size: 64px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--text-white);
+            display: inline-block;
+        }
+
+        .brand-name span {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tagline {
+            font-size: 13px;
+            color: var(--text-muted);
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-top: 14px;
+        }
+
+        /* STICKY FILTER NAVIGATION */
+        .filter-nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 11, 16, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 15px 20px;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
+            gap: 12px;
+            border-bottom: 1px solid var(--border-color);
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+        
+        .filter-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+
+        .filter-btn:hover {
+            color: var(--text-white);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .filter-btn.active {
+            background: rgba(181, 95, 230, 0.12);
+            border-color: var(--accent-purple);
+            color: var(--text-white);
+            box-shadow: 0 0 15px rgba(181, 95, 230, 0.2);
+        }
+
+        /* GRID SYSTEM */
+        main {
+            max-width: 1440px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px 24px 120px 24px;
             flex-grow: 1;
         }
 
-        .product-title {
-            font-size: 16px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            min-height: 48px;
+        .store-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            transition: all 0.3s ease;
         }
 
-        .product-price {
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--text-main);
-            margin-bottom: 15px;
-        }
-
-        .select-variant {
-            width: 100%;
-            background-color: var(--bg-primary);
-            color: var(--text-main);
+        /* PRODUCT DISPLAY PANELS */
+        .product-panel {
+            background-color: var(--bg-card);
             border: 1px solid var(--border-color);
-            padding: 10px;
-            border-radius: 4px;
-            font-size: 14px;
-            margin-bottom: 15px;
-            outline: none;
-        }
-
-        .select-variant:focus {
-            border-color: var(--accent-purple);
-        }
-
-        /* Checkout Summary Card */
-        .checkout-summary {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 25px;
-            max-width: 500px;
-            margin: 0 auto;
-            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.5);
-        }
-
-        .checkout-summary h2 {
-            font-size: 20px;
-            margin-bottom: 15px;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
-        }
-
-        .order-item-line {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            color: var(--text-muted);
-            font-size: 15px;
-        }
-
-        .order-total-line {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid var(--border-color);
-            font-size: 18px;
-            font-weight: 700;
-        }
-
-        .checkout-actions {
+            border-radius: 20px;
+            padding: 24px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            margin-top: 20px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .btn-checkout {
-            width: 100%;
-            padding: 14px;
-            border-radius: 4px;
-            border: none;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-            transition: opacity 0.2s ease;
+        .product-panel.featured-panel {
+            border-color: rgba(0, 245, 212, 0.25);
+            box-shadow: 0 10px 30px rgba(0, 245, 212, 0.03);
         }
 
-        .btn-checkout:hover {
-            opacity: 0.9;
+        .product-panel:hover {
+            background-color: var(--bg-card-hover);
+            border-color: var(--border-hover);
+            transform: translateY(-4px);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                0 0 30px var(--accent-glow-purple);
         }
 
-        .btn-whatsapp {
-            background-color: var(--accent-green);
-            color: #ffffff;
+        .product-panel.featured-panel:hover {
+            border-color: var(--accent-cyan);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                0 0 30px var(--accent-glow-cyan);
         }
 
-        .btn-instagram {
-            background-color: var(--accent-pink);
-            color: #ffffff;
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
         }
 
-        footer {
-            text-align: center;
-            padding: 30px;
+        .panel-header h2 {
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .region-badge {
+            font-size: 10px;
+            font-weight: 800;
             color: var(--text-muted);
-            font-size: 13px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 4px 10px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .product-panel.featured-panel .region-badge {
+            color: var(--accent-cyan);
+            background: rgba(0, 245, 212, 0.06);
+            border: 1px solid rgba(0, 245, 212, 0.15);
+        }
+
+        /* CARD EMBLEMS & VISUALS */
+        .card-visual-wrapper {
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .card-visual {
+            width: 100%;
+            height: 160px;
+            border-radius: 14px;
+            position: relative;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .card-visual::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            right: -10%;
+            width: 160px;
+            height: 160px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .visual-roblox { background: linear-gradient(135deg, #222225, #0f0f10); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .visual-usa { background: linear-gradient(135deg, #151a30, #0a0d1a); border: 1px solid rgba(181, 95, 230, 0.15); }
+        .visual-uk { background: linear-gradient(135deg, #22143d, #0e071c); border: 1px solid rgba(181, 95, 230, 0.15); }
+        .visual-uae { background: linear-gradient(135deg, #102622, #061210); border: 1px solid rgba(0, 245, 212, 0.15); }
+        .visual-sa { background: linear-gradient(135deg, #2b1333, #110514); border: 1px solid rgba(181, 95, 230, 0.15); }
+        .visual-amazon { background: linear-gradient(135deg, #141921, #0b0d12); border: 1px solid rgba(255, 153, 0, 0.15); }
+
+        .card-meta-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .card-chip {
+            width: 34px;
+            height: 24px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.05));
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 5px;
+        }
+
+        .brand-platform-logo {
+            height: 22px;
+            width: auto;
+            filter: brightness(0) invert(1);
+            opacity: 0.85;
+        }
+
+        .brand-platform-logo.amazon-logo {
+            height: 16px;
+        }
+
+        .card-display-value {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: var(--text-white);
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+
+        /* PRICING SELECTORS */
+        .tier-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex-grow: 1;
+            margin-bottom: 24px;
+        }
+
+        .tier-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 16px;
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .tier-row:hover {
+            background-color: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .tier-row.selected {
+            background: rgba(181, 95, 230, 0.08);
+            border-color: rgba(181, 95, 230, 0.3);
+        }
+        
+        .product-panel.featured-panel .tier-row.selected {
+            background: rgba(0, 245, 212, 0.06);
+            border-color: rgba(0, 245, 212, 0.3);
+        }
+
+        .tier-val {
+            font-size: 15px;
+            font-weight: 500;
+            color: var(--text-muted);
+            transition: color 0.2s;
+        }
+
+        .tier-row.selected .tier-val {
+            color: var(--text-white);
+            font-weight: 600;
+        }
+
+        .tier-price {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-white);
+            transition: color 0.2s;
+        }
+
+        .tier-row.selected .tier-price {
+            color: var(--accent-purple);
+        }
+
+        .product-panel.featured-panel .tier-row.selected .tier-price {
+            color: var(--accent-cyan);
+        }
+
+        /* INTEGRATED BUTTON TRANSLATIONS */
+        .order-btn {
+            background: var(--text-white);
+            border: none;
+            color: var(--bg-main);
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            width: 100%;
+            text-align: center;
+        }
+
+        .order-btn:hover:not(:disabled) {
+            background: var(--accent-purple);
+            color: var(--text-white);
+            box-shadow: 0 0 24px var(--accent-glow-purple);
+            transform: scale(1.01);
+        }
+
+        .product-panel.featured-panel .order-btn:hover:not(:disabled) {
+            background: var(--accent-cyan);
+            color: var(--bg-main);
+            box-shadow: 0 0 24px var(--accent-glow-cyan);
+        }
+
+        .order-btn:disabled {
+            background: rgba(255, 255, 255, 0.04);
+            color: rgba(255, 255, 255, 0.2);
+            cursor: not-allowed;
+        }
+
+        /* REVENUE STAMP FOOTER */
+        footer {
             border-top: 1px solid var(--border-color);
-            margin-top: 50px;
+            padding: 40px 20px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+            background-color: #06070a;
+        }
+
+        /* RESPONSIVE DESKTOP VS SCREEN CORRECTION SYSTEM */
+        @media (max-width: 768px) {
+            .brand-name { 
+                font-size: 38px; 
+            }
+            header { 
+                padding: 30px 15px 15px 15px; 
+            }
+            
+            .filter-nav {
+                padding: 10px 15px;
+                gap: 8px;
+            }
+            .filter-btn {
+                padding: 8px 16px;
+                font-size: 12px;
+            }
+
+            main { 
+                padding: 20px 16px 80px 16px; 
+            }
+            .store-grid { 
+                grid-template-columns: 1fr;
+                gap: 20px; 
+            }
+
+            .product-panel {
+                padding: 18px;
+                border-radius: 16px;
+            }
+            .panel-header h2 {
+                font-size: 18px;
+            }
+
+            .card-visual {
+                height: 120px;
+                padding: 15px;
+            }
+            .card-display-value {
+                font-size: 22px;
+            }
+            .brand-platform-logo {
+                height: 18px;
+            }
+
+            .tier-row {
+                padding: 12px 14px;
+            }
+            .tier-val, .tier-price {
+                font-size: 14px;
+            }
+            
+            .order-btn {
+                padding: 14px;
+                font-size: 13px;
+                border-radius: 10px;
+            }
         }
     </style>
 </head>
 <body>
 
+    <!-- HERO HEADER -->
     <header>
-        <h1>ECLIPSE<span>.SHOP</span></h1>
-        <div class="tagline">Play More. Pay Less.</div>
+        <div class="logo-area">
+            <h1 class="brand-name">Eclipse<span>.shop</span></h1>
+        </div>
+        <div class="tagline">Instant Digital Access</div>
     </header>
 
-    <div class="container">
-        <!-- Category Filters -->
-        <div class="filter-container">
-            <button class="filter-btn active" onclick="filterCategory('all', this)">All Cards</button>
-            <button class="filter-btn" onclick="filterCategory('playstation', this)">PlayStation</button>
-            <button class="filter-btn" onclick="filterCategory('xbox', this)">Xbox</button>
-            <button class="filter-btn" onclick="filterCategory('roblox', this)">Roblox</button>
-            <button class="filter-btn" onclick="filterCategory('amazon', this)">Amazon</button>
+    <!-- STICKY FILTER BAR -->
+    <nav class="filter-nav">
+        <button class="filter-btn active" onclick="filterPlatform('all', this)">All Cards</button>
+        <button class="filter-btn" onclick="filterPlatform('roblox', this)">Roblox</button>
+        <button class="filter-btn" onclick="filterPlatform('playstation', this)">PlayStation</button>
+        <button class="filter-btn" onclick="filterPlatform('amazon', this)">Amazon</button>
+    </nav>
+
+    <!-- LIVE GRID INTERFACE -->
+    <main>
+        <div class="store-grid" id="main-store-grid">
+
+            <!-- 1. ROBLOX ROBUX STORE (FIRST & OPTIMIZED ACCESSIBILITY) -->
+            <div class="product-panel featured-panel" data-platform="roblox">
+                <div class="panel-header">
+                    <h2>Global Packs</h2>
+                    <span class="region-badge">Roblox</span>
+                </div>
+                <div class="card-visual-wrapper">
+                    <div class="card-visual visual-roblox">
+                        <div class="card-meta-row">
+                            <div class="card-chip"></div>
+                            <img class="brand-platform-logo" src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Roblox_player_icon_black.svg" alt="Roblox" style="height: 20px;">
+                        </div>
+                        <div class="card-display-value" id="value-Roblox">— — —</div>
+                    </div>
+                </div>
+                <div class="tier-list">
+                    <div class="tier-row" onclick="selectTier(this, 'Roblox', '800 Robux', 'KSh 1,499')">
+                        <span class="tier-val">800 Robux Pack</span><span class="tier-price">KSh 1,499</span>
+                    </div>
+                    <div class="tier-row" onclick="selectTier(this, 'Roblox', '2000 Robux', 'KSh 3,599')">
+                        <span class="tier-val">2000 Robux Pack</span><span class="tier-price">KSh 3,599</span>
+                    </div>
+                    <div class="tier-row" onclick="selectTier(this, 'Roblox', '4500 Robux', 'KSh 6,599')">
+                        <span class="tier-val">4500 Robux Pack</span><span class="tier-price">KSh 6,599</span>
+                    </div>
+                    <div class="tier-row" onclick="selectTier(this, 'Roblox', '10000 Robux', 'KSh 13,500')">
+                        <span class="tier-val">10000 Robux Pack</span><span class="tier-price">KSh 13,500</span>
+                    </div>
+                </div>
+                <button class="order-btn" id="btn-Roblox" disabled onclick="checkout('Roblox')">Select Denomination</button>
+            </div>
+
+            <!-- USA STORE -->
+            <div class="product-panel" data-platform="playstation">
+                <div class="panel-header">
+                    <h2>USA Region</h2>
+                    <span class="region-badge">PlayStation</span>
+                </div>
+                <div class="card-visual-wrapper">
+                    <div class="card-visual visual-usa">
+                        <div class="card-meta-row">
+                            <div class="card-chip"></div>
+                            <img class="brand-platform-logo" src="https://upload.wikimedia.org/wikipedia/commons/0/00/PlayStation_logo.svg" alt="PSN">
+                        </div>
+                        <div class="card-display-value" id="value-USA">— — —</div>
+                    </div>
+                </div>
+                <div class="tier-list">
+                    <div class="tier-row" onclick="selectTier(this, 'USA', '$5', 'KSh 1,000')">
+                        <span class="tier-val">PSN USA $5</span><span class="tier-price">KSh 1,000</span>
+                    </div>
+                    <div class="tier-row" onclick="selectTier(this, 'USA', '$10', 'KSh 1,650')">
+                        <span class="tier-val">PSN USA $10</span><span class="tier-price">KSh 1,650</span>
+                    </div>
+                    <div class="tier-row" onclick="selectTier(this, 'USA', '$25', 'KSh 3,710')">
+                        <span class="tier-val">PSN USA $25</span><span class="tier-price">KSh 3,710</span>
+                    </div>
+                    <div class="tier-row" onclick="selectTier(this, 'USA', '$50', 'KSh 7,410')">
+                        <span class="tier-val">PSN USA $50</span><span class="tier-price">KSh 7,410</span>
+                    </div>
+                    <div class="tier-row" onclick="selectTier(this, 'USA', '$75', 'KSh 11,110')">
+                        <span class="tier-val">PSN USA $75</span><span class="tier-price">KSh 11,110</span>
+                    </div>
+                    <div class="tier-row" onclick="selectTier(this, 'USA', '$100', 'KSh 14,820')">
+                        <span class="tier-val">PSN USA $100</span><span class="tier-price">KSh 14,820</span>
+                    </div>
+                </div>
+                <button class="order-btn" id="btn-USA" disabled onclick="checkout('USA')">Select Denomination</button>
+            </div>
+
+            <!-- UK STORE -->
+            <div class="product-panel" data-platform="playstation">
+                <div class="panel-header">
+                    <h2>UK Region</h2>
+                    <span class="region-badge">PlayStation</span>
+                </div>
+                <div class="card-visual-wrapper">
+                    <div class="card-visual visual-uk">
+                        <div class="card-meta-row">
+                            <div class="card-chip"></div>
+                            <img class="brand-platform-logo" src="https://upload.wikimedia.org/wikipedia/commons/0/00/PlayStation_logo.svg" alt="PSN">
+                        </div>
+                        <div class="card-display-value" id="value-UK">— — —</div>
+                    </div>
+                </div>
+                <div class="tier-list">
+                    <div class="tier-row" onclick="selectTier(this, 'UK', '£10', 'KSh 2,160')">
+                        <span class="tier-val">PSN UK £10</span><span class="tier-price">KSh 2,160</span>
+                    </div>
+                    <div class="tier-row" onclick="selectTier(this, 'UK', '£20', 'KSh 3,990')">
+                        <span class="tier-val">PSN UK £20</span><span class="tier-price">KSh 3,990</span>
+                    </div>
+                    <div class="tier-row" onclick="selectTier(this, 'UK', '£40', 'KSh 7,660')">
+                        <span class="tier-val">PSN UK £40</span><span class="tier-price">KSh 7,660</span>
+                    </div>
+                    <div class="tier-row" onclick="selectTier(this, 'UK', '£50', 'KSh 9,750')">
+                        <span class="tier-val">PSN UK £50</span><span class="tier-price">KSh 9,750</span>
+                    </div>
+                    <div class="tier-row" onclick="selectTier(this, 'UK', '£70', 'KSh 13,430')">
+                        <span class="tier-val">PSN UK £70</span><span class="tier-price">KSh 13,430</span>
+                    </div>
+                    <div class="tier-row" onclick="selectTier(this, 'UK', '£100', 'KSh 18,720')">
+                        <span class="tier-val">PSN UK £100</span><span class="tier-price">KSh 18,720</span>
+                    </div>
+                </div>
+                <button class="order-btn" id="btn-UK" disabled onclick="checkout('UK')">Select Denomination</button>
+            </div>
+
+            <!-- UAE STORE -->
+            <div class="product-panel" data-platform="playstation">
+                <div class="panel-header">
+                    <h2>UAE Region</h2>
+                    <span class="region-badge">PlayStation</span>
+                </div>
+                <div class="card-visual-wrapper">
+                    <div class="card-visual visual-uae">
+                        <div class="card-meta-row">
+                            <div class="card-chip"></div>
+                            <img class="brand-platform-logo" src="https://upload.wikimedia.org/wikipedia/commons/0/00/PlayStation_logo.svg" alt="PSN">
+                        </div>
+                        <div class="card-display-value" id="value-UAE">— — —</div>
+                    </div>
+                </div>
+                <div class="tier-list">
+                    <div class="tier-row" onclick="selectTier(this, 'UAE', '$10', 'KSh 1,710')">
+                        <span class="tier-val">PSN UAE $10</span><span class="tier-price">KSh 1,710</span>
+                    </div>
+                    <div class="tier-row" onclick="selectTier(this, 'UAE', '$20', 'KSh 3,280')">
+                        <span class="tier-val">PSN UAE $20</span><span class="tier-price">KSh 3,280</span>
+                    </div>
+                    <div class="tier-row" onclick="selectTier(this, 'UAE', '$50', 'KSh 7,570')">
+                        <span class="tier-val">PSN UAE $50</span><span class="tier-price">KSh 7,570</span>
+                    </div>
+                    <div class="tier-row" onclick="selectTier(this, 'UAE', '$100', 'KSh 14,970')">
+                        <span class="tier-val">PSN UAE $100</span><span class="tier-price">KSh 14,970</span>
+                    </div>
+                </div>
+                <button class="order-btn" id="btn-UAE" disabled onclick="checkout('UAE')">Select Denomination</button>
+            </div>
+
+            <!-- SOUTH AFRICA STORE -->
+            <div class="product-panel" data-platform="playstation">
+                <div class="panel-header">
+                    <h2>South Africa</h2>
+                    <span class="region-badge">PlayStation</span>
+                </div>
+                <div class="card-visual-wrapper">
+                    <div class="card-visual visual-sa">
+                        <div class="card-meta-row">
+                            <div class="card-chip"></div>
+                            <img class="brand-platform-logo" src="https://upload.wikimedia.org/wikipedia/commons/0/00/PlayStation_logo.svg" alt="PSN">
+                        </div>
+                        <div class="card-display-value" id="value-South Africa">— — —</div>
+                    </div>
+                </div>
+                <div class="tier-list">
+                    <div class="tier-row" onclick="selectTier(this, 'South Africa', 'ZAR 150', 'KSh 1,700')">
+                        <span class="tier-val">PSN ZAR 150</span><span class="tier-price">KSh 1,700</span>
+                    </div>
+                    <div class="tier-row" onclick="selectTier(this, 'South Africa', 'ZAR 250', 'KSh 2,620')">
+                        <span class="tier-val">PSN ZAR 250</span><span class="tier-price">KSh 2,620</span>
+                    </div>
+                    <div class="tier-row" onclick="selectTier(this, 'South Africa', 'ZAR 500', 'KSh 4,950')">
+                        <span class="tier-val">PSN ZAR 500</span><span class="tier-price">KSh 4,950</span>
+                    </div>
+                    <div class="tier-row" onclick="selectTier(this, 'South Africa', 'ZAR 1000', 'KSh 9,890')">
+                        <span class="tier-val">PSN ZAR 1000</span><span class="tier-price">KSh 9,890</span>
+                    </div>
+                </div>
+                <button class="order-btn" id="btn-South Africa" disabled onclick="checkout('South Africa')">Select Denomination</button>
+            </div>
+
+            <!-- AMAZON US STORE -->
+            <div class="product-panel" data-platform="amazon">
+                <div class="panel-header">
+                    <h2>US Balance</h2>
+                    <span class="region-badge">Amazon</span>
+                </div>
+                <div class="card-visual-wrapper">
+                    <div class="card-visual visual-amazon">
+                        <div class="card-meta-row">
+                            <div class="card-chip"></div>
+                            <img class="brand-platform-logo amazon-logo" src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Amazon">
+                        </div>
+                        <div class="card-display-value" id="value-Amazon">— — —</div>
+                    </div>
+                </div>
+                <div class="tier-list">
+                    <div class="tier-row" onclick="selectTier(this, 'Amazon', '$5', 'KSh 1,000')">
+                        <span class="tier-val">Amazon US $5</span><span class="tier-price">KSh 1,000</span>
+                    </div>
+                    <div class="tier-row" onclick="selectTier(this, 'Amazon', '$10', 'KSh 1,650')">
+                        <span class="tier-val">Amazon US $10</span><span class="tier-price">KSh 1,650</span>
+                    </div>
+                    <div class="tier-row" onclick="selectTier(this, 'Amazon', '$25', 'KSh 3,710')">
+                        <span class="tier-val">Amazon US $25</span><span class="tier-price">KSh 3,710</span>
+                    </div>
+                    <div class="tier-row" onclick="selectTier(this, 'Amazon', '$50', 'KSh 7,410')">
+                        <span class="tier-val">Amazon US $50</span><span class="tier-price">KSh 7,410</span>
+                    </div>
+                    <div class="tier-row" onclick="selectTier(this, 'Amazon', '$100', 'KSh 14,820')">
+                        <span class="tier-val">Amazon US $100</span><span class="tier-price">KSh 14,820</span>
+                    </div>
+                </div>
+                <button class="order-btn" id="btn-Amazon" disabled onclick="checkout('Amazon')">Select Denomination</button>
+            </div>
+
         </div>
+    </main>
 
-        <!-- Interactive Product Grid -->
-        <div class="products-grid" id="productsGrid">
-
-            <!-- PlayStation / Xbox US -->
-            <div class="product-card" data-category="playstation">
-                <div class="product-image-container">
-                    <div class="product-image-fallback">PlayStation & Xbox</div>
-                    <span class="region-badge">USA Region</span>
-                </div>
-                <div class="product-details">
-                    <div class="product-title">PlayStation / Xbox Card (USA)</div>
-                    <select class="select-variant" id="select-usa" onchange="updateManualCard('usa', 'PlayStation / Xbox Card (USA)', 'USA')">
-                        <option value="5 USD">5 USD</option>
-                        <option value="10 USD">10 USD</option>
-                        <option value="25 USD">25 USD</option>
-                        <option value="50 USD" selected>50 USD</option>
-                        <option value="75 USD">75 USD</option>
-                        <option value="100 USD">100 USD</option>
-                    </select>
-                    <div class="product-price" id="price-usa">KES --</div>
-                    <button class="filter-btn" style="width:100%;" onclick="selectManualCardForCheckout('usa', 'PlayStation / Xbox Card (USA)', 'USA')">Select Card</button>
-                </div>
-            </div>
-
-            <!-- PlayStation / Xbox UK -->
-            <div class="product-card" data-category="playstation">
-                <div class="product-image-container">
-                    <div class="product-image-fallback">PlayStation & Xbox</div>
-                    <span class="region-badge">UK Region</span>
-                </div>
-                <div class="product-details">
-                    <div class="product-title">PlayStation / Xbox Card (United Kingdom)</div>
-                    <select class="select-variant" id="select-uk" onchange="updateManualCard('uk', 'PlayStation / Xbox Card (UK)', 'UK')">
-                        <option value="10 GBP">10 GBP</option>
-                        <option value="20 GBP" selected>20 GBP</option>
-                        <option value="40 GBP">40 GBP</option>
-                        <option value="50 GBP">50 GBP</option>
-                        <option value="70 GBP">70 GBP</option>
-                        <option value="100 GBP">100 GBP</option>
-                        <option value="120 GBP">120 GBP</option>
-                        <option value="150 GBP">150 GBP</option>
-                        <option value="200 GBP">200 GBP</option>
-                    </select>
-                    <div class="product-price" id="price-uk">KES --</div>
-                    <button class="filter-btn" style="width:100%;" onclick="selectManualCardForCheckout('uk', 'PlayStation / Xbox Card (UK)', 'UK')">Select Card</button>
-                </div>
-            </div>
-
-            <!-- PlayStation / Xbox UAE -->
-            <div class="product-card" data-category="playstation">
-                <div class="product-image-container">
-                    <div class="product-image-fallback">PlayStation & Xbox</div>
-                    <span class="region-badge">UAE Region</span>
-                </div>
-                <div class="product-details">
-                    <div class="product-title">PlayStation / Xbox Card (UAE)</div>
-                    <select class="select-variant" id="select-uae" onchange="updateManualCard('uae', 'PlayStation / Xbox Card (UAE)', 'UAE')">
-                        <option value="10 USD">10 USD</option>
-                        <option value="20 USD" selected>20 USD</option>
-                        <option value="21 USD">21 USD</option>
-                        <option value="40 USD">40 USD</option>
-                        <option value="50 USD">50 USD</option>
-                        <option value="60 USD">60 USD</option>
-                        <option value="70 USD">70 USD</option>
-                        <option value="100 USD">100 USD</option>
-                    </select>
-                    <div class="product-price" id="price-uae">KES --</div>
-                    <button class="filter-btn" style="width:100%;" onclick="selectManualCardForCheckout('uae', 'PlayStation / Xbox Card (UAE)', 'UAE')">Select Card</button>
-                </div>
-            </div>
-
-            <!-- PlayStation / Xbox ZA -->
-            <div class="product-card" data-category="playstation">
-                <div class="product-image-container">
-                    <div class="product-image-fallback">PlayStation & Xbox</div>
-                    <span class="region-badge">ZA Region</span>
-                </div>
-                <div class="product-details">
-                    <div class="product-title">PlayStation / Xbox Card (South Africa)</div>
-                    <select class="select-variant" id="select-za" onchange="updateManualCard('za', 'PlayStation / Xbox Card (ZA)', 'ZA')">
-                        <option value="150 ZAR">150 ZAR</option>
-                        <option value="250 ZAR" selected>250 ZAR</option>
-                        <option value="500 ZAR">500 ZAR</option>
-                        <option value="750 ZAR">750 ZAR</option>
-                        <option value="1000 ZAR">1000 ZAR</option>
-                        <option value="1500 ZAR">1500 ZAR</option>
-                        <option value="2000 ZAR">2000 ZAR</option>
-                    </select>
-                    <div class="product-price" id="price-za">KES --</div>
-                    <button class="filter-btn" style="width:100%;" onclick="selectManualCardForCheckout('za', 'PlayStation / Xbox Card (ZA)', 'ZA')">Select Card</button>
-                </div>
-            </div>
-
-            <!-- Roblox (Formula Driven) -->
-            <div class="product-card" data-category="roblox">
-                <div class="product-image-container">
-                    <div class="product-image-fallback">Roblox Corporation</div>
-                    <span class="region-badge">Global</span>
-                </div>
-                <div class="product-details">
-                    <div class="product-title">Roblox Robux Gift Card</div>
-                    <select class="select-variant" id="select-roblox" onchange="updateFormulaCard('roblox', 'Roblox Gift Card', 'Global')">
-                        <option value="10 USD">10 USD</option>
-                        <option value="25 USD" selected>25 USD</option>
-                        <option value="50 USD">50 USD</option>
-                    </select>
-                    <div class="product-price" id="price-roblox">KES --</div>
-                    <button class="filter-btn" style="width:100%;" onclick="selectFormulaCardForCheckout('roblox', 'Roblox Gift Card', 'Global')">Select Card</button>
-                </div>
-            </div>
-
-            <!-- Amazon (Formula Driven) -->
-            <div class="product-card" data-category="amazon">
-                <div class="product-image-container">
-                    <div class="product-image-fallback">Amazon Balance</div>
-                    <span class="region-badge">US Region</span>
-                </div>
-                <div class="product-details">
-                    <div class="product-title">Amazon Balance Gift Card (US)</div>
-                    <select class="select-variant" id="select-amazon" onchange="updateFormulaCard('amazon', 'Amazon Gift Card (US)', 'US')">
-                        <option value="10 USD">10 USD</option>
-                        <option value="25 USD">25 USD</option>
-                        <option value="50 USD" selected>50 USD</option>
-                        <option value="100 USD">100 USD</option>
-                    </select>
-                    <div class="product-price" id="price-amazon">KES --</div>
-                    <button class="filter-btn" style="width:100%;" onclick="selectFormulaCardForCheckout('amazon', 'Amazon Gift Card (US)', 'US')">Select Card</button>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- Checkout View Area -->
-        <div class="checkout-summary" id="checkoutSection">
-            <h2>Order Checkout</h2>
-            <div class="order-item-line">
-                <span>Selected Card:</span>
-                <span id="summaryTitle">PlayStation / Xbox Card (USA)</span>
-            </div>
-            <div class="order-item-line">
-                <span>Region/Type:</span>
-                <span id="summaryRegion">USA</span>
-            </div>
-            <div class="order-item-line">
-                <span>Value Amount:</span>
-                <span id="summaryValue">50 USD</span>
-            </div>
-            <div class="order-total-line">
-                <span>Total Cost:</span>
-                <span id="summaryPrice">KES 7,410</span>
-            </div>
-
-            <div class="checkout-actions">
-                <button class="btn-checkout btn-whatsapp" onclick="triggerWhatsAppCheckout()">Order via WhatsApp</button>
-                <button class="btn-checkout btn-instagram" onclick="triggerInstagramCheckout()">Order via Instagram DM</button>
-            </div>
-        </div>
-    </div>
-
+    <!-- FOOTER STRIP -->
     <footer>
-        <p>&copy; 2026 ECLIPSE.SHOP. All Rights Reserved.</p>
+        &copy; 2026 ECLIPSE.SHOP &bull; INSTANT DIGITAL DELIVERY &bull; GENUINE KEYS ONLY
     </footer>
 
+    <!-- INTERACTIVE SCRIPT LOGIC -->
     <script>
-        // UPDATED MAPPINGS FROM YOUR NEW DATA IMAGES
-        const manualRateSheet = {
-            "usa": {
-                "5 USD": 1000,
-                "10 USD": 1650,
-                "25 USD": 3710,
-                "50 USD": 7410,
-                "75 USD": 11110,
-                "100 USD": 14820
-            },
-            "uk": {
-                "10 GBP": 2160,
-                "20 GBP": 3990,
-                "40 GBP": 7660,
-                "50 GBP": 9750,
-                "70 GBP": 13430,
-                "100 GBP": 18720,
-                "120 GBP": 22410,
-                "150 GBP": 28010,
-                "200 GBP": 37190
-            },
-            "uae": {
-                "10 USD": 1710,
-                "20 USD": 3280,
-                "21 USD": 3580,
-                "40 USD": 6140,
-                "50 USD": 7570,
-                "60 USD": 9080,
-                "70 USD": 10590,
-                "100 USD": 14970
-            },
-            "za": {
-                "150 ZAR": 1700,
-                "250 ZAR": 2620,
-                "500 ZAR": 4950,
-                "750 ZAR": 7420,
-                "1000 ZAR": 9890,
-                "1500 ZAR": 14830,
-                "2000 ZAR": 19780
-            }
+        const selections = {
+            "USA": null,
+            "UK": null,
+            "South Africa": null,
+            "UAE": null,
+            "Roblox": null,
+            "Amazon": null
         };
 
-        const formulaSettings = {
-            usdToKesRate: 132,
-            profitMargin: 150
-        };
-
-        const storeConfig = {
-            whatsappNumber: "254791994148", 
-            instagramUsername: "eclipse.store.ke", 
-            currentSelected: {
-                title: "PlayStation / Xbox Card (USA)",
-                region: "USA",
-                value: "50 USD",
-                price: "KES 7,410"
-            }
-        };
-
-        window.onload = function() {
-            initializeStorefrontPrices();
-        };
-
-        function initializeStorefrontPrices() {
-            Object.keys(manualRateSheet).forEach(region => {
-                const selectElement = document.getElementById(`select-${region}`);
-                if (selectElement) {
-                    const activeValue = selectElement.value;
-                    const priceKES = manualRateSheet[region][activeValue];
-                    document.getElementById(`price-${region}`).innerText = `KES ${priceKES.toLocaleString()}`;
-                }
+        function selectTier(element, region, cardValue, kesPrice) {
+            const panel = element.closest('.product-panel');
+            
+            panel.querySelectorAll('.tier-row').forEach(row => {
+                row.classList.remove('selected');
             });
+            
+            element.classList.add('selected');
+            selections[region] = { value: cardValue, price: kesPrice };
+            
+            const visualText = document.getElementById(`value-${region}`);
+            visualText.innerText = cardValue;
 
-            processFormulaElement('roblox');
-            processFormulaElement('amazon');
-
-            renderSummaryUI();
+            const targetButton = document.getElementById(`btn-${region}`);
+            targetButton.disabled = false;
+            targetButton.innerText = `Buy ${cardValue} (${kesPrice})`;
         }
 
-        function processFormulaElement(id) {
-            const selectElement = document.getElementById(`select-${id}`);
-            const options = selectElement.options;
-            
-            for(let i = 0; i < options.length; i++) {
-                const faceValue = parseInt(options[i].value);
-                let rawCalculatedPrice = (faceValue * formulaSettings.usdToKesRate) + formulaSettings.profitMargin;
-                let cleanRoundedPrice = Math.round(rawCalculatedPrice / 50) * 50;
-
-                options[i].setAttribute('data-price', cleanRoundedPrice);
-            }
-
-            const dynamicPrice = options[selectElement.selectedIndex].getAttribute('data-price');
-            document.getElementById(`price-${id}`).innerText = `KES ${Number(dynamicPrice).toLocaleString()}`;
-        }
-
-        function updateManualCard(selectId, cardTitle, regionCode) {
-            const selectElement = document.getElementById(`select-${selectId}`);
-            const selectedValue = selectElement.value;
-            const priceKES = manualRateSheet[selectId][selectedValue];
-            
-            document.getElementById(`price-${selectId}`).innerText = `KES ${priceKES.toLocaleString()}`;
-            
-            if (storeConfig.currentSelected.title === cardTitle) {
-                storeConfig.currentSelected.value = selectedValue;
-                storeConfig.currentSelected.price = `KES ${priceKES.toLocaleString()}`;
-                renderSummaryUI();
-            }
-        }
-
-        function selectManualCardForCheckout(selectId, cardTitle, regionCode) {
-            const selectElement = document.getElementById(`select-${selectId}`);
-            const selectedValue = selectElement.value;
-            const priceKES = manualRateSheet[selectId][selectedValue];
-
-            storeConfig.currentSelected.title = cardTitle;
-            storeConfig.currentSelected.region = regionCode;
-            storeConfig.currentSelected.value = selectedValue;
-            storeConfig.currentSelected.price = `KES ${priceKES.toLocaleString()}`;
-            
-            renderSummaryUI();
-            document.getElementById('checkoutSection').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function updateFormulaCard(selectId, cardTitle, regionCode) {
-            const selectElement = document.getElementById(`select-${selectId}`);
-            const selectedOption = selectElement.options[selectElement.selectedIndex];
-            const priceValue = selectedOption.getAttribute('data-price');
-            
-            document.getElementById(`price-${selectId}`).innerText = `KES ${Number(priceValue).toLocaleString()}`;
-            
-            if (storeConfig.currentSelected.title === cardTitle) {
-                storeConfig.currentSelected.value = selectedOption.value;
-                storeConfig.currentSelected.price = `KES ${Number(priceValue).toLocaleString()}`;
-                renderSummaryUI();
-            }
-        }
-
-        function selectFormulaCardForCheckout(selectId, cardTitle, regionCode) {
-            const selectElement = document.getElementById(`select-${selectId}`);
-            const selectedOption = selectElement.options[selectElement.selectedIndex];
-            const priceValue = selectedOption.getAttribute('data-price');
-
-            storeConfig.currentSelected.title = cardTitle;
-            storeConfig.currentSelected.region = regionCode;
-            storeConfig.currentSelected.value = selectedOption.value;
-            storeConfig.currentSelected.price = `KES ${Number(priceValue).toLocaleString()}`;
-            
-            renderSummaryUI();
-            document.getElementById('checkoutSection').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        function filterCategory(category, buttonElement) {
-            document.querySelectorAll('.filter-container .filter-btn').forEach(btn => btn.classList.remove('active'));
+        function filterPlatform(platform, buttonElement) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
             buttonElement.classList.add('active');
 
-            const cards = document.querySelectorAll('.product-card');
-            cards.forEach(card => {
-                if (category === 'all' || card.getAttribute('data-category') === category || 
-                   (category === 'playstation' && card.getAttribute('data-category') === 'playstation') ||
-                   (category === 'xbox' && card.getAttribute('data-category') === 'playstation')) {
-                    card.style.display = 'flex';
+            document.querySelectorAll('.product-panel').forEach(panel => {
+                if (platform === 'all' || panel.getAttribute('data-platform') === platform) {
+                    panel.style.display = 'flex';
                 } else {
-                    card.style.display = 'none';
+                    panel.style.display = 'none';
                 }
             });
         }
 
-        function renderSummaryUI() {
-            document.getElementById('summaryTitle').innerText = storeConfig.currentSelected.title;
-            document.getElementById('summaryRegion').innerText = storeConfig.currentSelected.region;
-            document.getElementById('summaryValue').innerText = storeConfig.currentSelected.value;
-            document.getElementById('summaryPrice').innerText = storeConfig.currentSelected.price;
-        }
+        function checkout(region) {
+            const data = selections[region];
+            if (!data) return;
 
-        function generateOrderMessage() {
-            return `New Order Request\n` +
-                   `Card: ${storeConfig.currentSelected.title}\n` +
-                   `Region: ${storeConfig.currentSelected.region}\n` +
-                   `Value: ${storeConfig.currentSelected.value}\n` +
-                   `Total Price: ${storeConfig.currentSelected.price}\n` +
-                   `Please provide payment details to complete my purchase.`;
-        }
-
-        function triggerWhatsAppCheckout() {
-            const encryptedMessage = encodeURIComponent(generateOrderMessage());
-            window.open(`https://wa.me/${storeConfig.whatsappNumber}?text=${encryptedMessage}`, '_blank');
-        }
-
-        function triggerInstagramCheckout() {
-            const encodedMessage = encodeURIComponent(generateOrderMessage());
-            const nativeInstagramUrl = `instagram://sharesheet?text=${encodedMessage}`;
-            const universalWebFallback = `https://www.instagram.com/${storeConfig.instagramUsername}/`;
-            const activeTimestamp = Date.now();
+            const targetPhoneNumber = "254791994148";
+            const dynamicMessage = `Hello Eclipse Store, I want to buy the ${region} ${data.value} gift card listed for ${data.price} on ECLIPSE.SHOP.`;
             
-            window.location.href = nativeInstagramUrl;
-
-            setTimeout(() => {
-                if (Date.now() - activeTimestamp < 1500) {
-                    window.open(universalWebFallback, '_blank');
-                }
-            }, 1000);
+            const webCheckoutUrl = `https://wa.me/${targetPhoneNumber}?text=${encodeURIComponent(dynamicMessage)}`;
+            window.open(webCheckoutUrl, '_blank');
         }
     </script>
 </body>

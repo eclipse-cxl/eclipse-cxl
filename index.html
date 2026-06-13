@@ -295,8 +295,8 @@
                 <div class="product-details">
                     <div class="product-title">PlayStation / Xbox Card (USA)</div>
                     <select class="select-variant" id="select-usa" onchange="updateManualCard('usa', 'PlayStation / Xbox Card (USA)', 'USA')">
+                        <option value="5 USD">5 USD</option>
                         <option value="10 USD">10 USD</option>
-                        <option value="20 USD">20 USD</option>
                         <option value="25 USD">25 USD</option>
                         <option value="50 USD" selected>50 USD</option>
                         <option value="75 USD">75 USD</option>
@@ -318,10 +318,13 @@
                     <select class="select-variant" id="select-uk" onchange="updateManualCard('uk', 'PlayStation / Xbox Card (UK)', 'UK')">
                         <option value="10 GBP">10 GBP</option>
                         <option value="20 GBP" selected>20 GBP</option>
-                        <option value="30 GBP">30 GBP</option>
+                        <option value="40 GBP">40 GBP</option>
                         <option value="50 GBP">50 GBP</option>
                         <option value="70 GBP">70 GBP</option>
                         <option value="100 GBP">100 GBP</option>
+                        <option value="120 GBP">120 GBP</option>
+                        <option value="150 GBP">150 GBP</option>
+                        <option value="200 GBP">200 GBP</option>
                     </select>
                     <div class="product-price" id="price-uk">KES --</div>
                     <button class="filter-btn" style="width:100%;" onclick="selectManualCardForCheckout('uk', 'PlayStation / Xbox Card (UK)', 'UK')">Select Card</button>
@@ -339,8 +342,10 @@
                     <select class="select-variant" id="select-uae" onchange="updateManualCard('uae', 'PlayStation / Xbox Card (UAE)', 'UAE')">
                         <option value="10 USD">10 USD</option>
                         <option value="20 USD" selected>20 USD</option>
-                        <option value="30 USD">30 USD</option>
+                        <option value="21 USD">21 USD</option>
+                        <option value="40 USD">40 USD</option>
                         <option value="50 USD">50 USD</option>
+                        <option value="60 USD">60 USD</option>
                         <option value="70 USD">70 USD</option>
                         <option value="100 USD">100 USD</option>
                     </select>
@@ -360,17 +365,18 @@
                     <select class="select-variant" id="select-za" onchange="updateManualCard('za', 'PlayStation / Xbox Card (ZA)', 'ZA')">
                         <option value="150 ZAR">150 ZAR</option>
                         <option value="250 ZAR" selected>250 ZAR</option>
-                        <option value="300 ZAR">300 ZAR</option>
-                        <option value="400 ZAR">400 ZAR</option>
                         <option value="500 ZAR">500 ZAR</option>
+                        <option value="750 ZAR">750 ZAR</option>
                         <option value="1000 ZAR">1000 ZAR</option>
+                        <option value="1500 ZAR">1500 ZAR</option>
+                        <option value="2000 ZAR">2000 ZAR</option>
                     </select>
                     <div class="product-price" id="price-za">KES --</div>
                     <button class="filter-btn" style="width:100%;" onclick="selectManualCardForCheckout('za', 'PlayStation / Xbox Card (ZA)', 'ZA')">Select Card</button>
                 </div>
             </div>
 
-            <!-- Roblox (Updated to Manual Rate Sheet) -->
+            <!-- Roblox (Formula Driven) -->
             <div class="product-card" data-category="roblox">
                 <div class="product-image-container">
                     <div class="product-image-fallback">Roblox Corporation</div>
@@ -378,14 +384,13 @@
                 </div>
                 <div class="product-details">
                     <div class="product-title">Roblox Robux Gift Card</div>
-                    <select class="select-variant" id="select-roblox" onchange="updateManualCard('roblox', 'Roblox Robux Gift Card', 'Global')">
-                        <option value="800 Robux">800 Robux</option>
-                        <option value="2000 Robux" selected>2000 Robux</option>
-                        <option value="4500 Robux">4500 Robux</option>
-                        <option value="10000 Robux">10000 Robux</option>
+                    <select class="select-variant" id="select-roblox" onchange="updateFormulaCard('roblox', 'Roblox Gift Card', 'Global')">
+                        <option value="10 USD">10 USD</option>
+                        <option value="25 USD" selected>25 USD</option>
+                        <option value="50 USD">50 USD</option>
                     </select>
                     <div class="product-price" id="price-roblox">KES --</div>
-                    <button class="filter-btn" style="width:100%;" onclick="selectManualCardForCheckout('roblox', 'Roblox Robux Gift Card', 'Global')">Select Card</button>
+                    <button class="filter-btn" style="width:100%;" onclick="selectFormulaCardForCheckout('roblox', 'Roblox Gift Card', 'Global')">Select Card</button>
                 </div>
             </div>
 
@@ -427,7 +432,7 @@
             </div>
             <div class="order-total-line">
                 <span>Total Cost:</span>
-                <span id="summaryPrice">KES 7,349</span>
+                <span id="summaryPrice">KES 7,410</span>
             </div>
 
             <div class="checkout-actions">
@@ -442,44 +447,45 @@
     </footer>
 
     <script>
+        // UPDATED MAPPINGS FROM YOUR NEW DATA IMAGES
         const manualRateSheet = {
             "usa": {
-                "10 USD": 1499,
-                "20 USD": 2999,
-                "25 USD": 3699,
-                "50 USD": 7349,
-                "75 USD": 10949,
-                "100 USD": 14559
+                "5 USD": 1000,
+                "10 USD": 1650,
+                "25 USD": 3710,
+                "50 USD": 7410,
+                "75 USD": 11110,
+                "100 USD": 14820
             },
             "uk": {
-                "10 GBP": 1999,
-                "20 GBP": 3949,
-                "30 GBP": 5949,
-                "50 GBP": 9699,
-                "70 GBP": 13449,
-                "100 GBP": 18999
+                "10 GBP": 2160,
+                "20 GBP": 3990,
+                "40 GBP": 7660,
+                "50 GBP": 9750,
+                "70 GBP": 13430,
+                "100 GBP": 18720,
+                "120 GBP": 22410,
+                "150 GBP": 28010,
+                "200 GBP": 37190
             },
             "uae": {
-                "10 USD": 1549,
-                "20 USD": 3099,
-                "30 USD": 4649,
-                "50 USD": 7699,
-                "70 USD": 10699,
-                "100 USD": 15249
+                "10 USD": 1710,
+                "20 USD": 3280,
+                "21 USD": 3580,
+                "40 USD": 6140,
+                "50 USD": 7570,
+                "60 USD": 9080,
+                "70 USD": 10590,
+                "100 USD": 14970
             },
             "za": {
-                "150 ZAR": 1349,
-                "250 ZAR": 2249,
-                "300 ZAR": 2699,
-                "400 ZAR": 3549,
-                "500 ZAR": 4449,
-                "1000 ZAR": 8849
-            },
-            "roblox": {
-                "800 Robux": 1499,
-                "2000 Robux": 3599,
-                "4500 Robux": 6599,
-                "10000 Robux": 13500
+                "150 ZAR": 1700,
+                "250 ZAR": 2620,
+                "500 ZAR": 4950,
+                "750 ZAR": 7420,
+                "1000 ZAR": 9890,
+                "1500 ZAR": 14830,
+                "2000 ZAR": 19780
             }
         };
 
@@ -488,7 +494,6 @@
             profitMargin: 150
         };
 
-        // Your updated active configuration
         const storeConfig = {
             whatsappNumber: "254791994148", 
             instagramUsername: "eclipse.store.ke", 
@@ -496,7 +501,7 @@
                 title: "PlayStation / Xbox Card (USA)",
                 region: "USA",
                 value: "50 USD",
-                price: "KES 7,349"
+                price: "KES 7,410"
             }
         };
 
@@ -514,6 +519,7 @@
                 }
             });
 
+            processFormulaElement('roblox');
             processFormulaElement('amazon');
 
             renderSummaryUI();
@@ -521,7 +527,6 @@
 
         function processFormulaElement(id) {
             const selectElement = document.getElementById(`select-${id}`);
-            if (!selectElement) return;
             const options = selectElement.options;
             
             for(let i = 0; i < options.length; i++) {

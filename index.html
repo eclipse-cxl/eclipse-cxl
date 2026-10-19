@@ -1,752 +1,1178 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ECLIPSE.SHOP | Premium Digital Gift Cards</title>
-    <style>
-        :root {
-            --bg-main: #0a0b10;
-            --bg-card: rgba(18, 20, 32, 0.65);
-            --bg-card-hover: rgba(24, 28, 46, 0.85);
-            --accent-purple: #b55fe6;
-            --accent-cyan: #00f5d4;
-            --accent-glow-purple: rgba(181, 95, 230, 0.35);
-            --accent-glow-cyan: rgba(0, 245, 212, 0.25);
-            --text-white: #ffffff;
-            --text-muted: #8a99ad;
-            --border-color: rgba(255, 255, 255, 0.06);
-            --border-hover: rgba(181, 95, 230, 0.4);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            -webkit-font-smoothing: antialiased;
-        }
+<title>For Ashley — Birthday Edition</title>
 
-        body {
-            background-color: var(--bg-main);
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(181, 95, 230, 0.08) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(0, 245, 212, 0.05) 0%, transparent 40%);
-            color: var(--text-white);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            letter-spacing: -0.01em;
-        }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@400;500;600&display=swap" rel="stylesheet">
 
-        /* HEADER DESIGN */
-        header {
-            padding: 60px 20px 30px 20px;
-            text-align: center;
-            position: relative;
-        }
+<style>
 
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 400px;
-            height: 150px;
-            background: radial-gradient(circle, rgba(181, 95, 230, 0.15) 0%, transparent 70%);
-            z-index: -1;
-            pointer-events: none;
-        }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-        .brand-name {
-            font-size: 64px;
-            font-weight: 900;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: var(--text-white);
-            display: inline-block;
-        }
+html{
+    scroll-behavior:smooth;
+}
 
-        .brand-name span {
-            background: linear-gradient(135deg, var(--accent-purple), var(--accent-cyan));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+body{
+    background:#05040a;
+    color:#fff;
+    font-family:Inter,sans-serif;
+    overflow-x:hidden;
+}
 
-        .tagline {
-            font-size: 13px;
-            color: var(--text-muted);
-            letter-spacing: 8px;
-            text-transform: uppercase;
-            font-weight: 700;
-            margin-top: 14px;
-        }
+/* ================= BACKGROUND ================= */
 
-        /* STICKY FILTER NAVIGATION */
-        .filter-nav {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: rgba(10, 11, 16, 0.85);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 15px 20px;
-            display: flex;
-            justify-content: center;
-            gap: 12px;
-            border-bottom: 1px solid var(--border-color);
-            overflow-x: auto;
-            scrollbar-width: none;
-        }
-        
-        .filter-nav::-webkit-scrollbar {
-            display: none;
-        }
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:
+        radial-gradient(circle at 15% 20%,rgba(167,78,255,.16),transparent 28%),
+        radial-gradient(circle at 85% 75%,rgba(255,76,178,.10),transparent 28%);
+    pointer-events:none;
+    z-index:-2;
+}
 
-        .filter-btn {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-color);
-            color: var(--text-muted);
-            padding: 10px 20px;
-            border-radius: 30px;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            white-space: nowrap;
-            transition: all 0.2s ease;
-        }
+.noise{
+    position:fixed;
+    inset:0;
+    opacity:.035;
+    pointer-events:none;
+    z-index:50;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+}
 
-        .filter-btn:hover {
-            color: var(--text-white);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
+/* ================= STARS ================= */
 
-        .filter-btn.active {
-            background: rgba(181, 95, 230, 0.12);
-            border-color: var(--accent-purple);
-            color: var(--text-white);
-            box-shadow: 0 0 15px rgba(181, 95, 230, 0.2);
-        }
+#stars{
+    position:fixed;
+    inset:0;
+    z-index:-1;
+    pointer-events:none;
+}
 
-        /* GRID SYSTEM */
-        main {
-            max-width: 1440px;
-            width: 100%;
-            margin: 0 auto;
-            padding: 40px 24px 120px 24px;
-            flex-grow: 1;
-        }
+.star{
+    position:absolute;
+    width:2px;
+    height:2px;
+    background:white;
+    border-radius:50%;
+    opacity:.3;
+    animation:twinkle 4s infinite ease-in-out;
+}
 
-        .store-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
-            transition: all 0.3s ease;
-        }
+@keyframes twinkle{
 
-        /* PRODUCT DISPLAY PANELS */
-        .product-panel {
-            background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+    0%,100%{
+        opacity:.15;
+        transform:scale(.6);
+    }
 
-        .product-panel.featured-panel {
-            border-color: rgba(0, 245, 212, 0.25);
-            box-shadow: 0 10px 30px rgba(0, 245, 212, 0.03);
-        }
+    50%{
+        opacity:.9;
+        transform:scale(1.5);
+    }
+}
 
-        .product-panel:hover {
-            background-color: var(--bg-card-hover);
-            border-color: var(--border-hover);
-            transform: translateY(-4px);
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.3),
-                0 0 30px var(--accent-glow-purple);
-        }
+/* ================= OPENING ================= */
 
-        .product-panel.featured-panel:hover {
-            border-color: var(--accent-cyan);
-            box-shadow: 
-                0 20px 40px rgba(0, 0, 0, 0.3),
-                0 0 30px var(--accent-glow-cyan);
-        }
+#intro{
+    position:fixed;
+    inset:0;
+    z-index:999;
+    background:
+        radial-gradient(circle at center,#171021 0%,#07060b 50%,#020204 100%);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    transition:1.2s ease;
+}
 
-        .panel-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+#intro.hide{
+    opacity:0;
+    pointer-events:none;
+}
 
-        .panel-header h2 {
-            font-size: 20px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-        }
+.intro-content{
+    width:min(700px,90%);
+}
 
-        .region-badge {
-            font-size: 10px;
-            font-weight: 800;
-            color: var(--text-muted);
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 4px 10px;
-            border-radius: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+.intro-line{
+    width:0;
+    height:1px;
+    background:rgba(255,255,255,.4);
+    margin:0 auto 30px;
+    animation:lineIn 1.5s forwards;
+}
 
-        .product-panel.featured-panel .region-badge {
-            color: var(--accent-cyan);
-            background: rgba(0, 245, 212, 0.06);
-            border: 1px solid rgba(0, 245, 212, 0.15);
-        }
+@keyframes lineIn{
+    to{
+        width:150px;
+    }
+}
 
-        /* CARD EMBLEMS & VISUALS */
-        .card-visual-wrapper {
-            margin-bottom: 24px;
-            display: flex;
-            justify-content: center;
-        }
+.intro-small{
+    color:#9991a5;
+    font-size:.68rem;
+    letter-spacing:5px;
+    text-transform:uppercase;
+    margin-bottom:25px;
+}
 
-        .card-visual {
-            width: 100%;
-            height: 160px;
-            border-radius: 14px;
-            position: relative;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            overflow: hidden;
-            transition: all 0.4s ease;
-        }
+.intro-content h1{
+    font-family:"Playfair Display",serif;
+    font-style:italic;
+    font-size:clamp(4rem,15vw,9rem);
+    font-weight:400;
+    line-height:.9;
+    background:linear-gradient(100deg,#fff,#d99aff,#fff);
+    background-size:200%;
+    -webkit-background-clip:text;
+    color:transparent;
+    animation:shine 5s linear infinite;
+}
 
-        .card-visual::before {
-            content: '';
-            position: absolute;
-            top: -20%;
-            right: -10%;
-            width: 160px;
-            height: 160px;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-        }
+@keyframes shine{
+    to{
+        background-position:200%;
+    }
+}
 
-        .visual-roblox { background: linear-gradient(135deg, #222225, #0f0f10); border: 1px solid rgba(255, 255, 255, 0.1); }
-        .visual-usa { background: linear-gradient(135deg, #151a30, #0a0d1a); border: 1px solid rgba(181, 95, 230, 0.15); }
-        .visual-uk { background: linear-gradient(135deg, #22143d, #0e071c); border: 1px solid rgba(181, 95, 230, 0.15); }
-        .visual-uae { background: linear-gradient(135deg, #102622, #061210); border: 1px solid rgba(0, 245, 212, 0.15); }
-        .visual-sa { background: linear-gradient(135deg, #2b1333, #110514); border: 1px solid rgba(181, 95, 230, 0.15); }
-        .visual-amazon { background: linear-gradient(135deg, #141921, #0b0d12); border: 1px solid rgba(255, 153, 0, 0.15); }
+.intro-sub{
+    margin:30px 0 40px;
+    color:#aaa3b1;
+    font-size:.85rem;
+}
 
-        .card-meta-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 2;
-        }
+.enter{
+    background:transparent;
+    color:white;
+    border:1px solid rgba(255,255,255,.3);
+    padding:14px 30px;
+    border-radius:100px;
+    cursor:pointer;
+    font-family:inherit;
+    transition:.4s;
+}
 
-        .card-chip {
-            width: 34px;
-            height: 24px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0.05));
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 5px;
-        }
+.enter:hover{
+    background:white;
+    color:#09070d;
+    transform:scale(1.05);
+    box-shadow:0 0 40px rgba(220,150,255,.25);
+}
 
-        .brand-platform-logo {
-            height: 22px;
-            width: auto;
-            filter: brightness(0) invert(1);
-            opacity: 0.85;
-        }
+/* ================= MAIN ================= */
 
-        .brand-platform-logo.amazon-logo {
-            height: 16px;
-        }
+main{
+    opacity:0;
+    transition:1.5s ease;
+}
 
-        .card-display-value {
-            font-size: 28px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            color: var(--text-white);
-            z-index: 2;
-            transition: all 0.3s ease;
-        }
+main.visible{
+    opacity:1;
+}
 
-        /* PRICING SELECTORS */
-        .tier-list {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            flex-grow: 1;
-            margin-bottom: 24px;
-        }
+/* ================= NAV ================= */
 
-        .tier-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 16px;
-            background-color: rgba(255, 255, 255, 0.02);
-            border: 1px solid transparent;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+nav{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    z-index:100;
+    padding:22px 35px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:linear-gradient(
+        rgba(5,4,10,.85),
+        transparent
+    );
+    backdrop-filter:blur(3px);
+}
 
-        .tier-row:hover {
-            background-color: rgba(255, 255, 255, 0.04);
-            border-color: rgba(255, 255, 255, 0.05);
-        }
+.logo{
+    font-size:.7rem;
+    letter-spacing:4px;
+    color:#aaa2b0;
+}
 
-        .tier-row.selected {
-            background: rgba(181, 95, 230, 0.08);
-            border-color: rgba(181, 95, 230, 0.3);
-        }
-        
-        .product-panel.featured-panel .tier-row.selected {
-            background: rgba(0, 245, 212, 0.06);
-            border-color: rgba(0, 245, 212, 0.3);
-        }
+.music{
+    border:1px solid rgba(255,255,255,.15);
+    background:rgba(255,255,255,.04);
+    color:#aaa2b0;
+    padding:8px 14px;
+    border-radius:30px;
+    cursor:pointer;
+    font-size:.7rem;
+}
 
-        .tier-val {
-            font-size: 15px;
-            font-weight: 500;
-            color: var(--text-muted);
-            transition: color 0.2s;
-        }
+/* ================= HERO ================= */
 
-        .tier-row.selected .tier-val {
-            color: var(--text-white);
-            font-weight: 600;
-        }
+.hero{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:100px 20px;
+    position:relative;
+}
 
-        .tier-price {
-            font-size: 15px;
-            font-weight: 700;
-            color: var(--text-white);
-            transition: color 0.2s;
-        }
+.hero-content{
+    max-width:900px;
+}
 
-        .tier-row.selected .tier-price {
-            color: var(--accent-purple);
-        }
+.overline{
+    color:#a49aaa;
+    font-size:.7rem;
+    letter-spacing:5px;
+    text-transform:uppercase;
+    margin-bottom:30px;
+}
 
-        .product-panel.featured-panel .tier-row.selected .tier-price {
-            color: var(--accent-cyan);
-        }
+.hero h2{
+    font-family:"Playfair Display",serif;
+    font-size:clamp(4rem,13vw,9rem);
+    line-height:.85;
+    font-weight:400;
+}
 
-        /* INTEGRATED BUTTON TRANSLATIONS */
-        .order-btn {
-            background: var(--text-white);
-            border: none;
-            color: var(--bg-main);
-            padding: 16px;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            width: 100%;
-            text-align: center;
-        }
+.hero h2 span{
+    display:block;
+    font-style:italic;
+    background:linear-gradient(90deg,#b975ff,#ff8bd5,#b975ff);
+    background-size:200%;
+    -webkit-background-clip:text;
+    color:transparent;
+    animation:shine 6s linear infinite;
+}
 
-        .order-btn:hover:not(:disabled) {
-            background: var(--accent-purple);
-            color: var(--text-white);
-            box-shadow: 0 0 24px var(--accent-glow-purple);
-            transform: scale(1.01);
-        }
+.hero-desc{
+    max-width:550px;
+    margin:35px auto 0;
+    color:#96909e;
+    font-size:.9rem;
+    line-height:1.8;
+}
 
-        .product-panel.featured-panel .order-btn:hover:not(:disabled) {
-            background: var(--accent-cyan);
-            color: var(--bg-main);
-            box-shadow: 0 0 24px var(--accent-glow-cyan);
-        }
+.scroll{
+    position:absolute;
+    bottom:30px;
+    left:50%;
+    transform:translateX(-50%);
+    font-size:.65rem;
+    letter-spacing:4px;
+    color:#625d67;
+    animation:scrollBounce 2s infinite;
+}
 
-        .order-btn:disabled {
-            background: rgba(255, 255, 255, 0.04);
-            color: rgba(255, 255, 255, 0.2);
-            cursor: not-allowed;
-        }
+@keyframes scrollBounce{
 
-        /* REVENUE STAMP FOOTER */
-        footer {
-            border-top: 1px solid var(--border-color);
-            padding: 40px 20px;
-            text-align: center;
-            font-size: 12px;
-            color: var(--text-muted);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            font-weight: 600;
-            background-color: #06070a;
-        }
+    0%,100%{
+        transform:translate(-50%,0);
+    }
 
-        /* RESPONSIVE DESKTOP VS SCREEN CORRECTION SYSTEM */
-        @media (max-width: 768px) {
-            .brand-name { 
-                font-size: 38px; 
-            }
-            header { 
-                padding: 30px 15px 15px 15px; 
-            }
-            
-            .filter-nav {
-                padding: 10px 15px;
-                gap: 8px;
-            }
-            .filter-btn {
-                padding: 8px 16px;
-                font-size: 12px;
-            }
+    50%{
+        transform:translate(-50%,8px);
+    }
 
-            main { 
-                padding: 20px 16px 80px 16px; 
-            }
-            .store-grid { 
-                grid-template-columns: 1fr;
-                gap: 20px; 
-            }
+}
 
-            .product-panel {
-                padding: 18px;
-                border-radius: 16px;
-            }
-            .panel-header h2 {
-                font-size: 18px;
-            }
+/* ================= MESSAGE ================= */
 
-            .card-visual {
-                height: 120px;
-                padding: 15px;
-            }
-            .card-display-value {
-                font-size: 22px;
-            }
-            .brand-platform-logo {
-                height: 18px;
-            }
+.message-section{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:100px 20px;
+}
 
-            .tier-row {
-                padding: 12px 14px;
-            }
-            .tier-val, .tier-price {
-                font-size: 14px;
-            }
-            
-            .order-btn {
-                padding: 14px;
-                font-size: 13px;
-                border-radius: 10px;
-            }
-        }
-    </style>
+.message-card{
+    width:min(820px,100%);
+    position:relative;
+    padding:clamp(30px,7vw,70px);
+    border:1px solid rgba(255,255,255,.1);
+    background:rgba(255,255,255,.035);
+    backdrop-filter:blur(20px);
+    border-radius:4px;
+    box-shadow:
+        0 30px 100px rgba(0,0,0,.45);
+}
+
+.message-card::before{
+    content:"";
+    position:absolute;
+    top:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:120px;
+    height:1px;
+    background:linear-gradient(
+        90deg,
+        transparent,
+        #d17aff,
+        transparent
+    );
+}
+
+.message-label{
+    text-align:center;
+    font-size:.65rem;
+    letter-spacing:5px;
+    color:#817988;
+    text-transform:uppercase;
+    margin-bottom:45px;
+}
+
+.message{
+    color:#c9c3cd;
+    font-size:.94rem;
+    line-height:2;
+}
+
+.message p{
+    margin-bottom:22px;
+}
+
+.message p:first-child{
+    color:#fff;
+    font-size:1.25rem;
+    font-weight:600;
+}
+
+.message p:last-of-type{
+    color:#fff;
+}
+
+.signature{
+    margin-top:45px;
+    padding-top:25px;
+    border-top:1px solid rgba(255,255,255,.08);
+    text-align:right;
+    color:#b978d9;
+    font-family:"Playfair Display",serif;
+    font-style:italic;
+    line-height:1.8;
+}
+
+/* ================= GIFT ================= */
+
+.gift-section{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:100px 20px;
+}
+
+.gift-wrap{
+    width:min(700px,100%);
+}
+
+.section-number{
+    color:#655e6c;
+    font-size:.65rem;
+    letter-spacing:4px;
+    margin-bottom:20px;
+}
+
+.gift-wrap h2{
+    font-family:"Playfair Display",serif;
+    font-size:clamp(2.5rem,7vw,5rem);
+    font-weight:400;
+}
+
+.gift-wrap > p{
+    color:#85808c;
+    margin:20px auto 60px;
+    font-size:.85rem;
+}
+
+.gift{
+    position:relative;
+    width:170px;
+    height:145px;
+    margin:auto;
+    cursor:pointer;
+    transition:.5s;
+}
+
+.gift:hover{
+    transform:translateY(-10px) scale(1.04);
+}
+
+.gift-box{
+    position:absolute;
+    bottom:0;
+    width:170px;
+    height:105px;
+    background:linear-gradient(
+        135deg,
+        #54226d,
+        #8d3eb0
+    );
+    box-shadow:
+        0 20px 60px rgba(170,70,220,.2);
+}
+
+.gift-box::after{
+    content:"";
+    position:absolute;
+    left:72px;
+    width:25px;
+    height:100%;
+    background:#d98bdb;
+}
+
+.gift-lid{
+    position:absolute;
+    left:-7px;
+    top:15px;
+    width:184px;
+    height:35px;
+    background:#9a47bb;
+    z-index:2;
+    transition:.8s cubic-bezier(.2,.8,.2,1);
+}
+
+.gift-lid::after{
+    content:"";
+    position:absolute;
+    left:79px;
+    width:25px;
+    height:35px;
+    background:#ed9ee5;
+}
+
+.bow{
+    position:absolute;
+    top:-20px;
+    left:65px;
+    width:40px;
+    height:30px;
+    z-index:3;
+}
+
+.bow::before,
+.bow::after{
+    content:"";
+    position:absolute;
+    width:35px;
+    height:25px;
+    border:5px solid #e99ade;
+    border-radius:50%;
+}
+
+.bow::before{
+    transform:rotate(25deg);
+}
+
+.bow::after{
+    transform:translateX(18px) rotate(-25deg);
+}
+
+.gift.open .gift-lid{
+    transform:translateY(-100px) rotate(-8deg);
+}
+
+.gift-message{
+    margin-top:35px;
+    opacity:0;
+    transform:translateY(20px);
+    transition:.8s;
+    color:#c994df;
+    line-height:1.8;
+}
+
+.gift-message.show{
+    opacity:1;
+    transform:translateY(0);
+}
+
+/* ================= FINAL ================= */
+
+.final{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:100px 20px;
+    position:relative;
+    overflow:hidden;
+}
+
+.final-content{
+    max-width:900px;
+}
+
+.final-small{
+    color:#716a76;
+    font-size:.65rem;
+    letter-spacing:5px;
+    text-transform:uppercase;
+}
+
+.final h2{
+    font-family:"Playfair Display",serif;
+    font-weight:400;
+    font-size:clamp(3rem,10vw,7rem);
+    line-height:.95;
+    margin:25px 0;
+}
+
+.final h2 span{
+    font-style:italic;
+    background:linear-gradient(
+        90deg,
+        #d17aff,
+        #ff91d6,
+        #d17aff
+    );
+    background-size:200%;
+    -webkit-background-clip:text;
+    color:transparent;
+    animation:shine 5s linear infinite;
+}
+
+.final p{
+    color:#85808a;
+    font-size:.85rem;
+    line-height:1.8;
+}
+
+.final-btn{
+    margin-top:35px;
+    padding:14px 30px;
+    border:1px solid rgba(255,255,255,.2);
+    background:rgba(255,255,255,.04);
+    color:white;
+    border-radius:100px;
+    cursor:pointer;
+    transition:.4s;
+}
+
+.final-btn:hover{
+    background:white;
+    color:#08060b;
+}
+
+/* ================= SECRET ================= */
+
+#secret{
+    position:fixed;
+    inset:0;
+    z-index:1000;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:rgba(2,1,5,.92);
+    backdrop-filter:blur(15px);
+    opacity:0;
+    visibility:hidden;
+    transition:.5s;
+    text-align:center;
+    padding:20px;
+}
+
+#secret.show{
+    opacity:1;
+    visibility:visible;
+}
+
+.secret-box{
+    width:min(500px,100%);
+    padding:50px 30px;
+    border:1px solid rgba(255,255,255,.15);
+    background:#0c0911;
+    box-shadow:0 30px 100px rgba(0,0,0,.7);
+}
+
+.secret-box .lock{
+    font-size:2rem;
+    margin-bottom:20px;
+}
+
+.secret-box h3{
+    font-family:"Playfair Display",serif;
+    font-size:2rem;
+    font-weight:400;
+    margin-bottom:15px;
+}
+
+.secret-box p{
+    color:#918b96;
+    font-size:.85rem;
+    line-height:1.8;
+}
+
+.close-secret{
+    margin-top:30px;
+    padding:10px 25px;
+    background:transparent;
+    color:#aaa;
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:30px;
+    cursor:pointer;
+}
+
+/* ================= CONFETTI ================= */
+
+.confetti{
+    position:fixed;
+    z-index:9999;
+    pointer-events:none;
+    font-size:20px;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:600px){
+
+    nav{
+        padding:18px 20px;
+    }
+
+    .hero{
+        padding:100px 20px;
+    }
+
+    .hero h2{
+        font-size:4rem;
+    }
+
+    .message{
+        font-size:.88rem;
+    }
+
+    .message-card{
+        padding:30px 24px;
+    }
+
+}
+
+</style>
 </head>
+
+
 <body>
 
-    <!-- HERO HEADER -->
-    <header>
-        <div class="logo-area">
-            <h1 class="brand-name">Eclipse<span>.shop</span></h1>
+<div class="noise"></div>
+
+<div id="stars"></div>
+
+
+<!-- ================= INTRO ================= -->
+
+<div id="intro">
+
+    <div class="intro-content">
+
+        <div class="intro-line"></div>
+
+        <div class="intro-small">
+            A small birthday surprise
         </div>
-        <div class="tagline">Instant Digital Access</div>
-    </header>
 
-    <!-- STICKY FILTER BAR -->
-    <nav class="filter-nav">
-        <button class="filter-btn active" onclick="filterPlatform('all', this)">All Cards</button>
-        <button class="filter-btn" onclick="filterPlatform('roblox', this)">Roblox</button>
-        <button class="filter-btn" onclick="filterPlatform('playstation', this)">PlayStation</button>
-        <button class="filter-btn" onclick="filterPlatform('amazon', this)">Amazon</button>
-    </nav>
+        <h1>Ashley</h1>
 
-    <!-- LIVE GRID INTERFACE -->
-    <main>
-        <div class="store-grid" id="main-store-grid">
+        <div class="intro-sub">
+            Something I made instead of just saying "happy birthday" 😂
+        </div>
 
-            <!-- 1. ROBLOX ROBUX STORE (FIRST & OPTIMIZED ACCESSIBILITY) -->
-            <div class="product-panel featured-panel" data-platform="roblox">
-                <div class="panel-header">
-                    <h2>Global Packs</h2>
-                    <span class="region-badge">Roblox</span>
-                </div>
-                <div class="card-visual-wrapper">
-                    <div class="card-visual visual-roblox">
-                        <div class="card-meta-row">
-                            <div class="card-chip"></div>
-                            <img class="brand-platform-logo" src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Roblox_player_icon_black.svg" alt="Roblox" style="height: 20px;">
-                        </div>
-                        <div class="card-display-value" id="value-Roblox">— — —</div>
-                    </div>
-                </div>
-                <div class="tier-list">
-                    <div class="tier-row" onclick="selectTier(this, 'Roblox', '800 Robux', 'KSh 1,499')">
-                        <span class="tier-val">800 Robux Pack</span><span class="tier-price">KSh 1,499</span>
-                    </div>
-                    <div class="tier-row" onclick="selectTier(this, 'Roblox', '2000 Robux', 'KSh 3,599')">
-                        <span class="tier-val">2000 Robux Pack</span><span class="tier-price">KSh 3,599</span>
-                    </div>
-                    <div class="tier-row" onclick="selectTier(this, 'Roblox', '4500 Robux', 'KSh 6,599')">
-                        <span class="tier-val">4500 Robux Pack</span><span class="tier-price">KSh 6,599</span>
-                    </div>
-                    <div class="tier-row" onclick="selectTier(this, 'Roblox', '10000 Robux', 'KSh 13,500')">
-                        <span class="tier-val">10000 Robux Pack</span><span class="tier-price">KSh 13,500</span>
-                    </div>
-                </div>
-                <button class="order-btn" id="btn-Roblox" disabled onclick="checkout('Roblox')">Select Denomination</button>
-            </div>
+        <button class="enter" onclick="enterSite()">
+            ENTER THE SURPRISE
+        </button>
 
-            <!-- USA STORE -->
-            <div class="product-panel" data-platform="playstation">
-                <div class="panel-header">
-                    <h2>USA Region</h2>
-                    <span class="region-badge">PlayStation</span>
-                </div>
-                <div class="card-visual-wrapper">
-                    <div class="card-visual visual-usa">
-                        <div class="card-meta-row">
-                            <div class="card-chip"></div>
-                            <img class="brand-platform-logo" src="https://upload.wikimedia.org/wikipedia/commons/0/00/PlayStation_logo.svg" alt="PSN">
-                        </div>
-                        <div class="card-display-value" id="value-USA">— — —</div>
-                    </div>
-                </div>
-                <div class="tier-list">
-                    <div class="tier-row" onclick="selectTier(this, 'USA', '$5', 'KSh 1,000')">
-                        <span class="tier-val">PSN USA $5</span><span class="tier-price">KSh 1,000</span>
-                    </div>
-                    <div class="tier-row" onclick="selectTier(this, 'USA', '$10', 'KSh 1,650')">
-                        <span class="tier-val">PSN USA $10</span><span class="tier-price">KSh 1,650</span>
-                    </div>
-                    <div class="tier-row" onclick="selectTier(this, 'USA', '$25', 'KSh 3,710')">
-                        <span class="tier-val">PSN USA $25</span><span class="tier-price">KSh 3,710</span>
-                    </div>
-                    <div class="tier-row" onclick="selectTier(this, 'USA', '$50', 'KSh 7,410')">
-                        <span class="tier-val">PSN USA $50</span><span class="tier-price">KSh 7,410</span>
-                    </div>
-                    <div class="tier-row" onclick="selectTier(this, 'USA', '$75', 'KSh 11,110')">
-                        <span class="tier-val">PSN USA $75</span><span class="tier-price">KSh 11,110</span>
-                    </div>
-                    <div class="tier-row" onclick="selectTier(this, 'USA', '$100', 'KSh 14,820')">
-                        <span class="tier-val">PSN USA $100</span><span class="tier-price">KSh 14,820</span>
-                    </div>
-                </div>
-                <button class="order-btn" id="btn-USA" disabled onclick="checkout('USA')">Select Denomination</button>
-            </div>
+    </div>
 
-            <!-- UK STORE -->
-            <div class="product-panel" data-platform="playstation">
-                <div class="panel-header">
-                    <h2>UK Region</h2>
-                    <span class="region-badge">PlayStation</span>
-                </div>
-                <div class="card-visual-wrapper">
-                    <div class="card-visual visual-uk">
-                        <div class="card-meta-row">
-                            <div class="card-chip"></div>
-                            <img class="brand-platform-logo" src="https://upload.wikimedia.org/wikipedia/commons/0/00/PlayStation_logo.svg" alt="PSN">
-                        </div>
-                        <div class="card-display-value" id="value-UK">— — —</div>
-                    </div>
-                </div>
-                <div class="tier-list">
-                    <div class="tier-row" onclick="selectTier(this, 'UK', '£10', 'KSh 2,160')">
-                        <span class="tier-val">PSN UK £10</span><span class="tier-price">KSh 2,160</span>
-                    </div>
-                    <div class="tier-row" onclick="selectTier(this, 'UK', '£20', 'KSh 3,990')">
-                        <span class="tier-val">PSN UK £20</span><span class="tier-price">KSh 3,990</span>
-                    </div>
-                    <div class="tier-row" onclick="selectTier(this, 'UK', '£40', 'KSh 7,660')">
-                        <span class="tier-val">PSN UK £40</span><span class="tier-price">KSh 7,660</span>
-                    </div>
-                    <div class="tier-row" onclick="selectTier(this, 'UK', '£50', 'KSh 9,750')">
-                        <span class="tier-val">PSN UK £50</span><span class="tier-price">KSh 9,750</span>
-                    </div>
-                    <div class="tier-row" onclick="selectTier(this, 'UK', '£70', 'KSh 13,430')">
-                        <span class="tier-val">PSN UK £70</span><span class="tier-price">KSh 13,430</span>
-                    </div>
-                    <div class="tier-row" onclick="selectTier(this, 'UK', '£100', 'KSh 18,720')">
-                        <span class="tier-val">PSN UK £100</span><span class="tier-price">KSh 18,720</span>
-                    </div>
-                </div>
-                <button class="order-btn" id="btn-UK" disabled onclick="checkout('UK')">Select Denomination</button>
-            </div>
+</div>
 
-            <!-- UAE STORE -->
-            <div class="product-panel" data-platform="playstation">
-                <div class="panel-header">
-                    <h2>UAE Region</h2>
-                    <span class="region-badge">PlayStation</span>
-                </div>
-                <div class="card-visual-wrapper">
-                    <div class="card-visual visual-uae">
-                        <div class="card-meta-row">
-                            <div class="card-chip"></div>
-                            <img class="brand-platform-logo" src="https://upload.wikimedia.org/wikipedia/commons/0/00/PlayStation_logo.svg" alt="PSN">
-                        </div>
-                        <div class="card-display-value" id="value-UAE">— — —</div>
-                    </div>
-                </div>
-                <div class="tier-list">
-                    <div class="tier-row" onclick="selectTier(this, 'UAE', '$10', 'KSh 1,710')">
-                        <span class="tier-val">PSN UAE $10</span><span class="tier-price">KSh 1,710</span>
-                    </div>
-                    <div class="tier-row" onclick="selectTier(this, 'UAE', '$20', 'KSh 3,280')">
-                        <span class="tier-val">PSN UAE $20</span><span class="tier-price">KSh 3,280</span>
-                    </div>
-                    <div class="tier-row" onclick="selectTier(this, 'UAE', '$50', 'KSh 7,570')">
-                        <span class="tier-val">PSN UAE $50</span><span class="tier-price">KSh 7,570</span>
-                    </div>
-                    <div class="tier-row" onclick="selectTier(this, 'UAE', '$100', 'KSh 14,970')">
-                        <span class="tier-val">PSN UAE $100</span><span class="tier-price">KSh 14,970</span>
-                    </div>
-                </div>
-                <button class="order-btn" id="btn-UAE" disabled onclick="checkout('UAE')">Select Denomination</button>
-            </div>
 
-            <!-- SOUTH AFRICA STORE -->
-            <div class="product-panel" data-platform="playstation">
-                <div class="panel-header">
-                    <h2>South Africa</h2>
-                    <span class="region-badge">PlayStation</span>
-                </div>
-                <div class="card-visual-wrapper">
-                    <div class="card-visual visual-sa">
-                        <div class="card-meta-row">
-                            <div class="card-chip"></div>
-                            <img class="brand-platform-logo" src="https://upload.wikimedia.org/wikipedia/commons/0/00/PlayStation_logo.svg" alt="PSN">
-                        </div>
-                        <div class="card-display-value" id="value-South Africa">— — —</div>
-                    </div>
-                </div>
-                <div class="tier-list">
-                    <div class="tier-row" onclick="selectTier(this, 'South Africa', 'ZAR 150', 'KSh 1,700')">
-                        <span class="tier-val">PSN ZAR 150</span><span class="tier-price">KSh 1,700</span>
-                    </div>
-                    <div class="tier-row" onclick="selectTier(this, 'South Africa', 'ZAR 250', 'KSh 2,620')">
-                        <span class="tier-val">PSN ZAR 250</span><span class="tier-price">KSh 2,620</span>
-                    </div>
-                    <div class="tier-row" onclick="selectTier(this, 'South Africa', 'ZAR 500', 'KSh 4,950')">
-                        <span class="tier-val">PSN ZAR 500</span><span class="tier-price">KSh 4,950</span>
-                    </div>
-                    <div class="tier-row" onclick="selectTier(this, 'South Africa', 'ZAR 1000', 'KSh 9,890')">
-                        <span class="tier-val">PSN ZAR 1000</span><span class="tier-price">KSh 9,890</span>
-                    </div>
-                </div>
-                <button class="order-btn" id="btn-South Africa" disabled onclick="checkout('South Africa')">Select Denomination</button>
-            </div>
+<!-- ================= MAIN ================= -->
 
-            <!-- AMAZON US STORE -->
-            <div class="product-panel" data-platform="amazon">
-                <div class="panel-header">
-                    <h2>US Balance</h2>
-                    <span class="region-badge">Amazon</span>
-                </div>
-                <div class="card-visual-wrapper">
-                    <div class="card-visual visual-amazon">
-                        <div class="card-meta-row">
-                            <div class="card-chip"></div>
-                            <img class="brand-platform-logo amazon-logo" src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg" alt="Amazon">
-                        </div>
-                        <div class="card-display-value" id="value-Amazon">— — —</div>
-                    </div>
-                </div>
-                <div class="tier-list">
-                    <div class="tier-row" onclick="selectTier(this, 'Amazon', '$5', 'KSh 1,000')">
-                        <span class="tier-val">Amazon US $5</span><span class="tier-price">KSh 1,000</span>
-                    </div>
-                    <div class="tier-row" onclick="selectTier(this, 'Amazon', '$10', 'KSh 1,650')">
-                        <span class="tier-val">Amazon US $10</span><span class="tier-price">KSh 1,650</span>
-                    </div>
-                    <div class="tier-row" onclick="selectTier(this, 'Amazon', '$25', 'KSh 3,710')">
-                        <span class="tier-val">Amazon US $25</span><span class="tier-price">KSh 3,710</span>
-                    </div>
-                    <div class="tier-row" onclick="selectTier(this, 'Amazon', '$50', 'KSh 7,410')">
-                        <span class="tier-val">Amazon US $50</span><span class="tier-price">KSh 7,410</span>
-                    </div>
-                    <div class="tier-row" onclick="selectTier(this, 'Amazon', '$100', 'KSh 14,820')">
-                        <span class="tier-val">Amazon US $100</span><span class="tier-price">KSh 14,820</span>
-                    </div>
-                </div>
-                <button class="order-btn" id="btn-Amazon" disabled onclick="checkout('Amazon')">Select Denomination</button>
+<main id="main">
+
+
+<nav>
+
+    <div class="logo">
+        A • BIRTHDAY EDITION
+    </div>
+
+    <button class="music" onclick="toggleMusic()" id="musicBtn">
+        ♪ MUSIC OFF
+    </button>
+
+</nav>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="overline">
+            October • Birthday Edition
+        </div>
+
+        <h2>
+            Happy Birthday
+            <span>Ashleyyyy</span>
+        </h2>
+
+        <p class="hero-desc">
+            Today is officially the day where you get to be
+            the main character. Don't get too comfortable though. 😂
+        </p>
+
+    </div>
+
+    <div class="scroll">
+        SCROLL TO CONTINUE
+    </div>
+
+</section>
+
+
+<!-- ================= MESSAGE ================= -->
+
+<section class="message-section">
+
+    <div class="message-card">
+
+        <div class="message-label">
+            A message from your twinamon
+        </div>
+
+        <div class="message">
+
+            <p>
+                Oiii birthday girlllll🥳🎂💕!!
+            </p>
+
+            <p>
+                Wasn't planing on long paragraphs... btt since it's your birthday...I'll  be nice for five minutes😂
+            </p>
+
+            <p>
+                I'm wishing you a year full of laughter, blessings, answered prayers, mone🤑, good health, and all the happiness your heart can carry. May God continue to watch over you and guide every step you take
+            </p>
+
+            <p>
+                Don't let anybody stress u today... (except me of course😛)
+            </p>
+
+            <p>
+                Eat plenty, dance plenty, smile plenty, and remember u officially too old to stay home omdss eshlii
+            </p>
+
+            <p>
+                Have the best birthday everrr. today is the one day I won't ragebait you too much... emphasis on too much🙂
+            </p>
+
+            <p>
+                Happy birthday Ashleyyyy👵
+            </p>
+
+            <p>
+                Ilysmmm😛🫂💓
+            </p>
+
+            <div class="signature">
+
+                ~twinamon/favourite human being/most goated hb
+
+                <br><br>
+
+                (And yes I'm first btw🙂)
+
             </div>
 
         </div>
-    </main>
 
-    <!-- FOOTER STRIP -->
-    <footer>
-        &copy; 2026 ECLIPSE.SHOP &bull; INSTANT DIGITAL DELIVERY &bull; GENUINE KEYS ONLY
-    </footer>
+    </div>
 
-    <!-- INTERACTIVE SCRIPT LOGIC -->
-    <script>
-        const selections = {
-            "USA": null,
-            "UK": null,
-            "South Africa": null,
-            "UAE": null,
-            "Roblox": null,
-            "Amazon": null
-        };
+</section>
 
-        function selectTier(element, region, cardValue, kesPrice) {
-            const panel = element.closest('.product-panel');
-            
-            panel.querySelectorAll('.tier-row').forEach(row => {
-                row.classList.remove('selected');
-            });
-            
-            element.classList.add('selected');
-            selections[region] = { value: cardValue, price: kesPrice };
-            
-            const visualText = document.getElementById(`value-${region}`);
-            visualText.innerText = cardValue;
 
-            const targetButton = document.getElementById(`btn-${region}`);
-            targetButton.disabled = false;
-            targetButton.innerText = `Buy ${cardValue} (${kesPrice})`;
-        }
+<!-- ================= GIFT ================= -->
 
-        function filterPlatform(platform, buttonElement) {
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            buttonElement.classList.add('active');
+<section class="gift-section">
 
-            document.querySelectorAll('.product-panel').forEach(panel => {
-                if (platform === 'all' || panel.getAttribute('data-platform') === platform) {
-                    panel.style.display = 'flex';
-                } else {
-                    panel.style.display = 'none';
+    <div class="gift-wrap">
+
+        <div class="section-number">
+            02 / SOMETHING EXTRA
+        </div>
+
+        <h2>
+            You thought that was it?
+        </h2>
+
+        <p>
+            Nahhh. There's one more thing. 👀
+        </p>
+
+        <div class="gift" onclick="openGift()">
+
+            <div class="bow"></div>
+
+            <div class="gift-lid"></div>
+
+            <div class="gift-box"></div>
+
+        </div>
+
+        <div class="gift-message" id="giftMessage">
+
+            🎉 SURPRISEEEE 🎉
+
+            <br><br>
+
+            Okay there's actually no physical gift in here 😭
+
+            <br>
+
+            BUT THE THOUGHT COUNTS.
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FINAL ================= -->
+
+<section class="final">
+
+    <div class="final-content">
+
+        <div class="final-small">
+            End of transmission
+        </div>
+
+        <h2>
+            Stay goated,
+            <span>Ashley.</span>
+        </h2>
+
+        <p>
+            Another year older.
+            Another year of you being annoying. 😂
+            <br>
+            But fr, I hope this year treats you amazingly.
+        </p>
+
+        <button class="final-btn" onclick="celebrate()">
+            One last thing...
+        </button>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<!-- ================= SECRET ================= -->
+
+<div id="secret">
+
+    <div class="secret-box">
+
+        <div class="lock">
+            ◈
+        </div>
+
+        <h3>
+            You found the secret.
+        </h3>
+
+        <p>
+            I couldn't make an entire website for your birthday
+            and NOT hide something somewhere. 😭
+            <br><br>
+            Anyway... stay exactly as goated as you are.
+            <br>
+            And yes, I'm still first. 🙂
+        </p>
+
+        <button class="close-secret" onclick="closeSecret()">
+            CLOSE
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* ================= STARS ================= */
+
+const stars = document.getElementById("stars");
+
+for(let i=0;i<110;i++){
+
+    const star = document.createElement("div");
+
+    star.className="star";
+
+    star.style.left=Math.random()*100+"%";
+    star.style.top=Math.random()*100+"%";
+
+    star.style.animationDelay=
+        Math.random()*5+"s";
+
+    star.style.animationDuration=
+        2+Math.random()*5+"s";
+
+    stars.appendChild(star);
+}
+
+
+/* ================= ENTER ================= */
+
+function enterSite(){
+
+    const intro=document.getElementById("intro");
+    const main=document.getElementById("main");
+
+    intro.classList.add("hide");
+
+    setTimeout(()=>{
+
+        main.classList.add("visible");
+
+        window.scrollTo({
+            top:0,
+            behavior:"smooth"
+        });
+
+    },500);
+
+}
+
+
+/* ================= GIFT ================= */
+
+function openGift(){
+
+    const gift=document.querySelector(".gift");
+    const message=document.getElementById("giftMessage");
+
+    gift.classList.toggle("open");
+
+    if(gift.classList.contains("open")){
+
+        message.classList.add("show");
+
+        burst(
+            ["✨","🎉","💫","🎂","🥳"],
+            35
+        );
+
+    }else{
+
+        message.classList.remove("show");
+
+    }
+
+}
+
+
+/* ================= CONFETTI ================= */
+
+function celebrate(){
+
+    burst(
+        [
+            "🎉",
+            "🥳",
+            "🎂",
+            "✨",
+            "🎈",
+            "💫",
+            "💜"
+        ],
+        120
+    );
+
+    setTimeout(()=>{
+
+        document.getElementById("secret")
+            .classList.add("show");
+
+    },1800);
+
+}
+
+
+function burst(emojis,count){
+
+    for(let i=0;i<count;i++){
+
+        const element=
+            document.createElement("div");
+
+        element.className="confetti";
+
+        element.innerText=
+            emojis[
+                Math.floor(
+                    Math.random()*emojis.length
+                )
+            ];
+
+        element.style.left="50%";
+        element.style.top="50%";
+
+        const angle=
+            Math.random()*Math.PI*2;
+
+        const distance=
+            150+Math.random()*500;
+
+        const x=
+            Math.cos(angle)*distance;
+
+        const y=
+            Math.sin(angle)*distance;
+
+        const rotation=
+            Math.random()*1000;
+
+        element.animate(
+
+            [
+                {
+                    transform:
+                        "translate(-50%,-50%) scale(.2)",
+                    opacity:1
+                },
+
+                {
+                    transform:
+                        `translate(
+                            calc(-50% + ${x}px),
+                            calc(-50% + ${y}px)
+                        )
+                        rotate(${rotation}deg)
+                        scale(1)`,
+                    opacity:0
                 }
-            });
-        }
 
-        function checkout(region) {
-            const data = selections[region];
-            if (!data) return;
+            ],
 
-            const targetPhoneNumber = "254791994148";
-            const dynamicMessage = `Hello Eclipse Store, I want to buy the ${region} ${data.value} gift card listed for ${data.price} on ECLIPSE.SHOP.`;
-            
-            const webCheckoutUrl = `https://wa.me/${targetPhoneNumber}?text=${encodeURIComponent(dynamicMessage)}`;
-            window.open(webCheckoutUrl, '_blank');
-        }
-    </script>
+            {
+                duration:
+                    1000+Math.random()*1300,
+
+                easing:
+                    "cubic-bezier(.15,.75,.3,1)"
+            }
+
+        );
+
+        document.body.appendChild(element);
+
+        setTimeout(()=>{
+            element.remove();
+        },2500);
+
+    }
+
+}
+
+
+/* ================= SECRET ================= */
+
+function closeSecret(){
+
+    document.getElementById("secret")
+        .classList.remove("show");
+
+}
+
+
+/* ================= MUSIC ================= */
+
+/*
+   Add your own music file to the GitHub repository
+   and name it:
+
+   birthday.mp3
+
+   Then uncomment the audio element below.
+*/
+
+/*
+const audio = new Audio("birthday.mp3");
+audio.loop = true;
+*/
+
+let musicPlaying=false;
+
+function toggleMusic(){
+
+    const button=
+        document.getElementById("musicBtn");
+
+    /*
+    audio.play();
+    */
+
+    musicPlaying=!musicPlaying;
+
+    button.innerText=
+        musicPlaying
+        ? "♪ MUSIC ON"
+        : "♪ MUSIC OFF";
+
+}
+
+
+/* ================= KONAMI-STYLE SECRET ================= */
+
+let typed="";
+
+document.addEventListener("keydown",(e)=>{
+
+    typed+=e.key.toLowerCase();
+
+    if(typed.length>20){
+        typed=typed.slice(-20);
+    }
+
+    if(typed.includes("ashley")){
+
+        document.getElementById("secret")
+            .classList.add("show");
+
+        typed="";
+
+    }
+
+});
+
+</script>
+
 </body>
 </html>
